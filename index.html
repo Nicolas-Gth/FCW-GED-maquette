@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GED - Prototype Interactif Complet</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <!-- Chargement de Tailwind CSS pour le style -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--primary)',
+                        'primary-dark': 'var(--primary-dark)',
+                        'primary-light': 'var(--primary-light)',
+                        secondary: 'var(--secondary)',
+                        success: 'var(--success)',
+                        danger: 'var(--danger)',
+                        warning: 'var(--warning)',
+                        info: 'var(--info)',
+                        light: 'var(--light)',
+                        dark: 'var(--dark)'
+                    },
+                    fontFamily: {
+                        sans: ['var(--font-primary)']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/charter.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans h-screen flex overflow-hidden">
+
+    <!-- BARRE LATÉRALE (Sidebar) -->
+    <div id="partial-sidebar"></div>
+
+    <!-- ZONE PRINCIPALE (Conteneur des vues) -->
+    <main class="flex-1 relative h-full">
+        <div id="partial-view-documents"></div>
+        <div id="partial-view-recent"></div>
+        <div id="partial-view-users"></div>
+        <div id="partial-view-roles"></div>
+        <div id="partial-view-labels"></div>
+        <div id="partial-view-audit"></div>
+        <div id="partial-view-settings"></div>
+    </main>
+
+    <!-- MODALES -->
+    <div id="partial-modal-invite"></div>
+    <div id="partial-modal-upload"></div>
+    <div id="partial-modal-preview"></div>
+    <div id="partial-modal-user"></div>
+    <div id="partial-modal-label"></div>
+    <div id="partial-modal-save-view"></div>
+
+    <!-- Partiels (HTML injecté via JS, compatible file://) -->
+    <script src="js/partials/sidebar.js"></script>
+    <script src="js/partials/view-documents.js"></script>
+    <script src="js/partials/view-recent.js"></script>
+    <script src="js/partials/view-users.js"></script>
+    <script src="js/partials/view-roles.js"></script>
+    <script src="js/partials/view-labels.js"></script>
+    <script src="js/partials/view-audit.js"></script>
+    <script src="js/partials/view-settings.js"></script>
+    <script src="js/partials/modal-invite.js"></script>
+    <script src="js/partials/modal-upload.js"></script>
+    <script src="js/partials/modal-preview.js"></script>
+    <script src="js/partials/modal-user.js"></script>
+    <script src="js/partials/modal-label.js"></script>
+    <script src="js/partials/modal-save-view.js"></script>
+
+    <!-- Logique applicative -->
+    <script src="js/app.js"></script>
+</body>
+</html>

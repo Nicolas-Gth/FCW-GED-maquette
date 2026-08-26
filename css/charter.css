@@ -1,0 +1,22 @@
+:root {
+    --color-primary: #2c4390;
+    --color-black: #000000;
+    --color-gray-mineral: #878787;
+    --color-gray-metallic: #a6a9ad;
+    --font-primary: 'Futura', 'Arial', 'Calibri', sans-serif;
+
+    --primary: var(--color-primary);
+    --primary-dark: #243676;
+    --primary-light: #eef2fa;
+    --secondary: #878787;
+    --success: #198754;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #0dcaf0;
+    --light: #f8f9fa;
+    --dark: #212529;
+}
+
+body {
+    font-family: var(--font-primary);
+}
