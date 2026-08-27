@@ -6,17 +6,18 @@ PARTIALS.modalUser = `
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
             <h3 class="text-lg font-bold text-gray-800">Fiche utilisateur</h3>
             <button onclick="toggleModal('modal-user', false)" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
+  <path d="m6 6 12 12" /></svg>
             </button>
         </div>
         
         <div class="px-6 py-5 space-y-5">
             <div class="flex items-center gap-4">
-                <div id="user-popup-avatar" class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold shrink-0">JD</div>
+                <div id="user-popup-avatar" class="avatar w-16 h-16 text-xl avatar-orange">JD</div>
                 <div class="min-w-0">
                     <p id="user-popup-name" class="text-lg font-bold text-gray-900">Jean Dupont</p>
-                    <p id="user-popup-email" class="text-sm text-gray-500 truncate">j.dupont@chimay-wartoise.be</p>
-                    <span id="user-popup-status" class="inline-block mt-1 bg-success text-white px-2 py-0.5 rounded text-xs">Actif</span>
+                    <p id="user-popup-email" class="text-sm text-gray-500 truncate">j.dupont@chimay-gestion.be</p>
+                    <span id="user-popup-status" class="badge badge-success mt-1">Actif</span>
                 </div>
             </div>
 
@@ -26,7 +27,9 @@ PARTIALS.modalUser = `
             </div>
 
             <div class="bg-gray-50 rounded-md px-4 py-3 text-sm text-gray-600 flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+  <path d="M3 3v5h5" />
+  <path d="M12 7v5l4 2" /></svg>
                 Dernière connexion : <span id="user-popup-lastlogin" class="font-medium">24/08/2026 - 16:42</span>
             </div>
 

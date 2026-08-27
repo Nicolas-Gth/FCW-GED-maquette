@@ -1,9 +1,8 @@
 :root {
     --color-primary: #2c4390;
+    --color-secondary: #878787;
     --color-black: #000000;
-    --color-gray-mineral: #878787;
-    --color-gray-metallic: #a6a9ad;
-    --font-primary: 'Futura', 'Arial', 'Calibri', sans-serif;
+    --font-primary: 'Arial', 'Helvetica', sans-serif;
 
     --primary: var(--color-primary);
     --primary-dark: #243676;

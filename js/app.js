@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
         renumberLabels(tb);
     });
 
+    var savedViewSelect = document.getElementById('saved-view-select');
+    if (savedViewSelect) applySavedView(savedViewSelect);
+
     document.title = VIEW_TITLES['view-documents'];
 });
 
@@ -39,9 +42,9 @@ var VIEW_TITLES = {
     'view-recent': 'Récemment consultés',
     'view-documents': 'Documents',
     'view-users': 'Utilisateurs',
-    'view-roles': 'Rôles & Permissions',
-    'view-labels': 'Gestion des Libellés',
-    'view-audit': 'Historique',
+    'view-roles': 'Rôles et privilèges',
+    'view-labels': 'Gestion des libellés',
+    'view-audit': 'Historique des actions',
     'view-settings': 'Paramètres du compte'
 };
 
@@ -68,6 +71,22 @@ function navigateTo(viewId) {
     switchView(viewId, btn);
 }
 
+// ==========================================
+// REPLI DE LA SIDEBAR (poignée)
+// ==========================================
+function toggleSidebar() {
+    var collapsed = document.body.classList.toggle('sidebar-collapsed');
+    var t = document.getElementById('sidebar-toggle');
+    if (t) t.title = collapsed ? 'Cliquer pour afficher le menu' : 'Cliquer pour masquer le menu';
+}
+
+document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && !e.altKey && (e.key === 'b' || e.key === 'B')) {
+        e.preventDefault();
+        toggleSidebar();
+    }
+});
+
 // Fonction pour afficher ou masquer une modale
 function toggleModal(modalId, show) {
     const modal = document.getElementById(modalId);
@@ -85,7 +104,7 @@ var USERS_DB = {
     'Marc Lemoine': {
         email: 'm.lemoine@cge.fr',
         status: 'Actif',
-        statusClass: 'bg-success text-white',
+        statusClass: 'badge-success',
         lastLogin: '24/08/2026 - 16:12',
         roles: [
             { name: 'Membre de la direction CGE', period: 'Depuis le 12/01/2025' },
@@ -95,16 +114,16 @@ var USERS_DB = {
     'Sophie Durant': {
         email: 's.durant@audit-externe.be',
         status: 'Inactif',
-        statusClass: 'bg-danger text-white',
+        statusClass: 'badge-danger',
         lastLogin: 'Jamais connectée',
         roles: [
             { name: 'Auditeur externe', period: 'Rôle planifié - débute le 10/09/2026' }
         ]
     },
     'Jean Dupont': {
-        email: 'j.dupont@chimay-wartoise.be',
+        email: 'j.dupont@chimay-gestion.be',
         status: 'Actif',
-        statusClass: 'bg-success text-white',
+        statusClass: 'badge-success',
         lastLogin: '24/08/2026 - 16:42',
         roles: [
             { name: 'Administrateur', period: 'Depuis le 01/02/2024' }
@@ -113,16 +132,16 @@ var USERS_DB = {
     'Philippe Dumont': {
         email: 'p.dumont@partenaire.be',
         status: 'Actif',
-        statusClass: 'bg-success text-white',
+        statusClass: 'badge-success',
         lastLogin: '22/08/2026 - 14:40',
         roles: [
             { name: 'Partenaire externe CGE', period: 'Jusqu au 31/12/2026' }
         ]
     },
     'Marie Bernard': {
-        email: 'm.bernard@chimay-wartoise.be',
+        email: 'm.bernard@chimay-gestion.be',
         status: 'Actif',
-        statusClass: 'bg-success text-white',
+        statusClass: 'badge-success',
         lastLogin: '21/08/2026 - 16:30',
         roles: [
             { name: 'Secrétaire de séance', period: 'Depuis le 03/03/2026' }
@@ -131,13 +150,21 @@ var USERS_DB = {
     'Laurent Petit': {
         email: 'l.petit@externe.be',
         status: 'Inactif',
-        statusClass: 'bg-danger text-white',
+        statusClass: 'badge-danger',
         lastLogin: '15/05/2026 - 10:02',
         roles: [
             { name: 'Auditeur externe', period: 'Révoqué le 16/05/2026' }
         ]
     }
 };
+
+var AVATAR_COLORS = ['avatar-blue', 'avatar-teal', 'avatar-green', 'avatar-magenta', 'avatar-purple', 'avatar-orange', 'avatar-red'];
+
+function avatarColorFor(name) {
+    var sum = 0;
+    for (var i = 0; i < name.length; i++) sum += name.charCodeAt(i);
+    return AVATAR_COLORS[sum % AVATAR_COLORS.length];
+}
 
 function openUserPopup(name) {
     var user = USERS_DB[name];
@@ -146,13 +173,15 @@ function openUserPopup(name) {
     var parts = name.split(' ');
     var initials = parts[0].charAt(0) + (parts.length > 1 ? parts[parts.length - 1].charAt(0) : '');
 
-    document.getElementById('user-popup-avatar').textContent = initials;
+    var avatar = document.getElementById('user-popup-avatar');
+    avatar.className = 'avatar w-16 h-16 text-xl ' + avatarColorFor(name);
+    avatar.textContent = initials;
     document.getElementById('user-popup-name').textContent = name;
     document.getElementById('user-popup-email').textContent = user.email;
     document.getElementById('user-popup-lastlogin').textContent = user.lastLogin;
 
     var statusEl = document.getElementById('user-popup-status');
-    statusEl.className = 'inline-block mt-1 px-2 py-0.5 rounded text-xs ' + user.statusClass;
+    statusEl.className = 'badge mt-1 ' + user.statusClass;
     statusEl.textContent = user.status;
 
     var rolesList = document.getElementById('user-popup-roles');
@@ -178,6 +207,23 @@ function openPreview(title) {
 // ==========================================
 // ENREGISTREMENT DE VUE
 // ==========================================
+var SAVED_VIEW_FILTERS = {
+    'CA 2026': { search: '', entity: 'ALL', organ: 'OA', audience: 'ALL', type: 'ALL', from: '2026-01-01', to: '2026-12-31' },
+    'Projets Externes': { search: '', entity: 'ALL', organ: 'ALL', audience: 'EXT', type: 'ALL', from: '', to: '' }
+};
+
+function currentDocumentFilters() {
+    return {
+        search: document.getElementById('f-search').value,
+        entity: document.getElementById('f-entity').value,
+        organ: document.getElementById('f-organ').value,
+        audience: document.getElementById('f-audience').value,
+        type: document.getElementById('f-type').value,
+        from: document.getElementById('f-date-from').value,
+        to: document.getElementById('f-date-to').value
+    };
+}
+
 function saveView() {
     var input = document.getElementById('save-view-name');
     var name = input.value.trim();
@@ -185,14 +231,31 @@ function saveView() {
         input.focus();
         return;
     }
-    var list = document.getElementById('saved-views-list');
-    var a = document.createElement('a');
-    a.href = '#';
-    a.className = 'flex items-center gap-3 text-white/85 hover:text-white text-sm px-3 py-1.5';
-    a.textContent = name;
-    list.appendChild(a);
+    var select = document.getElementById('saved-view-select');
+    if (!Array.prototype.some.call(select.options, function (o) { return o.value === name; })) {
+        var opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        select.appendChild(opt);
+    }
+    SAVED_VIEW_FILTERS[name] = currentDocumentFilters();
     input.value = '';
     toggleModal('modal-save-view', false);
+}
+
+function applySavedView(select) {
+    var name = select.value;
+    if (!name) return;
+    var f = SAVED_VIEW_FILTERS[name];
+    if (!f) return;
+    document.getElementById('f-search').value = f.search;
+    document.getElementById('f-entity').value = f.entity;
+    document.getElementById('f-organ').value = f.organ;
+    document.getElementById('f-audience').value = f.audience;
+    document.getElementById('f-type').value = f.type;
+    document.getElementById('f-date-from').value = f.from;
+    document.getElementById('f-date-to').value = f.to;
+    filterDocuments();
 }
 
 // ==========================================

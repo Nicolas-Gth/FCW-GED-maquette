@@ -9,7 +9,8 @@ PARTIALS.modalInvite = `
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
             <h3 class="text-lg font-bold text-gray-800">Envoyer une invitation</h3>
             <button onclick="toggleModal('modal-invite', false)" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
+  <path d="m6 6 12 12" /></svg>
             </button>
         </div>
         

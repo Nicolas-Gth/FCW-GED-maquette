@@ -6,19 +6,21 @@ PARTIALS.viewRoles = `
         <div class="flex items-center justify-between mb-4">
             <p class="text-sm text-gray-600">5 rôles · <span class="text-gray-400">Un rôle ne peut être attribué que par un compte de niveau supérieur ou égal.</span></p>
             <div class="flex gap-3">
-                <button onclick="alert('Simulation d accès : liste des documents visibles pour la sélection.')" class="flex items-center gap-2 border border-gray-300 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                <button onclick="alert('Simulation d accès : liste des documents visibles pour la sélection.')" class="btn btn-outline">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+  <circle cx="12" cy="12" r="3" /></svg>
                     Vérifier les accès
                 </button>
-                <button onclick="alert('Création de rôle (prototype)')" class="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded shadow-sm font-medium transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                <button onclick="alert('Création de rôle (prototype)')" class="btn btn-primary">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14" />
+  <path d="M12 5v14" /></svg>
                     Créer un rôle
                 </button>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <table class="w-full text-left text-sm whitespace-nowrap">
+            <table class="data-table w-full text-left text-sm whitespace-nowrap">
                 <thead class="bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
                     <tr>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 0)">Rôle <span class="sort-indicator"></span></th>
@@ -34,15 +36,20 @@ PARTIALS.viewRoles = `
                         <td class="px-6 py-4 font-medium text-gray-900">Administrateur</td>
                         <td class="px-6 py-4 text-gray-500">100</td>
                         <td class="px-6 py-4 text-gray-500">2</td>
-                        <td class="px-6 py-4"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-medium">Tous les privilèges</span></td>
-                        <td class="px-6 py-4"><span class="bg-success text-white px-2 py-1 rounded text-xs">Actif</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-neutral">Tous les privilèges</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                         <td class="px-6 py-4 text-right">
                             <span class="row-actions inline-flex items-center gap-1">
                                 <button onclick="alert('Modification du rôle : Administrateur')" title="Modifier" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+  <path d="m15 5 4 4" /></svg>
                                 </button>
                                 <button onclick="alert('Suppression du rôle : Administrateur (2 utilisateurs impactés)')" title="Supprimer" class="p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10 11v6" />
+  <path d="M14 11v6" />
+  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+  <path d="M3 6h18" />
+  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
                                 </button>
                             </span>
                         </td>
@@ -52,18 +59,23 @@ PARTIALS.viewRoles = `
                         <td class="px-6 py-4 text-gray-500">80</td>
                         <td class="px-6 py-4 text-gray-500">4</td>
                         <td class="px-6 py-4">
-                            <span class="bg-primary-light text-primary px-2 py-1 rounded text-xs font-medium mr-1">Consulter · CGE + EXT</span>
-                            <span class="bg-success text-white px-2 py-1 rounded text-xs font-medium mr-1">Déposer · CGE</span>
-                            <span class="bg-primary-light text-primary px-2 py-1 rounded text-xs font-medium">Consulter · AG</span>
+                            <span class="badge badge-neutral me-1">Consulter · CGE + EXT</span>
+                            <span class="badge badge-neutral me-1">Déposer · CGE</span>
+                            <span class="badge badge-neutral">Consulter · AG</span>
                         </td>
-                        <td class="px-6 py-4"><span class="bg-success text-white px-2 py-1 rounded text-xs">Actif</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                         <td class="px-6 py-4 text-right">
                             <span class="row-actions inline-flex items-center gap-1">
                                 <button onclick="alert('Modification du rôle : Membre de la direction CGE')" title="Modifier" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+  <path d="m15 5 4 4" /></svg>
                                 </button>
                                 <button onclick="alert('Suppression du rôle : Membre de la direction CGE (4 utilisateurs impactés)')" title="Supprimer" class="p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10 11v6" />
+  <path d="M14 11v6" />
+  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+  <path d="M3 6h18" />
+  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
                                 </button>
                             </span>
                         </td>
@@ -73,17 +85,22 @@ PARTIALS.viewRoles = `
                         <td class="px-6 py-4 text-gray-500">60</td>
                         <td class="px-6 py-4 text-gray-500">3</td>
                         <td class="px-6 py-4">
-                            <span class="bg-success text-white px-2 py-1 rounded text-xs font-medium mr-1">Déposer · CGE</span>
-                            <span class="bg-primary-light text-primary px-2 py-1 rounded text-xs font-medium">Consulter · CGE + OA</span>
+                            <span class="badge badge-neutral me-1">Déposer · CGE</span>
+                            <span class="badge badge-neutral">Consulter · CGE + OA</span>
                         </td>
-                        <td class="px-6 py-4"><span class="bg-success text-white px-2 py-1 rounded text-xs">Actif</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                         <td class="px-6 py-4 text-right">
                             <span class="row-actions inline-flex items-center gap-1">
                                 <button onclick="alert('Modification du rôle : Secrétaire de séance')" title="Modifier" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+  <path d="m15 5 4 4" /></svg>
                                 </button>
                                 <button onclick="alert('Suppression du rôle : Secrétaire de séance (3 utilisateurs impactés)')" title="Supprimer" class="p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10 11v6" />
+  <path d="M14 11v6" />
+  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+  <path d="M3 6h18" />
+  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
                                 </button>
                             </span>
                         </td>
@@ -92,15 +109,20 @@ PARTIALS.viewRoles = `
                         <td class="px-6 py-4 font-medium text-gray-900">Auditeur externe</td>
                         <td class="px-6 py-4 text-gray-500">40</td>
                         <td class="px-6 py-4 text-gray-500">5</td>
-                        <td class="px-6 py-4"><span class="bg-primary-light text-primary px-2 py-1 rounded text-xs font-medium">Consulter · EXT</span></td>
-                        <td class="px-6 py-4"><span class="bg-success text-white px-2 py-1 rounded text-xs">Actif</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · EXT</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                         <td class="px-6 py-4 text-right">
                             <span class="row-actions inline-flex items-center gap-1">
                                 <button onclick="alert('Modification du rôle : Auditeur externe')" title="Modifier" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+  <path d="m15 5 4 4" /></svg>
                                 </button>
                                 <button onclick="alert('Suppression du rôle : Auditeur externe (5 utilisateurs impactés)')" title="Supprimer" class="p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10 11v6" />
+  <path d="M14 11v6" />
+  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+  <path d="M3 6h18" />
+  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
                                 </button>
                             </span>
                         </td>
@@ -109,15 +131,20 @@ PARTIALS.viewRoles = `
                         <td class="px-6 py-4 font-medium text-gray-900">Partenaire externe CGE</td>
                         <td class="px-6 py-4 text-gray-500">20</td>
                         <td class="px-6 py-4 text-gray-500">1</td>
-                        <td class="px-6 py-4"><span class="bg-primary-light text-primary px-2 py-1 rounded text-xs font-medium">Consulter · CGE + EXT sauf OA</span></td>
-                        <td class="px-6 py-4"><span class="bg-success text-white px-2 py-1 rounded text-xs">Actif</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · CGE + EXT sauf OA</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                         <td class="px-6 py-4 text-right">
                             <span class="row-actions inline-flex items-center gap-1">
                                 <button onclick="alert('Modification du rôle : Partenaire externe CGE')" title="Modifier" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+  <path d="m15 5 4 4" /></svg>
                                 </button>
                                 <button onclick="alert('Suppression du rôle : Partenaire externe CGE (1 utilisateur impacté)')" title="Supprimer" class="p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10 11v6" />
+  <path d="M14 11v6" />
+  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+  <path d="M3 6h18" />
+  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
                                 </button>
                             </span>
                         </td>

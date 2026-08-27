@@ -6,7 +6,8 @@ PARTIALS.modalUpload = `
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
             <h3 class="text-lg font-bold text-gray-800">Déposer un nouveau document</h3>
             <button onclick="toggleModal('modal-upload', false)" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
+  <path d="m6 6 12 12" /></svg>
             </button>
         </div>
         
@@ -14,7 +15,9 @@ PARTIALS.modalUpload = `
             <form class="space-y-5" onsubmit="event.preventDefault(); alert('Document envoyé vers SharePoint !'); toggleModal('modal-upload', false);">
                 
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
+  <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+  <path d="m8 17 4-4 4 4" /></svg>
                     <p class="mt-1 text-sm text-gray-600">Cliquez pour parcourir ou glissez un fichier ici</p>
                     <p class="text-xs text-gray-500 mt-1">PDF, DOCX, XLSX (Max 50MB)</p>
                 </div>
@@ -99,7 +102,9 @@ PARTIALS.modalUpload = `
                 <div class="pt-4 mt-2 flex justify-end gap-3">
                     <button type="button" onclick="toggleModal('modal-upload', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
                     <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
+  <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+  <path d="m8 17 4-4 4 4" /></svg>
                         Uploader le document
                     </button>
                 </div>
