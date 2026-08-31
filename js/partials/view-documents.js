@@ -1,72 +1,33 @@
 window.PARTIALS = window.PARTIALS || {};
 PARTIALS.viewDocuments = `
 <section id="view-documents" class="app-view absolute inset-0 flex flex-col bg-gray-50 h-full">
-    <div class="flex-1 overflow-auto p-8">
+    <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
         <!-- ZONE DE FILTRES -->
         <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
             <div class="flex flex-wrap gap-3 items-end">
                 <div class="flex-1 min-w-[220px]">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche texte</label>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
                     <div class="search-box">
                         <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
   <circle cx="11" cy="11" r="8" /></svg>
-                        <input id="f-search" type="text" oninput="filterDocuments()" placeholder="Titre, description..." class="input input-search w-full">
+                        <input id="f-search" type="text" oninput="filterDocuments()" placeholder="Titre, description, auteur..." class="input input-search w-full">
                     </div>
                 </div>
 
-                <div class="w-44">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Entité</label>
-                    <select id="f-entity" onchange="filterDocuments()" class="select w-full">
-                        <option value="ALL">Toutes</option>
-                        <option value="CGE">Chimay gestion (CGE)</option>
-                        <option value="CPA">Chimay patrimoine (CPA)</option>
-                        <option value="ADS">Abbaye de Scourmont (ADS)</option>
-                        <option value="SOL">Solidarité cistercienne (SOL)</option>
-                        <option value="AUB">Poteaupré (AUB)</option>
-                        <option value="ESP">Espace Chimay (ESP)</option>
-                        <option value="BSM">Boissons Sambre &amp; Meuse (BSM)</option>
-                        <option value="BDC">Bières de Chimay (BDC)</option>
-                        <option value="FRO">Chimay fromages (FRO)</option>
-                        <option value="PPB">Les Petits Pas de la Botte (PPB)</option>
-                        <option value="MDC">La Maison De Casimir (MDC)</option>
-                        <option value="AP">Albatros Poteaupré (AP)</option>
-                    </select>
-                </div>
-
-                <div class="w-44">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Organe</label>
-                    <select id="f-organ" onchange="filterDocuments()" class="select w-full">
-                        <option value="ALL">Tous</option>
-                        <option value="OA">Organe d'administration (OA)</option>
-                        <option value="AG">Assemblée générale (AG)</option>
-                    </select>
-                </div>
-
-                <div class="w-40">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Audience</label>
-                    <select id="f-audience" onchange="filterDocuments()" class="select w-full">
-                        <option value="ALL">Toutes</option>
-                        <option value="INT">Interne (INT)</option>
-                        <option value="EXT">Externe (EXT)</option>
-                    </select>
-                </div>
-
-                <div class="w-44">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Type de document</label>
-                    <select id="f-type" onchange="filterDocuments()" class="select w-full">
-                        <option value="ALL">Tous</option>
-                        <option value="CPT">Comptes (CPT)</option>
-                        <option value="BDGT">Budget (BDGT)</option>
-                        <option value="PV">Procès verbal (PV)</option>
-                        <option value="CNVC">Convocation (CNVC)</option>
-                        <option value="NOT">Notes (NOT)</option>
-                        <option value="PRES">Présentation (PRES)</option>
-                        <option value="RA">Rapport annuel (RA)</option>
-                        <option value="BETU">Bourse d'étude (BETU)</option>
-                        <option value="ANX">Annexe (ANX)</option>
-                        <option value="EXTR">Extrait (EXTR)</option>
-                    </select>
+                <div class="w-36">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Année</label>
+                    <div id="f-year" class="multi-select" data-placeholder="Toutes">
+                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                            <span class="ms-value">Toutes</span>
+                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                        </div>
+                        <div class="multi-select-panel hidden-view">
+                            <label class="ms-option"><input type="checkbox" value="2026" onchange="msUpdate(this); filterDocuments()"> 2026</label>
+                            <label class="ms-option"><input type="checkbox" value="2025" onchange="msUpdate(this); filterDocuments()"> 2025</label>
+                            <label class="ms-option"><input type="checkbox" value="2024" onchange="msUpdate(this); filterDocuments()"> 2024</label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="w-40">
@@ -77,6 +38,97 @@ PARTIALS.viewDocuments = `
                 <div class="w-40">
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Jusqu'au</label>
                     <input id="f-date-to" type="date" onchange="filterDocuments()" class="input w-full">
+                </div>
+
+                <div class="w-44">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Entité</label>
+                                        <div id="f-entity" class="multi-select" data-placeholder="Toutes">
+                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                            <span class="ms-value">Toutes</span>
+                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                        </div>
+                        <div class="multi-select-panel hidden-view">
+                            <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this); filterDocuments()"> Chimay gestion (CGE)</label>
+                            <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this); filterDocuments()"> Chimay patrimoine (CPA)</label>
+                            <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this); filterDocuments()"> Abbaye de Scourmont (ADS)</label>
+                            <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this); filterDocuments()"> Solidarité cistercienne (SOL)</label>
+                            <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this); filterDocuments()"> Poteaupré (AUB)</label>
+                            <label class="ms-option"><input type="checkbox" value="ESP" onchange="msUpdate(this); filterDocuments()"> Espace Chimay (ESP)</label>
+                            <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this); filterDocuments()"> Boissons Sambre &amp; Meuse (BSM)</label>
+                            <label class="ms-option"><input type="checkbox" value="BDC" onchange="msUpdate(this); filterDocuments()"> Bières de Chimay (BDC)</label>
+                            <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this); filterDocuments()"> Chimay fromages (FRO)</label>
+                            <label class="ms-option"><input type="checkbox" value="PPB" onchange="msUpdate(this); filterDocuments()"> Les Petits Pas de la Botte (PPB)</label>
+                            <label class="ms-option"><input type="checkbox" value="MDC" onchange="msUpdate(this); filterDocuments()"> La Maison De Casimir (MDC)</label>
+                            <label class="ms-option"><input type="checkbox" value="AP" onchange="msUpdate(this); filterDocuments()"> Albatros Poteaupré (AP)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-44">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Organe</label>
+                                        <div id="f-organ" class="multi-select" data-placeholder="Tous">
+                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                            <span class="ms-value">Tous</span>
+                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                        </div>
+                        <div class="multi-select-panel hidden-view">
+                            <label class="ms-option"><input type="checkbox" value="OA" onchange="msUpdate(this); filterDocuments()"> Organe d'administration (OA)</label>
+                            <label class="ms-option"><input type="checkbox" value="AG" onchange="msUpdate(this); filterDocuments()"> Assemblée générale (AG)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-40">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Audience</label>
+                                        <div id="f-audience" class="multi-select" data-placeholder="Toutes">
+                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                            <span class="ms-value">Toutes</span>
+                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                        </div>
+                        <div class="multi-select-panel hidden-view">
+                            <label class="ms-option"><input type="checkbox" value="INT" onchange="msUpdate(this); filterDocuments()"> Interne (INT)</label>
+                            <label class="ms-option"><input type="checkbox" value="EXT" onchange="msUpdate(this); filterDocuments()"> Externe (EXT)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-44">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Type de document</label>
+                                        <div id="f-type" class="multi-select" data-placeholder="Tous">
+                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                            <span class="ms-value">Tous</span>
+                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                        </div>
+                        <div class="multi-select-panel hidden-view">
+                            <label class="ms-option"><input type="checkbox" value="CPT" onchange="msUpdate(this); filterDocuments()"> Comptes (CPT)</label>
+                            <label class="ms-option"><input type="checkbox" value="BDGT" onchange="msUpdate(this); filterDocuments()"> Budget (BDGT)</label>
+                            <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this); filterDocuments()"> Procès verbal (PV)</label>
+                            <label class="ms-option"><input type="checkbox" value="CNVC" onchange="msUpdate(this); filterDocuments()"> Convocation (CNVC)</label>
+                            <label class="ms-option"><input type="checkbox" value="NOT" onchange="msUpdate(this); filterDocuments()"> Notes (NOT)</label>
+                            <label class="ms-option"><input type="checkbox" value="PRES" onchange="msUpdate(this); filterDocuments()"> Présentation (PRES)</label>
+                            <label class="ms-option"><input type="checkbox" value="RA" onchange="msUpdate(this); filterDocuments()"> Rapport annuel (RA)</label>
+                            <label class="ms-option"><input type="checkbox" value="BETU" onchange="msUpdate(this); filterDocuments()"> Bourse d'étude (BETU)</label>
+                            <label class="ms-option"><input type="checkbox" value="ANX" onchange="msUpdate(this); filterDocuments()"> Annexe (ANX)</label>
+                            <label class="ms-option"><input type="checkbox" value="EXTR" onchange="msUpdate(this); filterDocuments()"> Extrait (EXTR)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-64">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Regrouper catégories</label>
+                    <div id="f-grouping" class="multi-select" data-placeholder="Choisir une catégorie">
+                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                            <span class="ms-value">Choisir une catégorie</span>
+                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                        </div>
+                        <div id="f-grouping-panel" class="multi-select-panel hidden-view">
+                            <label class="ms-option"><input type="checkbox" value="entity" data-name="Entité" onchange="onGroupingChange(this)"><span class="opt-label">Entité</span></label>
+                            <label class="ms-option"><input type="checkbox" value="organ" data-name="Organe" onchange="onGroupingChange(this)"><span class="opt-label">Organe</span></label>
+                            <label class="ms-option"><input type="checkbox" value="audience" data-name="Audience" onchange="onGroupingChange(this)"><span class="opt-label">Audience</span></label>
+                            <label class="ms-option"><input type="checkbox" value="type" data-name="Type de document" onchange="onGroupingChange(this)"><span class="opt-label">Type de document</span></label>
+                            <label class="ms-option"><input type="checkbox" value="year" data-name="Année" onchange="onGroupingChange(this)"><span class="opt-label">Année</span></label>
+                        </div>
+                    </div>
                 </div>
 
                 <button onclick="toggleModal('modal-save-view', true)" class="btn btn-outline">
@@ -110,9 +162,10 @@ PARTIALS.viewDocuments = `
         </div>
 
         <!-- TABLEAU DES DOCUMENTS -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div id="docs-table-card" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+            <div class="flex-1 overflow-y-auto min-h-0">
             <table class="data-table w-full text-left text-sm whitespace-nowrap">
-                <thead class="bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
+                <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
                     <tr>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 0)">Titre du document <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 1)">Date de l'événement <span class="sort-indicator"></span></th>
@@ -861,6 +914,14 @@ PARTIALS.viewDocuments = `
                     </tr>
                 </tbody>
             </table>
+            </div>
+        </div>
+
+        <!-- ARBORESCENCE PAR DOSSIERS -->
+        <div id="docs-tree-card" class="hidden-view bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+            <div class="flex-1 overflow-y-auto min-h-0 p-4">
+                <div id="docs-tree"></div>
+            </div>
         </div>
     </div>
 </section>

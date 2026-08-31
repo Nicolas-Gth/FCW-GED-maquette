@@ -13,10 +13,10 @@ PARTIALS.modalUser = `
         
         <div class="px-6 py-5 space-y-5">
             <div class="flex items-center gap-4">
-                <div id="user-popup-avatar" class="avatar w-16 h-16 text-xl avatar-orange">JD</div>
+                <div id="user-popup-avatar" class="avatar w-16 h-16 text-xl avatar-red">PD</div>
                 <div class="min-w-0">
-                    <p id="user-popup-name" class="text-lg font-bold text-gray-900">Jean Dupont</p>
-                    <p id="user-popup-email" class="text-sm text-gray-500 truncate">j.dupont@chimay-gestion.be</p>
+                    <p id="user-popup-name" class="text-lg font-bold text-gray-900">Philippe Dumont</p>
+                    <p id="user-popup-email" class="text-sm text-gray-500 truncate">p.dumont@chimay-gestion.be</p>
                     <span id="user-popup-status" class="badge badge-success mt-1">Actif</span>
                 </div>
             </div>

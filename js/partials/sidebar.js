@@ -20,7 +20,7 @@ PARTIALS.sidebar = `
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
   <path d="M3 3v5h5" />
   <path d="M12 7v5l4 2" /></svg>
-            Récemment consultés
+            Activité récente
         </button>
         
         <button data-view="view-documents" onclick="switchView('view-documents', this)" class="menu-btn w-full flex items-center gap-3 bg-primary brightness-125 text-white px-3 py-2 rounded-md transition-colors">
@@ -66,10 +66,10 @@ PARTIALS.sidebar = `
 
     <div class="p-4 space-y-1 bg-secondary">
         <div class="flex items-center gap-3 mb-2">
-            <div class="avatar w-8 h-8 text-sm avatar-orange">JD</div>
+            <div class="avatar w-8 h-8 text-sm avatar-red">PD</div>
             <div class="text-sm flex-1 min-w-0">
-                <p class="font-medium text-white truncate">Jean Dupont</p>
-                <p class="text-xs text-white/60 truncate">j.dupont@chimay-gestion.be</p>
+                <p class="font-medium text-white truncate">Philippe Dumont</p>
+                <p class="text-xs text-white/60 truncate">p.dumont@chimay-gestion.be</p>
             </div>
         </div>
         <button onclick="switchView('view-settings')" title="Paramètres du compte" class="w-full flex items-center gap-2 text-white/60 hover:text-white text-sm px-1 py-1 transition-colors">

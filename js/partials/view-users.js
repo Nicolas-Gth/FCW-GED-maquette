@@ -1,7 +1,7 @@
 window.PARTIALS = window.PARTIALS || {};
 PARTIALS.viewUsers = `
 <section id="view-users" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
-    <div class="flex-1 overflow-auto p-8">
+    <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
         <div class="flex items-center justify-between mb-4">
             <div class="search-box w-72">
@@ -18,9 +18,11 @@ PARTIALS.viewUsers = `
             </button>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+            
+            <div class="flex-1 overflow-y-auto min-h-0">
             <table class="data-table w-full text-left text-sm whitespace-nowrap">
-                <thead class="bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
+                <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
                     <tr>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 0)">Nom Complet <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 1)">Email <span class="sort-indicator"></span></th>
@@ -41,16 +43,16 @@ PARTIALS.viewUsers = `
                         <td class="px-6 py-4"><span class="badge badge-neutral">Auditeur externe</span></td>
                         <td class="px-6 py-4"><span class="badge badge-danger">Inactif</span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="jean dupont j.dupont@chimay-gestion.be administrateur" onclick="openUserPopup('Jean Dupont')" data-sort0="jean dupont" data-sort1="j.dupont@chimay-gestion.be" data-sort2="administrateur" data-sort3="actif">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="jean dupont j.dupont@partenaire.be partenaire externe cge" onclick="openUserPopup('Jean Dupont')" data-sort0="jean dupont" data-sort1="j.dupont@partenaire.be" data-sort2="partenaire externe cge" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Jean Dupont</td>
-                        <td class="px-6 py-4 text-gray-500">j.dupont@chimay-gestion.be</td>
+                        <td class="px-6 py-4 text-gray-500">j.dupont@partenaire.be</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Administrateur</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="philippe dumont p.dumont@partenaire.be partenaire externe cge" onclick="openUserPopup('Philippe Dumont')" data-sort0="philippe dumont" data-sort1="p.dumont@partenaire.be" data-sort2="partenaire externe cge" data-sort3="actif">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="philippe dumont p.dumont@chimay-gestion.be administrateur" onclick="openUserPopup('Philippe Dumont')" data-sort0="philippe dumont" data-sort1="p.dumont@chimay-gestion.be" data-sort2="administrateur" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Philippe Dumont</td>
-                        <td class="px-6 py-4 text-gray-500">p.dumont@partenaire.be</td>
-                        <td class="px-6 py-4"><span class="badge badge-neutral">Partenaire externe CGE</span></td>
+                        <td class="px-6 py-4 text-gray-500">p.dumont@chimay-gestion.be</td>
+                        <td class="px-6 py-4"><span class="badge badge-neutral">Administrateur</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="marie bernard m.bernard@chimay-gestion.be secrétaire de séance" onclick="openUserPopup('Marie Bernard')" data-sort0="marie bernard" data-sort1="m.bernard@chimay-gestion.be" data-sort2="secrétaire de séance" data-sort3="actif">
@@ -70,6 +72,7 @@ PARTIALS.viewUsers = `
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </section>

@@ -51,6 +51,7 @@ scripts = [
     'js/partials/modal-preview.js',
     'js/partials/modal-user.js',
     'js/partials/modal-label.js',
+    'js/partials/modal-role.js',
     'js/partials/modal-save-view.js',
     'js/app.js'
 ]
