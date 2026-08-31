@@ -12,14 +12,14 @@ PARTIALS.viewRecent = `
 
         <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
             <div class="flex-1 overflow-y-auto min-h-0">
-            <table class="data-table w-full text-left text-sm whitespace-nowrap">
+            <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
                 <thead class="bg-gray-50 text-gray-600 sticky top-0 z-10 border-b border-gray-200 uppercase text-xs font-semibold">
                     <tr>
                         <th class="sortable px-6 py-4" onclick="sortTabTable(this, 0)">Titre du document <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTabTable(this, 1)">Dernière activité <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTabTable(this, 2)">Libellés <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTabTable(this, 3)">Déposé par <span class="sort-indicator"></span></th>
-                        <th class="px-6 py-4 w-32"></th>
+
                     </tr>
                 </thead>
                 <tbody id="recent-tbody-0" class="labels-tbody divide-y divide-gray-200">
@@ -39,9 +39,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-primary me-1">CGE</span>
                             <span class="badge badge-violet">PV</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marie Bernard</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marie Bernard<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Compte Rendu CA Mars 2026.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -61,8 +59,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260823-1440" data-sort2="cpa ext ra" data-sort3="jean dupont">
@@ -82,9 +79,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">RA</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Jean Dupont</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Jean Dupont<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Rapport Annuel 2025.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -104,8 +99,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bilan Financier Annuel.xlsx')" data-sort0="bilan financier annuel.xlsx" data-sort1="20260821-0912" data-sort2="cge cpt" data-sort3="marc lemoine">
@@ -125,9 +119,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-primary me-1">CGE</span>
                             <span class="badge badge-violet">CPT</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marc Lemoine</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Bilan Financier Annuel.xlsx')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -147,8 +139,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Convocation AG du 18.06.2026.pdf')" data-sort0="convocation ag du 18.06.2026.pdf" data-sort1="20260819-1103" data-sort2="ads cnvc" data-sort3="marie bernard">
@@ -167,9 +158,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-primary me-1">ADS</span>
                             <span class="badge badge-violet">CNVC</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marie Bernard</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marie Bernard<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Convocation AG du 18.06.2026.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -189,8 +178,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Budget Prévisionnel 2027.xlsx')" data-sort0="budget prévisionnel 2027.xlsx" data-sort1="20260818-1527" data-sort2="bdc bdgt" data-sort3="marc lemoine">
@@ -210,9 +198,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-primary me-1">BDC</span>
                             <span class="badge badge-violet">BDGT</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marc Lemoine</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Budget Prévisionnel 2027.xlsx')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -232,8 +218,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260815-1045" data-sort2="sol ext betu" data-sort3="jean dupont">
@@ -253,9 +238,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">BETU</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Jean Dupont</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Jean Dupont<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Bourse détude 2026 - Présentation.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -275,8 +258,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Procès Verbal CA Avril 2026.pdf')" data-sort0="procès verbal ca avril 2026.pdf" data-sort1="20260812-0930" data-sort2="cge pv" data-sort3="marie bernard">
@@ -295,9 +277,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-primary me-1">CGE</span>
                             <span class="badge badge-violet">PV</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marie Bernard</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marie Bernard<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Procès Verbal CA Avril 2026.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -317,8 +297,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Extrait CA - Direction Financière.pdf')" data-sort0="extrait ca - direction financière.pdf" data-sort1="20260808-1720" data-sort2="cge oa extr" data-sort3="marie bernard">
@@ -338,9 +317,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-emerald me-1">OA</span>
                             <span class="badge badge-violet">EXTR</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marie Bernard</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marie Bernard<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Extrait CA - Direction Financière.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -360,8 +337,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                 </tbody>
@@ -384,9 +360,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-emerald me-1">OA</span>
                             <span class="badge badge-violet">BDGT</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marc Lemoine</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Budget Prévisionnel 2027.xlsx')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -406,8 +380,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="20260824-1405" data-sort2="cge oa int pv" data-sort3="marie bernard">
@@ -428,9 +401,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">INT</span>
                             <span class="badge badge-violet">PV</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marie Bernard</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marie Bernard<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Compte Rendu CA Mars 2026.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -450,8 +421,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Procès Verbal CA Septembre 2026.pdf')" data-sort0="procès verbal ca septembre 2026.pdf" data-sort1="20260823-1745" data-sort2="cge oa pv" data-sort3="marie bernard">
@@ -471,9 +441,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-emerald me-1">OA</span>
                             <span class="badge badge-violet">PV</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marie Bernard</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marie Bernard<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Procès Verbal CA Septembre 2026.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -493,8 +461,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="20260823-1120" data-sort2="esp oa ext cpt" data-sort3="marc lemoine">
@@ -516,9 +483,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">CPT</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marc Lemoine</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Suivi Financier Partenariats 2026.xlsx')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -538,8 +503,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260822-1610" data-sort2="cpa oa ext pres" data-sort3="jean dupont">
@@ -560,9 +524,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">PRES</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Jean Dupont</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Jean Dupont<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Projet Rénovation Bâtiments - Étude.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -582,8 +544,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                 </tbody>
@@ -606,9 +567,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">RA</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Jean Dupont</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Jean Dupont<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Rapport Annuel 2025.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -628,8 +587,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260823-1440" data-sort2="sol oa ext betu" data-sort3="jean dupont">
@@ -650,9 +608,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">BETU</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Jean Dupont</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Jean Dupont<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Bourse détude 2026 - Présentation.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -672,8 +628,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="20260823-1030" data-sort2="esp oa ext not" data-sort3="marc lemoine">
@@ -694,9 +649,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">NOT</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marc Lemoine</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Partenariat Espace Chimay - Note.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -716,8 +669,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="20260822-1615" data-sort2="cge oa int cpt" data-sort3="marc lemoine">
@@ -739,9 +691,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">INT</span>
                             <span class="badge badge-violet">CPT</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Marc Lemoine</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Comptes Annuels 2025.xlsx')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -761,8 +711,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260821-1105" data-sort2="cpa oa ext pres" data-sort3="jean dupont">
@@ -783,9 +732,7 @@ PARTIALS.viewRecent = `
                             <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">PRES</span>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Jean Dupont</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="row-actions inline-flex items-center gap-1">
+                        <td class="px-6 py-4 text-gray-500">Jean Dupont<span class="row-actions row-actions-fly">
                                 <button onclick="event.stopPropagation(); alert('Téléchargement simulé : Projet Rénovation Bâtiments - Étude.pdf')" title="Télécharger" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -805,8 +752,7 @@ PARTIALS.viewRecent = `
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
                                 </button>
-                            </span>
-                        </td>
+                            </span></td>
 
                     </tr>
                 </tbody>

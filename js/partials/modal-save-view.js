@@ -18,10 +18,6 @@ PARTIALS.modalSaveView = `
                 <p class="text-xs text-gray-500 mt-1">La vue conserve les filtres et le tri actuellement appliqués.</p>
             </div>
 
-            <label class="flex items-center gap-2 text-sm text-gray-700">
-                <input type="checkbox" class="rounded border-gray-300 text-primary"> Définir comme vue par défaut
-            </label>
-
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
                 <button type="button" onclick="toggleModal('modal-save-view', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
                 <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">

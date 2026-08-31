@@ -53,6 +53,8 @@ scripts = [
     'js/partials/modal-label.js',
     'js/partials/modal-role.js',
     'js/partials/modal-save-view.js',
+    'js/partials/modal-delete-view.js',
+    'js/partials/modal-access-check.js',
     'js/app.js'
 ]
 
