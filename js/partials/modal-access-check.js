@@ -20,9 +20,10 @@ PARTIALS.modalAccessCheck = `
                         <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                     </div>
                     <div class="multi-select-panel hidden-view">
-                        <label class="ms-option"><input type="checkbox" value="Administrateur" onchange="msUpdate(this); updateAccessCheck()"> Administrateur</label>
+                        <label class="ms-option"><input type="checkbox" value="Administrateur système" onchange="msUpdate(this); updateAccessCheck()"> Administrateur système</label>
                         <label class="ms-option"><input type="checkbox" value="Membre de la direction CGE" onchange="msUpdate(this); updateAccessCheck()"> Membre de la direction CGE</label>
                         <label class="ms-option"><input type="checkbox" value="Secrétaire de séance" onchange="msUpdate(this); updateAccessCheck()"> Secrétaire de séance</label>
+                        <label class="ms-option"><input type="checkbox" value="Assistant de direction" onchange="msUpdate(this); updateAccessCheck()"> Assistant de direction</label>
                         <label class="ms-option"><input type="checkbox" value="Auditeur externe" onchange="msUpdate(this); updateAccessCheck()"> Auditeur externe</label>
                         <label class="ms-option"><input type="checkbox" value="Partenaire externe CGE" onchange="msUpdate(this); updateAccessCheck()"> Partenaire externe CGE</label>
                     </div>

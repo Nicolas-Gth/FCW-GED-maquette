@@ -32,6 +32,7 @@ PARTIALS.modalRole = `
                                         <div class="ms-group">Paramétrage et suivi</div>
                                         <label class="ms-option"><input type="checkbox" value="Gérer les libellés" onchange="msUpdate(this)"><span class="ms-name">Gérer les libellés</span><span class="ms-desc">Créer, modifier ou supprimer des libellés.</span></label>
                                         <label class="ms-option"><input type="checkbox" value="Consulter l'historique" onchange="msUpdate(this)"><span class="ms-name">Consulter l'historique</span><span class="ms-desc">Avoir accès à l'historique recensant toutes les actions effectuées par les utilisateurs sur l'ensemble de la plateforme.</span></label>
+                                        <label class="ms-option"><input type="checkbox" value="Gérer les accès nominatifs" onchange="msUpdate(this)"><span class="ms-name">Gérer les accès nominatifs</span><span class="ms-desc">Rendre un document strictement confidentiel en limitant sa lecture à des personnes nommées explicitement (accès nominatif).</span></label>
                     </div>
                 </div>
             </div>
@@ -62,7 +63,6 @@ PARTIALS.modalRole = `
                                     <label class="ms-option"><input type="checkbox" value="Télécharger" onchange="msUpdate(this)"><span class="ms-name">Télécharger</span><span class="ms-desc">Enregistrer une copie des documents sur son ordinateur.</span></label>
                                     <label class="ms-option"><input type="checkbox" value="Déposer" onchange="msUpdate(this)"><span class="ms-name">Déposer</span><span class="ms-desc">Ajouter de nouveaux documents sur la plateforme.</span></label>
                                     <label class="ms-option"><input type="checkbox" value="Modifier" onchange="msUpdate(this)"><span class="ms-name">Modifier</span><span class="ms-desc">Mettre à jour les étiquettes d'un document existant ou publier une nouvelle version.</span></label>
-                                    <label class="ms-option"><input type="checkbox" value="Gérer les accès nominatifs" onchange="msUpdate(this)"><span class="ms-name">Gérer les accès nominatifs</span><span class="ms-desc">Rendre un document strictement confidentiel en limitant sa lecture à des personnes nommées explicitement (accès nominatif).</span></label>
                                 </div>
                             </div>
                         </div>

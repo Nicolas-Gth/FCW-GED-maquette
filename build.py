@@ -40,6 +40,7 @@ blason = data_uri('assets/separateur-blason.svg')
 scripts = [
     'js/partials/sidebar.js',
     'js/partials/view-documents.js',
+    'js/partials/view-calendar.js',
     'js/partials/view-recent.js',
     'js/partials/view-users.js',
     'js/partials/view-roles.js',
@@ -55,6 +56,8 @@ scripts = [
     'js/partials/modal-save-view.js',
     'js/partials/modal-delete-view.js',
     'js/partials/modal-access-check.js',
+    'js/partials/modal-doc-history.js',
+    'js/partials/modal-doc-access.js',
     'js/app.js'
 ]
 

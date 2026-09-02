@@ -49,22 +49,22 @@ PARTIALS.viewUsers = `
                         <td class="px-6 py-4"><span class="badge badge-neutral">Auditeur externe</span></td>
                         <td class="px-6 py-4"><span class="badge badge-danger">Inactif</span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="jean dupont j.dupont@partenaire.be partenaire externe cge" onclick="openUserPopup('Jean Dupont')" data-sort0="jean dupont" data-sort1="j.dupont@partenaire.be" data-sort2="partenaire externe cge" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Jean Dupont</td>
-                        <td class="px-6 py-4 text-gray-500">j.dupont@partenaire.be</td>
-                        <td class="px-6 py-4"><span class="badge badge-neutral">Administrateur</span></td>
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="denis buchet d.buchet@partenaire.be partenaire externe cge" onclick="openUserPopup('Denis Buchet')" data-sort0="denis buchet" data-sort1="d.buchet@partenaire.be" data-sort2="partenaire externe cge" data-sort3="actif">
+                        <td class="px-6 py-4 font-medium text-gray-900">Denis Buchet</td>
+                        <td class="px-6 py-4 text-gray-500">d.buchet@partenaire.be</td>
+                        <td class="px-6 py-4"><span class="badge badge-neutral">Administrateur système</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="philippe dumont p.dumont@chimay-gestion.be administrateur" onclick="openUserPopup('Philippe Dumont')" data-sort0="philippe dumont" data-sort1="p.dumont@chimay-gestion.be" data-sort2="administrateur" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Philippe Dumont</td>
                         <td class="px-6 py-4 text-gray-500">p.dumont@chimay-gestion.be</td>
-                        <td class="px-6 py-4"><span class="badge badge-neutral">Administrateur</span></td>
+                        <td class="px-6 py-4"><span class="badge badge-neutral">Administrateur système</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="marie bernard m.bernard@chimay-gestion.be secrétaire de séance" onclick="openUserPopup('Marie Bernard')" data-sort0="marie bernard" data-sort1="m.bernard@chimay-gestion.be" data-sort2="secrétaire de séance" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Marie Bernard</td>
-                        <td class="px-6 py-4 text-gray-500">m.bernard@chimay-gestion.be</td>
-                        <td class="px-6 py-4"><span class="badge badge-neutral">Secrétaire de séance</span></td>
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="julie stavrakas j.stavrakas@chimay-gestion.be assistant de direction" onclick="openUserPopup('Julie Stavrakas')" data-sort0="julie stavrakas" data-sort1="j.stavrakas@chimay-gestion.be" data-sort2="assistant de direction" data-sort3="actif">
+                        <td class="px-6 py-4 font-medium text-gray-900">Julie Stavrakas</td>
+                        <td class="px-6 py-4 text-gray-500">j.stavrakas@chimay-gestion.be</td>
+                        <td class="px-6 py-4"><span class="badge badge-neutral">Assistant de direction</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                     </tr>
                     <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="laurent petit l.petit@externe.be auditeur externe" onclick="openUserPopup('Laurent Petit')" data-sort0="laurent petit" data-sort1="l.petit@externe.be" data-sort2="auditeur externe" data-sort3="inactif">

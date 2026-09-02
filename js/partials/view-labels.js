@@ -18,11 +18,9 @@ PARTIALS.viewLabels = `
 
         <!-- Onglets de catégories -->
         <div class="flex gap-2">
-                <button type="button" onclick="switchLabelCategory(this, 0)" class="label-tab label-tab-0">Entité</button>
-                <button type="button" onclick="switchLabelCategory(this, 1)" class="label-tab label-tab-inactive">Organe</button>
-                <button type="button" onclick="switchLabelCategory(this, 2)" class="label-tab label-tab-inactive">Audience</button>
-                <button type="button" onclick="switchLabelCategory(this, 3)" class="label-tab label-tab-inactive">Type de document</button>
-                <button type="button" onclick="switchLabelCategory(this, 4)" class="label-tab label-tab-inactive">Année</button>
+                <button type="button" onclick="switchLabelCategory(this, 0)" data-tab-color="label-tab-0" class="label-tab label-tab-0">Entité</button>
+                <button type="button" onclick="switchLabelCategory(this, 1)" data-tab-color="label-tab-1" class="label-tab label-tab-inactive">Organe</button>
+                <button type="button" onclick="switchLabelCategory(this, 2)" data-tab-color="label-tab-3" class="label-tab label-tab-inactive">Type de document</button>
         </div>
 
         <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden">
@@ -285,45 +283,6 @@ PARTIALS.viewLabels = `
                         </tr>
                     </tbody>
                 <tbody id="labels-tbody-2" class="labels-tbody divide-y divide-gray-200 hidden-view">
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="interne" data-sort1="int" data-search="interne int" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Interne</td>
-                            <td class="px-6 py-3 font-mono text-gray-500">INT</td>
-                            <td class="px-6 py-3">
-                                <span class="flex items-center gap-2">
-                                    <span class="label-order w-4 text-center text-gray-600">1</span>
-                                    <span class="row-actions inline-flex items-center">
-                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
-                                        </button>
-                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                                        </button>
-                                    </span>
-                                </span></td>
-                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
-                        </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="externe" data-sort1="ext" data-search="externe ext" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Externe</td>
-                            <td class="px-6 py-3 font-mono text-gray-500">EXT</td>
-                            <td class="px-6 py-3">
-                                <span class="flex items-center gap-2">
-                                    <span class="label-order w-4 text-center text-gray-600">2</span>
-                                    <span class="row-actions inline-flex items-center">
-                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
-                                        </button>
-                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                                        </button>
-                                    </span>
-                                </span></td>
-                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
-                        </tr>
-                        <tr class="empty-row hidden-view">
-                            <td colspan="4" class="px-6 py-6 text-center text-gray-500">Aucun libellé dans cette catégorie.</td>
-                        </tr>
-                    </tbody>
-                <tbody id="labels-tbody-3" class="labels-tbody divide-y divide-gray-200 hidden-view">
                         <tr class="hover:bg-primary-light transition-colors" data-sort0="comptes" data-sort1="cpt" data-search="comptes cpt" data-sort3="actif">
                             <td class="px-6 py-3 font-medium text-gray-900">Comptes</td>
                             <td class="px-6 py-3 font-mono text-gray-500">CPT</td>
@@ -493,18 +452,12 @@ PARTIALS.viewLabels = `
                                     </span>
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
-                        </tr>
-                        <tr class="empty-row hidden-view">
-                            <td colspan="4" class="px-6 py-6 text-center text-gray-500">Aucun libellé dans cette catégorie.</td>
-                        </tr>
-                    </tbody>
-                <tbody id="labels-tbody-4" class="labels-tbody divide-y divide-gray-200 hidden-view">
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="2026" data-sort1="2026" data-search="2026" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">2026</td>
-                            <td class="px-6 py-3 font-mono text-gray-500">2026</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procuration" data-sort1="proc" data-search="procuration proc" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Procuration</td>
+                            <td class="px-6 py-3 font-mono text-gray-500">PROC</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
-                                    <span class="label-order w-4 text-center text-gray-600">1</span>
+                                    <span class="label-order w-4 text-center text-gray-600">11</span>
                                     <span class="row-actions inline-flex items-center">
                                         <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                             <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
@@ -516,39 +469,6 @@ PARTIALS.viewLabels = `
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="2025" data-sort1="2025" data-search="2025" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">2025</td>
-                            <td class="px-6 py-3 font-mono text-gray-500">2025</td>
-                            <td class="px-6 py-3">
-                                <span class="flex items-center gap-2">
-                                    <span class="label-order w-4 text-center text-gray-600">2</span>
-                                    <span class="row-actions inline-flex items-center">
-                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
-                                        </button>
-                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                                        </button>
-                                    </span>
-                                </span></td>
-                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
-                        </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="2024" data-sort1="2024" data-search="2024" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">2024</td>
-                            <td class="px-6 py-3 font-mono text-gray-500">2024</td>
-                            <td class="px-6 py-3">
-                                <span class="flex items-center gap-2">
-                                    <span class="label-order w-4 text-center text-gray-600">3</span>
-                                    <span class="row-actions inline-flex items-center">
-                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
-                                        </button>
-                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                                        </button>
-                                    </span>
-                                </span></td>
-                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
                         <tr class="empty-row hidden-view">
                             <td colspan="4" class="px-6 py-6 text-center text-gray-500">Aucun libellé dans cette catégorie.</td>

@@ -51,6 +51,7 @@ PARTIALS.modalUpload = `
                                 <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                             </div>
                             <div class="multi-select-panel hidden-view">
+                                <label class="ms-option"><input type="checkbox" value="FCW" onchange="msUpdate(this)"> Fondation Chimay-Wartoise (FCW)</label>
                                 <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay gestion (CGE)</label>
                                 <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay patrimoine (CPA)</label>
                                 <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye de Scourmont (ADS)</label>
@@ -80,19 +81,6 @@ PARTIALS.modalUpload = `
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Audience <span class="text-red-500">*</span></label>
-                        <div class="multi-select" data-placeholder="Choisir une audience…">
-                            <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
-                                <span class="ms-value">Choisir une audience…</span>
-                                <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                            </div>
-                            <div class="multi-select-panel hidden-view">
-                                <label class="ms-option"><input type="checkbox" value="INT" onchange="msUpdate(this)"> Interne (INT)</label>
-                                <label class="ms-option"><input type="checkbox" value="EXT" onchange="msUpdate(this)"> Externe (EXT)</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Type de document <span class="text-red-500">*</span></label>
                         <div class="multi-select" data-placeholder="Choisir un type…">
                             <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
@@ -108,7 +96,7 @@ PARTIALS.modalUpload = `
                                 <label class="ms-option"><input type="checkbox" value="PRES" onchange="msUpdate(this)"> Présentation (PRES)</label>
                                 <label class="ms-option"><input type="checkbox" value="RA" onchange="msUpdate(this)"> Rapport annuel (RA)</label>
                                 <label class="ms-option"><input type="checkbox" value="BETU" onchange="msUpdate(this)"> Bourse d'étude (BETU)</label>
-                                <label class="ms-option"><input type="checkbox" value="ANX" onchange="msUpdate(this)"> Annexe (ANX)</label>
+                                <label class="ms-option"><input type="checkbox" value="PROC" onchange="msUpdate(this)"> Procuration (PROC)</label>
                                 <label class="ms-option"><input type="checkbox" value="EXTR" onchange="msUpdate(this)"> Extrait (EXTR)</label>
                             </div>
                         </div>
@@ -118,29 +106,50 @@ PARTIALS.modalUpload = `
 
             <hr class="border-gray-200">
 
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Annexes (Optionnel)</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition-colors" onclick="document.getElementById('annexes-input').click()">
-                        <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14" />
-  <path d="M5 12h14" /></svg>
-                        <p class="mt-1 text-sm text-gray-600">Ajouter des annexes</p>
-                        <p class="text-xs text-gray-500">PDF, DOCX, XLSX (Max 50MB)</p>
+            <div>
+                <h4 class="text-sm font-bold text-gray-800 mb-3">Séance</h4>
+                <div class="flex items-end gap-3">
+                    <div class="flex-1">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Séance existante</label>
+                        <select id="upload-event-select" onchange="onUploadEventSelect()" class="select w-full">
+                            <option value="">Aucune séance</option>
+                        </select>
                     </div>
-                    <input id="annexes-input" type="file" multiple class="hidden-view" onchange="addUploadFiles(this, 'annexes-list')">
-                    <ul id="annexes-list" class="mt-2 space-y-1"></ul>
+                    <button type="button" onclick="toggleUploadNewEvent()" class="btn btn-outline">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M8 2v4" />
+  <path d="M16 2v4" />
+  <path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8" />
+  <path d="M3 10h18" />
+  <path d="M16 19h6" />
+  <path d="M19 16v6" /></svg>
+                        Nouvelle séance
+                    </button>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Extraits (Optionnel)</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition-colors" onclick="document.getElementById('extraits-input').click()">
-                        <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14" />
-  <path d="M5 12h14" /></svg>
-                        <p class="mt-1 text-sm text-gray-600">Ajouter des extraits</p>
-                        <p class="text-xs text-gray-500">PDF, DOCX, XLSX (Max 50MB)</p>
+                <div id="upload-new-event" class="hidden-view mt-3 grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date de la séance <span class="text-red-500">*</span></label>
+                        <input type="date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                     </div>
-                    <input id="extraits-input" type="file" multiple class="hidden-view" onchange="addUploadFiles(this, 'extraits-list')">
-                    <ul id="extraits-list" class="mt-2 space-y-1"></ul>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre (Optionnel)</label>
+                        <input type="text" placeholder="Ex: CA de septembre 2026" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    </div>
+                    <p class="col-span-2 text-xs text-gray-500 -mt-2">Si le titre est vide, la séance sera nommée automatiquement « Séance du {date} ».</p>
                 </div>
+            </div>
+
+            <hr class="border-gray-200">
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Annexes (Optionnel)</label>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition-colors" onclick="document.getElementById('annexes-input').click()">
+                    <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14" />
+  <path d="M5 12h14" /></svg>
+                    <p class="mt-1 text-sm text-gray-600">Ajouter des annexes</p>
+                    <p class="text-xs text-gray-500">PDF, DOCX, XLSX (Max 50MB)</p>
+                </div>
+                <input id="annexes-input" type="file" multiple class="hidden-view" onchange="addUploadFiles(this, 'annexes-list')">
+                <ul id="annexes-list" class="mt-2 space-y-1"></ul>
             </div>
 
         </form>

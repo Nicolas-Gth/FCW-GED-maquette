@@ -114,9 +114,9 @@ PARTIALS.viewAudit = `
                         <td class="px-6 py-4 text-gray-500">Compte</td>
                         <td class="px-6 py-4 text-gray-600">Connexion réussie via Microsoft Entra ID (IP: 192.168.1.10)</td>
                     </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260822144011" data-sort1="jean dupont" data-sort2="consultation" data-sort3="document" data-sort4="a consulté rapport annuel 2025" data-action="VIEW" data-type="DOCUMENT" data-date="20260822" data-text="22/08/2026 14:40:11 jean dupont consultation document a consulté rapport annuel 2025">
+                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260822144011" data-sort1="denis buchet" data-sort2="consultation" data-sort3="document" data-sort4="a consulté rapport annuel 2025" data-action="VIEW" data-type="DOCUMENT" data-date="20260822" data-text="22/08/2026 14:40:11 denis buchet consultation document a consulté rapport annuel 2025">
                         <td class="px-6 py-4 text-gray-500">22/08/2026 - 14:40:11</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Jean Dupont');" class="font-medium text-primary hover:underline">Jean Dupont</button></td>
+                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Denis Buchet');" class="font-medium text-primary hover:underline">Denis Buchet</button></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Consultation</span></td>
                         <td class="px-6 py-4 text-gray-500">Document</td>
                         <td class="px-6 py-4 text-gray-600">A consulté « Rapport Annuel 2025 »</td>
@@ -128,9 +128,9 @@ PARTIALS.viewAudit = `
                         <td class="px-6 py-4 text-gray-500">Rôle</td>
                         <td class="px-6 py-4 text-gray-600">A créé le rôle « Partenaire externe CGE »</td>
                     </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260821163308" data-sort1="marie bernard" data-sort2="suppression" data-sort3="document" data-sort4="a supprimé note interne v1 soft delete" data-action="DELETE" data-type="DOCUMENT" data-date="20260821" data-text="21/08/2026 16:33:08 marie bernard suppression document a supprimé note interne v1 soft delete">
+                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260821163308" data-sort1="julie stavrakas" data-sort2="suppression" data-sort3="document" data-sort4="a supprimé note interne v1 soft delete" data-action="DELETE" data-type="DOCUMENT" data-date="20260821" data-text="21/08/2026 16:33:08 julie stavrakas suppression document a supprimé note interne v1 soft delete">
                         <td class="px-6 py-4 text-gray-500">21/08/2026 - 16:33:08</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Marie Bernard');" class="font-medium text-primary hover:underline">Marie Bernard</button></td>
+                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Julie Stavrakas');" class="font-medium text-primary hover:underline">Julie Stavrakas</button></td>
                         <td class="px-6 py-4"><span class="badge badge-danger">Suppression</span></td>
                         <td class="px-6 py-4 text-gray-500">Document</td>
                         <td class="px-6 py-4 text-gray-600">A supprimé « Note interne v1 » (soft delete)</td>

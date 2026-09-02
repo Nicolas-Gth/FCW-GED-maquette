@@ -32,6 +32,14 @@ PARTIALS.sidebar = `
             Documents
         </button>
         
+        <button data-view="view-calendar" onclick="switchView('view-calendar', this)" class="menu-btn w-full flex items-center gap-3 text-white/85 hover:text-white hover:bg-white/15 px-3 py-2 rounded-md transition-colors">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M8 2v4" />
+  <path d="M16 2v4" />
+  <rect width="18" height="18" x="3" y="4" rx="2" />
+  <path d="M3 10h18" /></svg>
+            Calendrier
+        </button>
+        
         <button data-view="view-users" onclick="switchView('view-users', this)" class="menu-btn w-full flex items-center gap-3 text-white/85 hover:text-white hover:bg-white/15 px-3 py-2 rounded-md transition-colors">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
   <path d="M16 3.128a4 4 0 0 1 0 7.744" />
@@ -75,7 +83,7 @@ PARTIALS.sidebar = `
         <button onclick="switchView('view-settings')" title="Paramètres du compte" class="w-full flex items-center gap-2 text-white/60 hover:text-white text-sm px-1 py-1 transition-colors">
             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
   <circle cx="12" cy="12" r="3" /></svg>
-            Paramètres
+            Paramètres compte
         </button>
         <button onclick="alert('Déconnexion (prototype)')" class="w-full flex items-center gap-2 text-white/60 hover:text-white text-sm px-1 py-1 transition-colors">
             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5" />

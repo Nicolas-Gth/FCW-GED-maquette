@@ -35,7 +35,7 @@ PARTIALS.viewSettings = `
                 <h3 class="text-sm font-semibold text-gray-700 uppercase mb-4">Rôles</h3>
                 <ul class="space-y-2">
                     <li class="flex items-center justify-between bg-gray-50 rounded-md px-4 py-2.5">
-                        <span class="font-medium text-gray-800 text-sm">Administrateur</span>
+                        <span class="font-medium text-gray-800 text-sm">Administrateur système</span>
                         <span class="text-xs text-gray-500">Depuis le 01/02/2024</span>
                     </li>
                 </ul>

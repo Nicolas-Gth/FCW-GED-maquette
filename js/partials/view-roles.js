@@ -33,8 +33,8 @@ PARTIALS.viewRoles = `
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    <tr class="hover:bg-primary-light transition-colors" data-sort0="administrateur" data-sort1="2" data-sort2="tous les privilèges" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Administrateur</td>
+                    <tr class="hover:bg-primary-light transition-colors" data-sort0="administrateur système" data-sort1="2" data-sort2="tous les privilèges" data-sort3="actif">
+                        <td class="px-6 py-4 font-medium text-gray-900">Administrateur système</td>
                         <td class="px-6 py-4 text-gray-500">2</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Tous les privilèges</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
@@ -49,9 +49,18 @@ PARTIALS.viewRoles = `
                         </td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                     </tr>
-                    <tr class="hover:bg-primary-light transition-colors" data-sort0="secrétaire de séance" data-sort1="3" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
+                    <tr class="hover:bg-primary-light transition-colors" data-sort0="secrétaire de séance" data-sort1="2" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Secrétaire de séance</td>
-                        <td class="px-6 py-4 text-gray-500">3</td>
+                        <td class="px-6 py-4 text-gray-500">2</td>
+                        <td class="px-6 py-4">
+                            <span class="badge badge-neutral me-1">Déposer · CGE</span>
+                            <span class="badge badge-neutral">Consulter · CGE + OA</span>
+                        </td>
+                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                    </tr>
+                    <tr class="hover:bg-primary-light transition-colors" data-sort0="assistant de direction" data-sort1="1" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
+                        <td class="px-6 py-4 font-medium text-gray-900">Assistant de direction</td>
+                        <td class="px-6 py-4 text-gray-500">1</td>
                         <td class="px-6 py-4">
                             <span class="badge badge-neutral me-1">Déposer · CGE</span>
                             <span class="badge badge-neutral">Consulter · CGE + OA</span>
