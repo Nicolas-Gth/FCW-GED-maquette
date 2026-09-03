@@ -4,17 +4,17 @@ PARTIALS.modalRole = `
     <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh]">
         
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-lg shrink-0">
-            <h3 class="text-lg font-bold text-gray-800">Créer un rôle</h3>
+            <h3 id="role-modal-title" class="text-lg font-bold text-gray-800">Créer un rôle</h3>
             <button onclick="toggleModal('modal-role', false)" class="text-gray-400 hover:text-gray-600">
                 <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
   <path d="m6 6 12 12" /></svg>
             </button>
         </div>
         
-        <form id="role-create-form" class="flex-1 overflow-y-auto min-h-0 px-6 py-5 space-y-4" onsubmit="event.preventDefault(); alert('Rôle créé !'); toggleModal('modal-role', false);">
+        <form id="role-create-form" class="flex-1 overflow-y-auto min-h-0 px-6 py-5 space-y-4" onsubmit="event.preventDefault(); alert(document.getElementById('role-modal-title').textContent === 'Dupliquer un rôle' ? 'Rôle dupliqué !' : 'Rôle créé !'); toggleModal('modal-role', false);">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nom du rôle</label>
-                <input type="text" required placeholder="Ex: Rédacteur CGE" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                <input id="role-name-input" type="text" required placeholder="Ex: Rédacteur CGE" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
             </div>
 
             <div>
@@ -53,7 +53,7 @@ PARTIALS.modalRole = `
                         </div>
                         <div class="mb-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Privilège(s)</label>
-                            <div class="multi-select">
+                <div id="role-general-privileges" class="multi-select">
                                 <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                                     <span class="ms-value">Sélectionner…</span>
                                     <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
@@ -75,15 +75,15 @@ PARTIALS.modalRole = `
                                     <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                                 </div>
                                 <div class="multi-select-panel hidden-view">
-                                <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay gestion (CGE)</label>
-                                <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay patrimoine (CPA)</label>
-                                <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye de Scourmont (ADS)</label>
-                                <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this)"> Solidarité cistercienne (SOL)</label>
-                                <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this)"> Poteaupré (AUB)</label>
+                                <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay-Gestion (CGE)</label>
+                                <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay-Patrimoine (CPA)</label>
+                                <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye Notre-Dame de Scourmont (ADS)</label>
+                                <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this)"> Solidarité Cistercienne (SOL)</label>
+                                <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this)"> Auberge de Poteaupré (AUB)</label>
                                 <label class="ms-option"><input type="checkbox" value="ESP" onchange="msUpdate(this)"> Espace Chimay (ESP)</label>
-                                <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this)"> Boissons Sambre & Meuse (BSM)</label>
+                                <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this)"> Boissons Sambre et Meuse (BSM)</label>
                                 <label class="ms-option"><input type="checkbox" value="BDC" onchange="msUpdate(this)"> Bières de Chimay (BDC)</label>
-                                <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this)"> Chimay fromages (FRO)</label>
+                                <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this)"> Chimay Fromages (FRO)</label>
                                 <label class="ms-option"><input type="checkbox" value="PPB" onchange="msUpdate(this)"> Les Petits Pas de la Botte (PPB)</label>
                                 <label class="ms-option"><input type="checkbox" value="MDC" onchange="msUpdate(this)"> La Maison De Casimir (MDC)</label>
                                 <label class="ms-option"><input type="checkbox" value="AP" onchange="msUpdate(this)"> Albatros Poteaupré (AP)</label>
@@ -126,7 +126,7 @@ PARTIALS.modalRole = `
                                 <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="CPT" onchange="msUpdate(this)"> Comptes (CPT)</label>
                                 <label class="ms-option"><input type="checkbox" value="BDGT" onchange="msUpdate(this)"> Budget (BDGT)</label>
-                                <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this)"> Procès verbal (PV)</label>
+                                <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this)"> Procès-verbal (PV)</label>
                                 <label class="ms-option"><input type="checkbox" value="CNVC" onchange="msUpdate(this)"> Convocation (CNVC)</label>
                                 <label class="ms-option"><input type="checkbox" value="NOT" onchange="msUpdate(this)"> Notes (NOT)</label>
                                 <label class="ms-option"><input type="checkbox" value="PRES" onchange="msUpdate(this)"> Présentation (PRES)</label>

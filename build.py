@@ -58,6 +58,7 @@ scripts = [
     'js/partials/modal-access-check.js',
     'js/partials/modal-doc-history.js',
     'js/partials/modal-doc-access.js',
+    'js/partials/modal-share.js',
     'js/app.js'
 ]
 

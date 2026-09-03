@@ -736,6 +736,40 @@ body.sidebar-collapsed .sidebar-toggle svg {
     opacity: 1;
     pointer-events: auto;
 }
+
+/* ==========================================
+   INTERRUPTEUR (toggle switch)
+   ========================================== */
+.toggle-switch {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 2.5rem;
+    height: 1.375rem;
+    border-radius: 9999px;
+    background-color: #d1d5db;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+.toggle-switch::before {
+    content: '';
+    position: absolute;
+    top: 0.125rem;
+    left: 0.125rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+.toggle-switch:checked { background-color: var(--primary); }
+.toggle-switch:checked::before { transform: translateX(1.125rem); }
+.toggle-switch:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
 </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans h-screen flex overflow-hidden">
@@ -767,6 +801,7 @@ body.sidebar-collapsed .sidebar-toggle svg {
     <div id="partial-modal-access-check"></div>
     <div id="partial-modal-doc-history"></div>
     <div id="partial-modal-doc-access"></div>
+    <div id="partial-modal-share"></div>
 
     <!-- Partiels (HTML injecté via JS, compatible file://) -->
     <script>
@@ -942,15 +977,15 @@ PARTIALS.viewDocuments = `
                         </div>
                         <div class="multi-select-panel hidden-view">
                             <label class="ms-option"><input type="checkbox" value="FCW" onchange="msUpdate(this); filterDocuments()"> Fondation Chimay-Wartoise (FCW)</label>
-                            <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this); filterDocuments()"> Chimay gestion (CGE)</label>
-                            <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this); filterDocuments()"> Chimay patrimoine (CPA)</label>
-                            <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this); filterDocuments()"> Abbaye de Scourmont (ADS)</label>
-                            <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this); filterDocuments()"> Solidarité cistercienne (SOL)</label>
-                            <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this); filterDocuments()"> Poteaupré (AUB)</label>
+                            <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this); filterDocuments()"> Chimay-Gestion (CGE)</label>
+                            <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this); filterDocuments()"> Chimay-Patrimoine (CPA)</label>
+                            <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this); filterDocuments()"> Abbaye Notre-Dame de Scourmont (ADS)</label>
+                            <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this); filterDocuments()"> Solidarité Cistercienne (SOL)</label>
+                            <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this); filterDocuments()"> Auberge de Poteaupré (AUB)</label>
                             <label class="ms-option"><input type="checkbox" value="ESP" onchange="msUpdate(this); filterDocuments()"> Espace Chimay (ESP)</label>
-                            <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this); filterDocuments()"> Boissons Sambre &amp; Meuse (BSM)</label>
+                            <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this); filterDocuments()"> Boissons Sambre et Meuse (BSM)</label>
                             <label class="ms-option"><input type="checkbox" value="BDC" onchange="msUpdate(this); filterDocuments()"> Bières de Chimay (BDC)</label>
-                            <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this); filterDocuments()"> Chimay fromages (FRO)</label>
+                            <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this); filterDocuments()"> Chimay Fromages (FRO)</label>
                             <label class="ms-option"><input type="checkbox" value="PPB" onchange="msUpdate(this); filterDocuments()"> Les Petits Pas de la Botte (PPB)</label>
                             <label class="ms-option"><input type="checkbox" value="MDC" onchange="msUpdate(this); filterDocuments()"> La Maison De Casimir (MDC)</label>
                             <label class="ms-option"><input type="checkbox" value="AP" onchange="msUpdate(this); filterDocuments()"> Albatros Poteaupré (AP)</label>
@@ -982,7 +1017,7 @@ PARTIALS.viewDocuments = `
                         <div class="multi-select-panel hidden-view">
                             <label class="ms-option"><input type="checkbox" value="CPT" onchange="msUpdate(this); filterDocuments()"> Comptes (CPT)</label>
                             <label class="ms-option"><input type="checkbox" value="BDGT" onchange="msUpdate(this); filterDocuments()"> Budget (BDGT)</label>
-                            <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this); filterDocuments()"> Procès verbal (PV)</label>
+                            <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this); filterDocuments()"> Procès-verbal (PV)</label>
                             <label class="ms-option"><input type="checkbox" value="CNVC" onchange="msUpdate(this); filterDocuments()"> Convocation (CNVC)</label>
                             <label class="ms-option"><input type="checkbox" value="NOT" onchange="msUpdate(this); filterDocuments()"> Notes (NOT)</label>
                             <label class="ms-option"><input type="checkbox" value="PRES" onchange="msUpdate(this); filterDocuments()"> Présentation (PRES)</label>
@@ -1107,6 +1142,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('2026fcw006 - PV OA FCW du 23-01-2026.doc', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1147,6 +1188,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('2026fcw016 - Convocation OA FCW du 09-04-2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1188,6 +1235,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('2026fcw024 - PV OA FCW du 09-04-2026.doc', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1226,6 +1279,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('2026fcw028 - Annexe PV OA FCW du 09-04-2026 - Présentation CSRD 2025.pptx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1266,6 +1325,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('2026fcw038 - PV AG FCW du 23-06-2026.doc', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1307,6 +1372,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Compte Rendu CA Mars 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1348,6 +1419,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Bilan Financier Annuel.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1388,6 +1465,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Rapport Annuel 2025.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1428,6 +1511,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Convocation AG du 18.06.2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1469,6 +1558,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Budget Prévisionnel 2027.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1509,6 +1604,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Bourse étude 2026 - Présentation.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1549,6 +1650,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Procès Verbal CA Janvier 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1590,6 +1697,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Procès Verbal CA Avril 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1630,6 +1743,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Procès Verbal CA Juin 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1670,6 +1789,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Procès Verbal CA Septembre 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1710,6 +1835,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Projet Rénovation Bâtiments - Étude.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1750,6 +1881,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Partenariat Espace Chimay - Note.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1790,6 +1927,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Résultats Bourse étude 2025.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1831,6 +1974,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Budget CA 2026.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1872,6 +2021,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Comptes Annuels 2025.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1913,6 +2068,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Budget Projet Rénovation 2026.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1954,6 +2115,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Suivi Financier Partenariats 2026.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -1995,6 +2162,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Plan de trésorerie 03-2026.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -2035,6 +2208,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Liste de présence 15-03-2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -2075,6 +2254,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Annexe 1 - Rapport d’activité 2025.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -2115,6 +2300,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Annexe 2 - Liste de présence.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -2156,6 +2347,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Convocation CA CGE du 16-04-2026 + Procuration.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -2197,6 +2394,12 @@ PARTIALS.viewDocuments = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Convocation AG FCW du 23-06-2026 + Procuration.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
                     </tr>
@@ -2336,6 +2539,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('2026fcw038 - PV AG FCW du 23-06-2026.doc', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2375,6 +2584,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Compte Rendu CA Mars 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2415,6 +2630,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Rapport Annuel 2025.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2455,6 +2676,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Bilan Financier Annuel.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2494,6 +2721,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Convocation AG du 18.06.2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2534,6 +2767,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Budget Prévisionnel 2027.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2574,6 +2813,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Bourse détude 2026 - Présentation.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2613,6 +2858,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Procès Verbal CA Avril 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2653,6 +2904,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Extrait CA - Direction Financière.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2696,6 +2953,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Budget Prévisionnel 2027.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2737,6 +3000,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Compte Rendu CA Mars 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2777,6 +3046,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Procès Verbal CA Septembre 2026.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2819,6 +3094,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Suivi Financier Partenariats 2026.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2860,6 +3141,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Projet Rénovation Bâtiments - Étude.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2903,6 +3190,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Rapport Annuel 2025.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2944,6 +3237,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Bourse détude 2026 - Présentation.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -2985,6 +3284,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Partenariat Espace Chimay - Note.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -3027,6 +3332,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Comptes Annuels 2025.xlsx', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -3068,6 +3379,12 @@ PARTIALS.viewRecent = `
   <path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <circle cx="20" cy="19" r="2" /></svg>
+                                </button><button onclick="event.stopPropagation(); openShareLink('Projet Rénovation Bâtiments - Étude.pdf', this)" title="Générer URL de partage" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
                                 </button>
                             </span></td>
 
@@ -3218,7 +3535,7 @@ PARTIALS.viewRoles = `
   <circle cx="12" cy="12" r="3" /></svg>
                     Vérifier les accès
                 </button>
-                <button onclick="toggleModal('modal-role', true)" class="btn btn-primary">
+                <button onclick="openRoleCreate()" class="btn btn-primary">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14" />
   <path d="M12 5v14" /></svg>
                     Créer un rôle
@@ -3236,6 +3553,7 @@ PARTIALS.viewRoles = `
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 1)">Utilisateurs <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 2)">Règles d'accès <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 3)">Statut <span class="sort-indicator"></span></th>
+                        <th class="px-6 py-4"></th>
 
                     </tr>
                 </thead>
@@ -3245,6 +3563,12 @@ PARTIALS.viewRoles = `
                         <td class="px-6 py-4 text-gray-500">2</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Tous les privilèges</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Administrateur système')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="membre de la direction cge" data-sort1="4" data-sort2="consulter cge ext déposer cge consulter ag" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Membre de la direction CGE</td>
@@ -3255,6 +3579,12 @@ PARTIALS.viewRoles = `
                             <span class="badge badge-neutral">Consulter · AG</span>
                         </td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Membre de la direction CGE')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="secrétaire de séance" data-sort1="2" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Secrétaire de séance</td>
@@ -3264,6 +3594,12 @@ PARTIALS.viewRoles = `
                             <span class="badge badge-neutral">Consulter · CGE + OA</span>
                         </td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Secrétaire de séance')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="assistant de direction" data-sort1="1" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Assistant de direction</td>
@@ -3273,18 +3609,36 @@ PARTIALS.viewRoles = `
                             <span class="badge badge-neutral">Consulter · CGE + OA</span>
                         </td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Assistant de direction')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="auditeur externe" data-sort1="5" data-sort2="consulter ext" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Auditeur externe</td>
                         <td class="px-6 py-4 text-gray-500">5</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · EXT</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Auditeur externe')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="partenaire externe cge" data-sort1="1" data-sort2="consulter cge ext sauf oa" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Partenaire externe CGE</td>
                         <td class="px-6 py-4 text-gray-500">1</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · CGE + EXT sauf OA</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Partenaire externe CGE')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                 </tbody>
             </table>
@@ -3316,8 +3670,8 @@ PARTIALS.viewLabels = `
 
         <!-- Onglets de catégories -->
         <div class="flex gap-2">
-                <button type="button" onclick="switchLabelCategory(this, 0)" data-tab-color="label-tab-0" class="label-tab label-tab-0">Entité</button>
-                <button type="button" onclick="switchLabelCategory(this, 1)" data-tab-color="label-tab-1" class="label-tab label-tab-inactive">Organe</button>
+                <button type="button" onclick="switchLabelCategory(this, 0)" data-tab-color="label-tab-0" class="label-tab label-tab-0">Entités</button>
+                <button type="button" onclick="switchLabelCategory(this, 1)" data-tab-color="label-tab-1" class="label-tab label-tab-inactive">Type d'organe</button>
                 <button type="button" onclick="switchLabelCategory(this, 2)" data-tab-color="label-tab-3" class="label-tab label-tab-inactive">Type de document</button>
         </div>
 
@@ -3333,8 +3687,25 @@ PARTIALS.viewLabels = `
                     </tr>
                 </thead>
                 <tbody id="labels-tbody-0" class="labels-tbody divide-y divide-gray-200">
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay gestion" data-sort1="cge" data-search="chimay gestion cge" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Chimay gestion</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="fondation chimay-wartoise" data-sort1="fcw" data-search="fondation chimay-wartoise fcw" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Fondation Chimay-Wartoise</td>
+                            <td class="px-6 py-3 font-mono text-gray-500">FCW</td>
+                            <td class="px-6 py-3">
+                                <span class="flex items-center gap-2">
+                                    <span class="label-order w-4 text-center text-gray-600">1</span>
+                                    <span class="row-actions inline-flex items-center">
+                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
+                                        </button>
+                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                        </button>
+                                    </span>
+                                </span></td>
+                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay-gestion" data-sort1="cge" data-search="chimay-gestion chimay gestion cge" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Chimay-Gestion</td>
                             <td class="px-6 py-3 font-mono text-gray-500">CGE</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -3350,8 +3721,8 @@ PARTIALS.viewLabels = `
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay patrimoine" data-sort1="cpa" data-search="chimay patrimoine cpa" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Chimay patrimoine</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay-patrimoine" data-sort1="cpa" data-search="chimay-patrimoine chimay patrimoine cpa" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Chimay-Patrimoine</td>
                             <td class="px-6 py-3 font-mono text-gray-500">CPA</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -3385,7 +3756,7 @@ PARTIALS.viewLabels = `
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
                         <tr class="hover:bg-primary-light transition-colors" data-sort0="solidarité cistercienne" data-sort1="sol" data-search="solidarité cistercienne sol" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Solidarité cistercienne</td>
+                            <td class="px-6 py-3 font-medium text-gray-900">Solidarité Cistercienne</td>
                             <td class="px-6 py-3 font-mono text-gray-500">SOL</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -3401,8 +3772,8 @@ PARTIALS.viewLabels = `
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="poteaupré" data-sort1="aub" data-search="poteaupré aub" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Poteaupré</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="auberge de poteaupré" data-sort1="aub" data-search="auberge de poteaupré poteaupré aub" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Auberge de Poteaupré</td>
                             <td class="px-6 py-3 font-mono text-gray-500">AUB</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -3470,7 +3841,7 @@ PARTIALS.viewLabels = `
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
                         <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay fromages" data-sort1="fro" data-search="chimay fromages fro" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Chimay fromages</td>
+                            <td class="px-6 py-3 font-medium text-gray-900">Chimay Fromages</td>
                             <td class="px-6 py-3 font-mono text-gray-500">FRO</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -3615,8 +3986,8 @@ PARTIALS.viewLabels = `
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procès verbal" data-sort1="pv" data-search="procès verbal pv" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Procès verbal</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procès-verbal" data-sort1="pv" data-search="procès-verbal procès verbal pv" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Procès-verbal</td>
                             <td class="px-6 py-3 font-mono text-gray-500">PV</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -3638,6 +4009,23 @@ PARTIALS.viewLabels = `
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
                                     <span class="label-order w-4 text-center text-gray-600">4</span>
+                                    <span class="row-actions inline-flex items-center">
+                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
+                                        </button>
+                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                        </button>
+                                    </span>
+                                </span></td>
+                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procuration" data-sort1="proc" data-search="procuration proc" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Procuration</td>
+                            <td class="px-6 py-3 font-mono text-gray-500">PROC</td>
+                            <td class="px-6 py-3">
+                                <span class="flex items-center gap-2">
+                                    <span class="label-order w-4 text-center text-gray-600">5</span>
                                     <span class="row-actions inline-flex items-center">
                                         <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                             <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
@@ -3750,23 +4138,6 @@ PARTIALS.viewLabels = `
                                     </span>
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procuration" data-sort1="proc" data-search="procuration proc" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Procuration</td>
-                            <td class="px-6 py-3 font-mono text-gray-500">PROC</td>
-                            <td class="px-6 py-3">
-                                <span class="flex items-center gap-2">
-                                    <span class="label-order w-4 text-center text-gray-600">11</span>
-                                    <span class="row-actions inline-flex items-center">
-                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
-                                        </button>
-                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                                        </button>
-                                    </span>
-                                </span></td>
-                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
-                        </tr>
                         </tr>
                         <tr class="empty-row hidden-view">
                             <td colspan="4" class="px-6 py-6 text-center text-gray-500">Aucun libellé dans cette catégorie.</td>
@@ -4101,15 +4472,15 @@ PARTIALS.modalUpload = `
                             </div>
                             <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="FCW" onchange="msUpdate(this)"> Fondation Chimay-Wartoise (FCW)</label>
-                                <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay gestion (CGE)</label>
-                                <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay patrimoine (CPA)</label>
-                                <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye de Scourmont (ADS)</label>
-                                <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this)"> Solidarité cistercienne (SOL)</label>
-                                <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this)"> Poteaupré (AUB)</label>
+                                <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay-Gestion (CGE)</label>
+                                <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay-Patrimoine (CPA)</label>
+                                <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye Notre-Dame de Scourmont (ADS)</label>
+                                <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this)"> Solidarité Cistercienne (SOL)</label>
+                                <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this)"> Auberge de Poteaupré (AUB)</label>
                                 <label class="ms-option"><input type="checkbox" value="ESP" onchange="msUpdate(this)"> Espace Chimay (ESP)</label>
-                                <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this)"> Boissons Sambre & Meuse (BSM)</label>
+                                <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this)"> Boissons Sambre et Meuse (BSM)</label>
                                 <label class="ms-option"><input type="checkbox" value="BDC" onchange="msUpdate(this)"> Bières de Chimay (BDC)</label>
-                                <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this)"> Chimay fromages (FRO)</label>
+                                <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this)"> Chimay Fromages (FRO)</label>
                                 <label class="ms-option"><input type="checkbox" value="PPB" onchange="msUpdate(this)"> Les Petits Pas de la Botte (PPB)</label>
                                 <label class="ms-option"><input type="checkbox" value="MDC" onchange="msUpdate(this)"> La Maison De Casimir (MDC)</label>
                                 <label class="ms-option"><input type="checkbox" value="AP" onchange="msUpdate(this)"> Albatros Poteaupré (AP)</label>
@@ -4139,7 +4510,7 @@ PARTIALS.modalUpload = `
                             <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="CPT" onchange="msUpdate(this)"> Comptes (CPT)</label>
                                 <label class="ms-option"><input type="checkbox" value="BDGT" onchange="msUpdate(this)"> Budget (BDGT)</label>
-                                <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this)"> Procès verbal (PV)</label>
+                                <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this)"> Procès-verbal (PV)</label>
                                 <label class="ms-option"><input type="checkbox" value="CNVC" onchange="msUpdate(this)"> Convocation (CNVC)</label>
                                 <label class="ms-option"><input type="checkbox" value="NOT" onchange="msUpdate(this)"> Notes (NOT)</label>
                                 <label class="ms-option"><input type="checkbox" value="PRES" onchange="msUpdate(this)"> Présentation (PRES)</label>
@@ -4199,6 +4570,16 @@ PARTIALS.modalUpload = `
                 </div>
                 <input id="annexes-input" type="file" multiple class="hidden-view" onchange="addUploadFiles(this, 'annexes-list')">
                 <ul id="annexes-list" class="mt-2 space-y-1"></ul>
+            </div>
+
+            <hr class="border-gray-200">
+
+            <div class="flex items-center justify-between gap-4 px-1">
+                <div>
+                    <label for="upload-mail-alert" class="text-sm font-medium text-gray-800 cursor-pointer">Alerter par mail qu'un nouveau document a été déposé</label>
+                    <p class="text-xs text-gray-500 mt-0.5">Les utilisateurs ayant accès à ce document recevront un email de notification.</p>
+                </div>
+                <input id="upload-mail-alert" type="checkbox" class="toggle-switch">
             </div>
 
         </form>
@@ -4446,17 +4827,17 @@ PARTIALS.modalRole = `
     <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh]">
         
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-lg shrink-0">
-            <h3 class="text-lg font-bold text-gray-800">Créer un rôle</h3>
+            <h3 id="role-modal-title" class="text-lg font-bold text-gray-800">Créer un rôle</h3>
             <button onclick="toggleModal('modal-role', false)" class="text-gray-400 hover:text-gray-600">
                 <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
   <path d="m6 6 12 12" /></svg>
             </button>
         </div>
         
-        <form id="role-create-form" class="flex-1 overflow-y-auto min-h-0 px-6 py-5 space-y-4" onsubmit="event.preventDefault(); alert('Rôle créé !'); toggleModal('modal-role', false);">
+        <form id="role-create-form" class="flex-1 overflow-y-auto min-h-0 px-6 py-5 space-y-4" onsubmit="event.preventDefault(); alert(document.getElementById('role-modal-title').textContent === 'Dupliquer un rôle' ? 'Rôle dupliqué !' : 'Rôle créé !'); toggleModal('modal-role', false);">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nom du rôle</label>
-                <input type="text" required placeholder="Ex: Rédacteur CGE" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                <input id="role-name-input" type="text" required placeholder="Ex: Rédacteur CGE" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
             </div>
 
             <div>
@@ -4495,7 +4876,7 @@ PARTIALS.modalRole = `
                         </div>
                         <div class="mb-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Privilège(s)</label>
-                            <div class="multi-select">
+                <div id="role-general-privileges" class="multi-select">
                                 <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                                     <span class="ms-value">Sélectionner…</span>
                                     <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
@@ -4517,15 +4898,15 @@ PARTIALS.modalRole = `
                                     <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                                 </div>
                                 <div class="multi-select-panel hidden-view">
-                                <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay gestion (CGE)</label>
-                                <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay patrimoine (CPA)</label>
-                                <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye de Scourmont (ADS)</label>
-                                <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this)"> Solidarité cistercienne (SOL)</label>
-                                <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this)"> Poteaupré (AUB)</label>
+                                <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay-Gestion (CGE)</label>
+                                <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay-Patrimoine (CPA)</label>
+                                <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye Notre-Dame de Scourmont (ADS)</label>
+                                <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this)"> Solidarité Cistercienne (SOL)</label>
+                                <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this)"> Auberge de Poteaupré (AUB)</label>
                                 <label class="ms-option"><input type="checkbox" value="ESP" onchange="msUpdate(this)"> Espace Chimay (ESP)</label>
-                                <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this)"> Boissons Sambre & Meuse (BSM)</label>
+                                <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this)"> Boissons Sambre et Meuse (BSM)</label>
                                 <label class="ms-option"><input type="checkbox" value="BDC" onchange="msUpdate(this)"> Bières de Chimay (BDC)</label>
-                                <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this)"> Chimay fromages (FRO)</label>
+                                <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this)"> Chimay Fromages (FRO)</label>
                                 <label class="ms-option"><input type="checkbox" value="PPB" onchange="msUpdate(this)"> Les Petits Pas de la Botte (PPB)</label>
                                 <label class="ms-option"><input type="checkbox" value="MDC" onchange="msUpdate(this)"> La Maison De Casimir (MDC)</label>
                                 <label class="ms-option"><input type="checkbox" value="AP" onchange="msUpdate(this)"> Albatros Poteaupré (AP)</label>
@@ -4568,7 +4949,7 @@ PARTIALS.modalRole = `
                                 <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="CPT" onchange="msUpdate(this)"> Comptes (CPT)</label>
                                 <label class="ms-option"><input type="checkbox" value="BDGT" onchange="msUpdate(this)"> Budget (BDGT)</label>
-                                <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this)"> Procès verbal (PV)</label>
+                                <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this)"> Procès-verbal (PV)</label>
                                 <label class="ms-option"><input type="checkbox" value="CNVC" onchange="msUpdate(this)"> Convocation (CNVC)</label>
                                 <label class="ms-option"><input type="checkbox" value="NOT" onchange="msUpdate(this)"> Notes (NOT)</label>
                                 <label class="ms-option"><input type="checkbox" value="PRES" onchange="msUpdate(this)"> Présentation (PRES)</label>
@@ -4867,6 +5248,55 @@ PARTIALS.modalDocAccess = `
 
 </script>
     <script>
+window.PARTIALS = window.PARTIALS || {};
+PARTIALS.modalShare = `
+<div id="modal-share" class="hidden-view fixed inset-0 bg-slate-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md flex flex-col">
+        
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-lg shrink-0">
+            <h3 class="text-lg font-bold text-gray-800">Partager le document</h3>
+            <button onclick="toggleModal('modal-share', false)" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
+  <path d="m6 6 12 12" /></svg>
+            </button>
+        </div>
+        
+        <div class="px-6 py-5 space-y-4">
+            <p id="share-doc-name" class="text-sm text-gray-600 bg-gray-50 rounded-md px-3 py-2 truncate"></p>
+
+            <div>
+                <label for="share-link-input" class="block text-sm font-medium text-gray-700 mb-1">Lien de partage</label>
+                <div class="flex items-center gap-2">
+                    <input id="share-link-input" type="text" readonly onclick="this.select()" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm bg-gray-50 text-gray-600 outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <button onclick="copyShareLink()" title="Copier le lien" class="p-2 border border-gray-300 rounded-md text-gray-500 hover:bg-gray-100 hover:text-primary transition-colors shrink-0">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+                <label for="share-link-toggle" class="text-sm font-medium text-gray-800 cursor-pointer">Rendre ce document accessible par quiconque possédant le lien</label>
+                <input id="share-link-toggle" type="checkbox" class="toggle-switch" onchange="onShareToggle(this)">
+            </div>
+
+            <div id="share-anonymous-warning" class="hidden-view flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-md px-3 py-2.5">
+                <svg class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+  <path d="M12 9v4" />
+  <path d="M12 17h.01" /></svg>
+                <p class="text-xs text-amber-800 leading-relaxed">Si une personne sans compte accède à ce document, les actions qu'elle effectuera dessus seront visibles dans l'historique, mais son identité ne sera pas connue.</p>
+            </div>
+        </div>
+
+        <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 shrink-0 bg-white rounded-b-lg">
+            <button type="button" onclick="toggleModal('modal-share', false)" class="btn btn-outline">Fermer</button>
+        </div>
+    </div>
+</div>
+`;
+
+</script>
+    <script>
 // ==========================================
 // LOGIQUE JAVASCRIPT (Interactivité)
 // ==========================================
@@ -4893,7 +5323,8 @@ document.addEventListener('DOMContentLoaded', function () {
         'partial-modal-delete-view': PARTIALS.modalDeleteView,
         'partial-modal-access-check': PARTIALS.modalAccessCheck,
         'partial-modal-doc-history': PARTIALS.modalDocHistory,
-        'partial-modal-doc-access': PARTIALS.modalDocAccess
+        'partial-modal-doc-access': PARTIALS.modalDocAccess,
+        'partial-modal-share': PARTIALS.modalShare
     };
 
     Object.keys(mounts).forEach(function (id) {
@@ -5339,11 +5770,65 @@ function openDocAccess(title, btn) {
 }
 
 // ==========================================
+// URL DE PARTAGE D'UN DOCUMENT (Popup)
+// ==========================================
+function shareLinkWithToken(on) {
+    var f = currentDocumentFilters();
+    var parts = [];
+    if ((f.search || '').trim()) parts.push('search=' + encodeURIComponent(f.search.trim()));
+    if (f.entity.length) parts.push('entity=' + f.entity.map(encodeURIComponent).join(','));
+    if (f.organ.length) parts.push('organ=' + f.organ.map(encodeURIComponent).join(','));
+    if (f.type.length) parts.push('type=' + f.type.map(encodeURIComponent).join(','));
+    if (f.from) parts.push('from=' + encodeURIComponent(f.from));
+    if (f.to) parts.push('to=' + encodeURIComponent(f.to));
+    if (f.grouping && f.grouping.length) parts.push('grouping=' + f.grouping.map(encodeURIComponent).join(','));
+    if (on) parts.push('token=x7f2k9');
+    var qs = parts.length ? '?' + parts.join('&') : '';
+    return 'https://ged.fcw.be/share/documents' + qs;
+}
+
+function openShareLink(title, btn) {
+    var nameEl = document.getElementById('share-doc-name');
+    if (nameEl) nameEl.textContent = title.replace(/\.[a-z0-9]+$/i, '');
+    var input = document.getElementById('share-link-input');
+    var toggle = document.getElementById('share-link-toggle');
+    var warn = document.getElementById('share-anonymous-warning');
+    if (toggle) toggle.checked = false;
+    if (input) input.value = shareLinkWithToken(false);
+    if (warn) warn.classList.add('hidden-view');
+    toggleModal('modal-share', true);
+}
+
+function onShareToggle(cb) {
+    var input = document.getElementById('share-link-input');
+    var warn = document.getElementById('share-anonymous-warning');
+    if (input) input.value = shareLinkWithToken(cb.checked);
+    if (warn) warn.classList.toggle('hidden-view', !cb.checked);
+}
+
+function copyShareLink() {
+    var input = document.getElementById('share-link-input');
+    if (!input || !input.value) return;
+    var done = function () { alert('Lien copié dans le presse-papiers !'); };
+    input.select();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(input.value).then(done, function () {
+            document.execCommand('copy');
+            done();
+        });
+    } else {
+        document.execCommand('copy');
+        done();
+    }
+}
+
+// ==========================================
 // ENREGISTREMENT DE VUE
 // ==========================================
 var SAVED_VIEW_FILTERS = {
     'CA 2026': { search: '', entity: [], organ: ['OA'], audience: [], type: [], year: [], event: [], from: '2026-01-01', to: '2026-12-31' },
-    'Projets Externes': { search: '', entity: ['SOL'], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '' }
+    'Projets Externes': { search: '', entity: ['SOL'], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '' },
+    'Séances par entité': { search: '', entity: [], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '', grouping: ['entity', 'organ', 'event'] }
 };
 
 function multiCheckedValues(id) {
@@ -5511,9 +5996,10 @@ function applySavedView(select) {
 // RÈGLES D'ACCÈS (modal création de rôle)
 // ==========================================
 var ROLE_RULE_CATEGORIES = [
-    { name: 'Entité', labels: [['FCW', 'Fondation Chimay-Wartoise (FCW)'], ['CGE', 'Chimay gestion (CGE)'], ['CPA', 'Chimay patrimoine (CPA)'], ['ADS', 'Abbaye de Scourmont (ADS)'], ['SOL', 'Solidarité cistercienne (SOL)'], ['AUB', 'Poteaupré (AUB)'], ['ESP', 'Espace Chimay (ESP)'], ['BSM', 'Boissons Sambre & Meuse (BSM)'], ['BDC', 'Bières de Chimay (BDC)'], ['FRO', 'Chimay fromages (FRO)'], ['PPB', 'Les Petits Pas de la Botte (PPB)'], ['MDC', 'La Maison De Casimir (MDC)'], ['AP', 'Albatros Poteaupré (AP)']] },
+    { name: 'Entité', labels: [['FCW', 'Fondation Chimay-Wartoise (FCW)'], ['CGE', 'Chimay-Gestion (CGE)'], ['CPA', 'Chimay-Patrimoine (CPA)'], ['ADS', 'Abbaye Notre-Dame de Scourmont (ADS)'], ['SOL', 'Solidarité Cistercienne (SOL)'], ['AUB', 'Auberge de Poteaupré (AUB)'], ['ESP', 'Espace Chimay (ESP)'], ['BSM', 'Boissons Sambre et Meuse (BSM)'], ['BDC', 'Bières de Chimay (BDC)'], ['FRO', 'Chimay Fromages (FRO)'], ['PPB', 'Les Petits Pas de la Botte (PPB)'], ['MDC', 'La Maison De Casimir (MDC)'], ['AP', 'Albatros Poteaupré (AP)']] },
     { name: 'Organe', labels: [['OA', "Organe d'administration (OA)"], ['AG', 'Assemblée générale (AG)']] },
-    { name: 'Type de document', labels: [['CPT', 'Comptes (CPT)'], ['BDGT', 'Budget (BDGT)'], ['PV', 'Procès verbal (PV)'], ['CNVC', 'Convocation (CNVC)'], ['NOT', 'Notes (NOT)'], ['PRES', 'Présentation (PRES)'], ['RA', 'Rapport annuel (RA)'], ['BETU', "Bourse d'étude (BETU)"], ['ANX', 'Annexe (ANX)'], ['PROC', 'Procuration (PROC)'], ['EXTR', 'Extrait (EXTR)']] },
+    { name: 'Audience', labels: [['INT', 'Interne (INT)'], ['EXT', 'Externe (EXT)']] },
+    { name: 'Type de document', labels: [['CPT', 'Comptes (CPT)'], ['BDGT', 'Budget (BDGT)'], ['PV', 'Procès-verbal (PV)'], ['CNVC', 'Convocation (CNVC)'], ['PROC', 'Procuration (PROC)'], ['NOT', 'Notes (NOT)'], ['PRES', 'Présentation (PRES)'], ['RA', 'Rapport annuel (RA)'], ['BETU', "Bourse d'étude (BETU)"], ['ANX', 'Annexe (ANX)'], ['EXTR', 'Extrait (EXTR)']] },
     { name: 'Année', labels: [['2026', '2026'], ['2025', '2025'], ['2024', '2024']] }
 ];
 
@@ -5537,18 +6023,20 @@ var ROLE_GENERAL_PRIVILEGES = [
     ] }
 ];
 
-function rolePrivilegePanelHTML(groups) {
+function rolePrivilegePanelHTML(groups, preset) {
     return groups.map(function (g) {
         var opts = g.items.map(function (it) {
-            return '<label class="ms-option"><input type="checkbox" value="' + it[0] + '" onchange="msUpdate(this)"><span class="ms-name">' + it[0] + '</span><span class="ms-desc">' + it[1] + '</span></label>';
+            var checked = preset && preset.privileges && preset.privileges.indexOf(it[0]) !== -1 ? ' checked' : '';
+            return '<label class="ms-option"><input type="checkbox" value="' + it[0] + '"' + checked + ' onchange="msUpdate(this)"><span class="ms-name">' + it[0] + '</span><span class="ms-desc">' + it[1] + '</span></label>';
         }).join('');
         return (g.group ? '<div class="ms-group">' + g.group + '</div>' : '') + opts;
     }).join('');
 }
 
-function roleRuleCategoryHTML(cat) {
+function roleRuleCategoryHTML(cat, preset) {
     var opts = cat.labels.map(function (l) {
-        return '<label class="ms-option"><input type="checkbox" value="' + l[0] + '" onchange="msUpdate(this)"> ' + l[1] + '</label>';
+        var checked = preset && preset[cat.name] && preset[cat.name].indexOf(l[0]) !== -1 ? ' checked' : '';
+        return '<label class="ms-option"><input type="checkbox" value="' + l[0] + '"' + checked + ' onchange="msUpdate(this)"> ' + l[1] + '</label>';
     }).join('');
     return '                        <div>\n'
         + '                            <label class="block text-sm font-medium text-gray-700 mb-1">' + cat.name + '</label>\n'
@@ -5563,8 +6051,8 @@ function roleRuleCategoryHTML(cat) {
         + '                        </div>';
 }
 
-function roleRuleHTML(n) {
-    var cats = ROLE_RULE_CATEGORIES.map(roleRuleCategoryHTML).join('\n');
+function roleRuleHTML(n, preset) {
+    var cats = ROLE_RULE_CATEGORIES.map(function (cat) { return roleRuleCategoryHTML(cat, preset); }).join('\n');
     return '                    <div class="role-rule border border-gray-200 rounded-md p-3">\n'
         + '                        <div class="flex items-center justify-between mb-2">\n'
         + '                            <span class="rule-num text-xs font-semibold text-gray-500 uppercase">Règle n°' + n + '</span>\n'
@@ -5577,7 +6065,7 @@ function roleRuleHTML(n) {
         + '                                    <span class="ms-value">Sélectionner…</span>\n'
         + '                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>\n'
         + '                                </div>\n'
-        + '                                <div class="multi-select-panel hidden-view">' + rolePrivilegePanelHTML([{ group: '', items: ROLE_DOC_PRIVILEGES }]) + '</div>\n'
+        + '                                <div class="multi-select-panel hidden-view">' + rolePrivilegePanelHTML([{ group: '', items: ROLE_DOC_PRIVILEGES }], preset) + '</div>\n'
         + '                            </div>\n'
         + '                        </div>\n'
         + '                        <div class="space-y-3">\n' + cats + '\n'
@@ -5606,6 +6094,86 @@ function removeRoleRule(btn) {
     var row = btn.closest('.role-rule');
     if (row) row.remove();
     renumberRoleRules();
+}
+
+// ==========================================
+// DUPLICATION D'UN RÔLE
+// ==========================================
+var ROLES_DB = {
+    'Administrateur système': {
+        general: ['Créer des invitations', 'Gérer les comptes', 'Gérer les rôles', 'Gérer les libellés', "Consulter l'historique", 'Gérer les accès nominatifs'],
+        rules: [{ privileges: ['Consulter', 'Télécharger', 'Déposer', 'Modifier'] }]
+    },
+    'Membre de la direction CGE': {
+        general: ['Créer des invitations', 'Gérer les comptes'],
+        rules: [
+            { privileges: ['Consulter'], Entité: ['CGE'], Audience: ['EXT'] },
+            { privileges: ['Déposer'], Entité: ['CGE'] },
+            { privileges: ['Consulter'], Organe: ['AG'] }
+        ]
+    },
+    'Secrétaire de séance': {
+        general: ['Créer des invitations'],
+        rules: [
+            { privileges: ['Déposer'], Entité: ['CGE'] },
+            { privileges: ['Consulter'], Entité: ['CGE'], Organe: ['OA'] }
+        ]
+    },
+    'Assistant de direction': {
+        general: ['Créer des invitations'],
+        rules: [
+            { privileges: ['Déposer'], Entité: ['CGE'] },
+            { privileges: ['Consulter'], Entité: ['CGE'], Organe: ['OA'] }
+        ]
+    },
+    'Auditeur externe': {
+        general: [],
+        rules: [{ privileges: ['Consulter'], Audience: ['EXT'] }]
+    },
+    'Partenaire externe CGE': {
+        general: [],
+        rules: [{ privileges: ['Consulter'], Entité: ['CGE'], Audience: ['EXT'] }]
+    }
+};
+
+function buildRoleRules(container, rules) {
+    if (!container) return;
+    container.innerHTML = '';
+    rules.forEach(function (preset, i) {
+        var div = document.createElement('div');
+        div.innerHTML = roleRuleHTML(i + 1, preset);
+        container.appendChild(div.firstElementChild);
+    });
+    container.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+        msUpdate(c);
+    });
+}
+
+function setRoleGeneralPrivileges(values) {
+    var gp = document.getElementById('role-general-privileges');
+    if (!gp) return;
+    gp.querySelectorAll('input[type="checkbox"]').forEach(function (c) {
+        c.checked = (values || []).indexOf(c.value) !== -1;
+        msUpdate(c);
+    });
+}
+
+function duplicateRole(name) {
+    var def = ROLES_DB[name];
+    if (!def) return;
+    document.getElementById('role-modal-title').textContent = 'Dupliquer un rôle';
+    document.getElementById('role-name-input').value = name + ' (copie)';
+    setRoleGeneralPrivileges(def.general);
+    buildRoleRules(document.getElementById('role-rules'), def.rules.length ? def.rules : [{}]);
+    toggleModal('modal-role', true);
+}
+
+function openRoleCreate() {
+    document.getElementById('role-modal-title').textContent = 'Créer un rôle';
+    document.getElementById('role-name-input').value = '';
+    setRoleGeneralPrivileges([]);
+    buildRoleRules(document.getElementById('role-rules'), [{}]);
+    toggleModal('modal-role', true);
 }
 
 // ==========================================

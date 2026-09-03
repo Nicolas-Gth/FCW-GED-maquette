@@ -11,7 +11,7 @@ PARTIALS.viewRoles = `
   <circle cx="12" cy="12" r="3" /></svg>
                     Vérifier les accès
                 </button>
-                <button onclick="toggleModal('modal-role', true)" class="btn btn-primary">
+                <button onclick="openRoleCreate()" class="btn btn-primary">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14" />
   <path d="M12 5v14" /></svg>
                     Créer un rôle
@@ -29,6 +29,7 @@ PARTIALS.viewRoles = `
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 1)">Utilisateurs <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 2)">Règles d'accès <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 3)">Statut <span class="sort-indicator"></span></th>
+                        <th class="px-6 py-4"></th>
 
                     </tr>
                 </thead>
@@ -38,6 +39,12 @@ PARTIALS.viewRoles = `
                         <td class="px-6 py-4 text-gray-500">2</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Tous les privilèges</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Administrateur système')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="membre de la direction cge" data-sort1="4" data-sort2="consulter cge ext déposer cge consulter ag" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Membre de la direction CGE</td>
@@ -48,6 +55,12 @@ PARTIALS.viewRoles = `
                             <span class="badge badge-neutral">Consulter · AG</span>
                         </td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Membre de la direction CGE')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="secrétaire de séance" data-sort1="2" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Secrétaire de séance</td>
@@ -57,6 +70,12 @@ PARTIALS.viewRoles = `
                             <span class="badge badge-neutral">Consulter · CGE + OA</span>
                         </td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Secrétaire de séance')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="assistant de direction" data-sort1="1" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Assistant de direction</td>
@@ -66,18 +85,36 @@ PARTIALS.viewRoles = `
                             <span class="badge badge-neutral">Consulter · CGE + OA</span>
                         </td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Assistant de direction')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="auditeur externe" data-sort1="5" data-sort2="consulter ext" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Auditeur externe</td>
                         <td class="px-6 py-4 text-gray-500">5</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · EXT</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Auditeur externe')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                     <tr class="hover:bg-primary-light transition-colors" data-sort0="partenaire externe cge" data-sort1="1" data-sort2="consulter cge ext sauf oa" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Partenaire externe CGE</td>
                         <td class="px-6 py-4 text-gray-500">1</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · CGE + EXT sauf OA</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                            <button onclick="duplicateRole('Partenaire externe CGE')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            </button>
+                        </span></td>
                     </tr>
                 </tbody>
             </table>

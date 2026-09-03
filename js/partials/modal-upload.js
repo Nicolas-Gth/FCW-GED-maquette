@@ -52,15 +52,15 @@ PARTIALS.modalUpload = `
                             </div>
                             <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="FCW" onchange="msUpdate(this)"> Fondation Chimay-Wartoise (FCW)</label>
-                                <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay gestion (CGE)</label>
-                                <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay patrimoine (CPA)</label>
-                                <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye de Scourmont (ADS)</label>
-                                <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this)"> Solidarité cistercienne (SOL)</label>
-                                <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this)"> Poteaupré (AUB)</label>
+                                <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this)"> Chimay-Gestion (CGE)</label>
+                                <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this)"> Chimay-Patrimoine (CPA)</label>
+                                <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this)"> Abbaye Notre-Dame de Scourmont (ADS)</label>
+                                <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this)"> Solidarité Cistercienne (SOL)</label>
+                                <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this)"> Auberge de Poteaupré (AUB)</label>
                                 <label class="ms-option"><input type="checkbox" value="ESP" onchange="msUpdate(this)"> Espace Chimay (ESP)</label>
-                                <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this)"> Boissons Sambre & Meuse (BSM)</label>
+                                <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this)"> Boissons Sambre et Meuse (BSM)</label>
                                 <label class="ms-option"><input type="checkbox" value="BDC" onchange="msUpdate(this)"> Bières de Chimay (BDC)</label>
-                                <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this)"> Chimay fromages (FRO)</label>
+                                <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this)"> Chimay Fromages (FRO)</label>
                                 <label class="ms-option"><input type="checkbox" value="PPB" onchange="msUpdate(this)"> Les Petits Pas de la Botte (PPB)</label>
                                 <label class="ms-option"><input type="checkbox" value="MDC" onchange="msUpdate(this)"> La Maison De Casimir (MDC)</label>
                                 <label class="ms-option"><input type="checkbox" value="AP" onchange="msUpdate(this)"> Albatros Poteaupré (AP)</label>
@@ -90,7 +90,7 @@ PARTIALS.modalUpload = `
                             <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="CPT" onchange="msUpdate(this)"> Comptes (CPT)</label>
                                 <label class="ms-option"><input type="checkbox" value="BDGT" onchange="msUpdate(this)"> Budget (BDGT)</label>
-                                <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this)"> Procès verbal (PV)</label>
+                                <label class="ms-option"><input type="checkbox" value="PV" onchange="msUpdate(this)"> Procès-verbal (PV)</label>
                                 <label class="ms-option"><input type="checkbox" value="CNVC" onchange="msUpdate(this)"> Convocation (CNVC)</label>
                                 <label class="ms-option"><input type="checkbox" value="NOT" onchange="msUpdate(this)"> Notes (NOT)</label>
                                 <label class="ms-option"><input type="checkbox" value="PRES" onchange="msUpdate(this)"> Présentation (PRES)</label>
@@ -150,6 +150,16 @@ PARTIALS.modalUpload = `
                 </div>
                 <input id="annexes-input" type="file" multiple class="hidden-view" onchange="addUploadFiles(this, 'annexes-list')">
                 <ul id="annexes-list" class="mt-2 space-y-1"></ul>
+            </div>
+
+            <hr class="border-gray-200">
+
+            <div class="flex items-center justify-between gap-4 px-1">
+                <div>
+                    <label for="upload-mail-alert" class="text-sm font-medium text-gray-800 cursor-pointer">Alerter par mail qu'un nouveau document a été déposé</label>
+                    <p class="text-xs text-gray-500 mt-0.5">Les utilisateurs ayant accès à ce document recevront un email de notification.</p>
+                </div>
+                <input id="upload-mail-alert" type="checkbox" class="toggle-switch">
             </div>
 
         </form>

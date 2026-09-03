@@ -18,8 +18,8 @@ PARTIALS.viewLabels = `
 
         <!-- Onglets de catégories -->
         <div class="flex gap-2">
-                <button type="button" onclick="switchLabelCategory(this, 0)" data-tab-color="label-tab-0" class="label-tab label-tab-0">Entité</button>
-                <button type="button" onclick="switchLabelCategory(this, 1)" data-tab-color="label-tab-1" class="label-tab label-tab-inactive">Organe</button>
+                <button type="button" onclick="switchLabelCategory(this, 0)" data-tab-color="label-tab-0" class="label-tab label-tab-0">Entités</button>
+                <button type="button" onclick="switchLabelCategory(this, 1)" data-tab-color="label-tab-1" class="label-tab label-tab-inactive">Type d'organe</button>
                 <button type="button" onclick="switchLabelCategory(this, 2)" data-tab-color="label-tab-3" class="label-tab label-tab-inactive">Type de document</button>
         </div>
 
@@ -35,8 +35,25 @@ PARTIALS.viewLabels = `
                     </tr>
                 </thead>
                 <tbody id="labels-tbody-0" class="labels-tbody divide-y divide-gray-200">
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay gestion" data-sort1="cge" data-search="chimay gestion cge" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Chimay gestion</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="fondation chimay-wartoise" data-sort1="fcw" data-search="fondation chimay-wartoise fcw" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Fondation Chimay-Wartoise</td>
+                            <td class="px-6 py-3 font-mono text-gray-500">FCW</td>
+                            <td class="px-6 py-3">
+                                <span class="flex items-center gap-2">
+                                    <span class="label-order w-4 text-center text-gray-600">1</span>
+                                    <span class="row-actions inline-flex items-center">
+                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
+                                        </button>
+                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                        </button>
+                                    </span>
+                                </span></td>
+                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay-gestion" data-sort1="cge" data-search="chimay-gestion chimay gestion cge" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Chimay-Gestion</td>
                             <td class="px-6 py-3 font-mono text-gray-500">CGE</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -52,8 +69,8 @@ PARTIALS.viewLabels = `
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay patrimoine" data-sort1="cpa" data-search="chimay patrimoine cpa" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Chimay patrimoine</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay-patrimoine" data-sort1="cpa" data-search="chimay-patrimoine chimay patrimoine cpa" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Chimay-Patrimoine</td>
                             <td class="px-6 py-3 font-mono text-gray-500">CPA</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -87,7 +104,7 @@ PARTIALS.viewLabels = `
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
                         <tr class="hover:bg-primary-light transition-colors" data-sort0="solidarité cistercienne" data-sort1="sol" data-search="solidarité cistercienne sol" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Solidarité cistercienne</td>
+                            <td class="px-6 py-3 font-medium text-gray-900">Solidarité Cistercienne</td>
                             <td class="px-6 py-3 font-mono text-gray-500">SOL</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -103,8 +120,8 @@ PARTIALS.viewLabels = `
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="poteaupré" data-sort1="aub" data-search="poteaupré aub" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Poteaupré</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="auberge de poteaupré" data-sort1="aub" data-search="auberge de poteaupré poteaupré aub" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Auberge de Poteaupré</td>
                             <td class="px-6 py-3 font-mono text-gray-500">AUB</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -172,7 +189,7 @@ PARTIALS.viewLabels = `
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
                         <tr class="hover:bg-primary-light transition-colors" data-sort0="chimay fromages" data-sort1="fro" data-search="chimay fromages fro" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Chimay fromages</td>
+                            <td class="px-6 py-3 font-medium text-gray-900">Chimay Fromages</td>
                             <td class="px-6 py-3 font-mono text-gray-500">FRO</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -317,8 +334,8 @@ PARTIALS.viewLabels = `
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procès verbal" data-sort1="pv" data-search="procès verbal pv" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Procès verbal</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procès-verbal" data-sort1="pv" data-search="procès-verbal procès verbal pv" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Procès-verbal</td>
                             <td class="px-6 py-3 font-mono text-gray-500">PV</td>
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
@@ -340,6 +357,23 @@ PARTIALS.viewLabels = `
                             <td class="px-6 py-3">
                                 <span class="flex items-center gap-2">
                                     <span class="label-order w-4 text-center text-gray-600">4</span>
+                                    <span class="row-actions inline-flex items-center">
+                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
+                                        </button>
+                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                        </button>
+                                    </span>
+                                </span></td>
+                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procuration" data-sort1="proc" data-search="procuration proc" data-sort3="actif">
+                            <td class="px-6 py-3 font-medium text-gray-900">Procuration</td>
+                            <td class="px-6 py-3 font-mono text-gray-500">PROC</td>
+                            <td class="px-6 py-3">
+                                <span class="flex items-center gap-2">
+                                    <span class="label-order w-4 text-center text-gray-600">5</span>
                                     <span class="row-actions inline-flex items-center">
                                         <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
                                             <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
@@ -452,23 +486,6 @@ PARTIALS.viewLabels = `
                                     </span>
                                 </span></td>
                             <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
-                        <tr class="hover:bg-primary-light transition-colors" data-sort0="procuration" data-sort1="proc" data-search="procuration proc" data-sort3="actif">
-                            <td class="px-6 py-3 font-medium text-gray-900">Procuration</td>
-                            <td class="px-6 py-3 font-mono text-gray-500">PROC</td>
-                            <td class="px-6 py-3">
-                                <span class="flex items-center gap-2">
-                                    <span class="label-order w-4 text-center text-gray-600">11</span>
-                                    <span class="row-actions inline-flex items-center">
-                                        <button onclick="moveLabel(this, -1)" title="Monter" class="order-up p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
-                                        </button>
-                                        <button onclick="moveLabel(this, 1)" title="Descendre" class="order-down p-1 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                                        </button>
-                                    </span>
-                                </span></td>
-                            <td class="px-6 py-3"><span class="badge badge-success">Actif</span></td>
-                        </tr>
                         </tr>
                         <tr class="empty-row hidden-view">
                             <td colspan="4" class="px-6 py-6 text-center text-gray-500">Aucun libellé dans cette catégorie.</td>

@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
         'partial-modal-delete-view': PARTIALS.modalDeleteView,
         'partial-modal-access-check': PARTIALS.modalAccessCheck,
         'partial-modal-doc-history': PARTIALS.modalDocHistory,
-        'partial-modal-doc-access': PARTIALS.modalDocAccess
+        'partial-modal-doc-access': PARTIALS.modalDocAccess,
+        'partial-modal-share': PARTIALS.modalShare
     };
 
     Object.keys(mounts).forEach(function (id) {
@@ -470,11 +471,65 @@ function openDocAccess(title, btn) {
 }
 
 // ==========================================
+// URL DE PARTAGE D'UN DOCUMENT (Popup)
+// ==========================================
+function shareLinkWithToken(on) {
+    var f = currentDocumentFilters();
+    var parts = [];
+    if ((f.search || '').trim()) parts.push('search=' + encodeURIComponent(f.search.trim()));
+    if (f.entity.length) parts.push('entity=' + f.entity.map(encodeURIComponent).join(','));
+    if (f.organ.length) parts.push('organ=' + f.organ.map(encodeURIComponent).join(','));
+    if (f.type.length) parts.push('type=' + f.type.map(encodeURIComponent).join(','));
+    if (f.from) parts.push('from=' + encodeURIComponent(f.from));
+    if (f.to) parts.push('to=' + encodeURIComponent(f.to));
+    if (f.grouping && f.grouping.length) parts.push('grouping=' + f.grouping.map(encodeURIComponent).join(','));
+    if (on) parts.push('token=x7f2k9');
+    var qs = parts.length ? '?' + parts.join('&') : '';
+    return 'https://ged.fcw.be/share/documents' + qs;
+}
+
+function openShareLink(title, btn) {
+    var nameEl = document.getElementById('share-doc-name');
+    if (nameEl) nameEl.textContent = title.replace(/\.[a-z0-9]+$/i, '');
+    var input = document.getElementById('share-link-input');
+    var toggle = document.getElementById('share-link-toggle');
+    var warn = document.getElementById('share-anonymous-warning');
+    if (toggle) toggle.checked = false;
+    if (input) input.value = shareLinkWithToken(false);
+    if (warn) warn.classList.add('hidden-view');
+    toggleModal('modal-share', true);
+}
+
+function onShareToggle(cb) {
+    var input = document.getElementById('share-link-input');
+    var warn = document.getElementById('share-anonymous-warning');
+    if (input) input.value = shareLinkWithToken(cb.checked);
+    if (warn) warn.classList.toggle('hidden-view', !cb.checked);
+}
+
+function copyShareLink() {
+    var input = document.getElementById('share-link-input');
+    if (!input || !input.value) return;
+    var done = function () { alert('Lien copié dans le presse-papiers !'); };
+    input.select();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(input.value).then(done, function () {
+            document.execCommand('copy');
+            done();
+        });
+    } else {
+        document.execCommand('copy');
+        done();
+    }
+}
+
+// ==========================================
 // ENREGISTREMENT DE VUE
 // ==========================================
 var SAVED_VIEW_FILTERS = {
     'CA 2026': { search: '', entity: [], organ: ['OA'], audience: [], type: [], year: [], event: [], from: '2026-01-01', to: '2026-12-31' },
-    'Projets Externes': { search: '', entity: ['SOL'], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '' }
+    'Projets Externes': { search: '', entity: ['SOL'], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '' },
+    'Séances par entité': { search: '', entity: [], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '', grouping: ['entity', 'organ', 'event'] }
 };
 
 function multiCheckedValues(id) {
@@ -642,9 +697,10 @@ function applySavedView(select) {
 // RÈGLES D'ACCÈS (modal création de rôle)
 // ==========================================
 var ROLE_RULE_CATEGORIES = [
-    { name: 'Entité', labels: [['FCW', 'Fondation Chimay-Wartoise (FCW)'], ['CGE', 'Chimay gestion (CGE)'], ['CPA', 'Chimay patrimoine (CPA)'], ['ADS', 'Abbaye de Scourmont (ADS)'], ['SOL', 'Solidarité cistercienne (SOL)'], ['AUB', 'Poteaupré (AUB)'], ['ESP', 'Espace Chimay (ESP)'], ['BSM', 'Boissons Sambre & Meuse (BSM)'], ['BDC', 'Bières de Chimay (BDC)'], ['FRO', 'Chimay fromages (FRO)'], ['PPB', 'Les Petits Pas de la Botte (PPB)'], ['MDC', 'La Maison De Casimir (MDC)'], ['AP', 'Albatros Poteaupré (AP)']] },
+    { name: 'Entité', labels: [['FCW', 'Fondation Chimay-Wartoise (FCW)'], ['CGE', 'Chimay-Gestion (CGE)'], ['CPA', 'Chimay-Patrimoine (CPA)'], ['ADS', 'Abbaye Notre-Dame de Scourmont (ADS)'], ['SOL', 'Solidarité Cistercienne (SOL)'], ['AUB', 'Auberge de Poteaupré (AUB)'], ['ESP', 'Espace Chimay (ESP)'], ['BSM', 'Boissons Sambre et Meuse (BSM)'], ['BDC', 'Bières de Chimay (BDC)'], ['FRO', 'Chimay Fromages (FRO)'], ['PPB', 'Les Petits Pas de la Botte (PPB)'], ['MDC', 'La Maison De Casimir (MDC)'], ['AP', 'Albatros Poteaupré (AP)']] },
     { name: 'Organe', labels: [['OA', "Organe d'administration (OA)"], ['AG', 'Assemblée générale (AG)']] },
-    { name: 'Type de document', labels: [['CPT', 'Comptes (CPT)'], ['BDGT', 'Budget (BDGT)'], ['PV', 'Procès verbal (PV)'], ['CNVC', 'Convocation (CNVC)'], ['NOT', 'Notes (NOT)'], ['PRES', 'Présentation (PRES)'], ['RA', 'Rapport annuel (RA)'], ['BETU', "Bourse d'étude (BETU)"], ['ANX', 'Annexe (ANX)'], ['PROC', 'Procuration (PROC)'], ['EXTR', 'Extrait (EXTR)']] },
+    { name: 'Audience', labels: [['INT', 'Interne (INT)'], ['EXT', 'Externe (EXT)']] },
+    { name: 'Type de document', labels: [['CPT', 'Comptes (CPT)'], ['BDGT', 'Budget (BDGT)'], ['PV', 'Procès-verbal (PV)'], ['CNVC', 'Convocation (CNVC)'], ['PROC', 'Procuration (PROC)'], ['NOT', 'Notes (NOT)'], ['PRES', 'Présentation (PRES)'], ['RA', 'Rapport annuel (RA)'], ['BETU', "Bourse d'étude (BETU)"], ['ANX', 'Annexe (ANX)'], ['EXTR', 'Extrait (EXTR)']] },
     { name: 'Année', labels: [['2026', '2026'], ['2025', '2025'], ['2024', '2024']] }
 ];
 
@@ -668,18 +724,20 @@ var ROLE_GENERAL_PRIVILEGES = [
     ] }
 ];
 
-function rolePrivilegePanelHTML(groups) {
+function rolePrivilegePanelHTML(groups, preset) {
     return groups.map(function (g) {
         var opts = g.items.map(function (it) {
-            return '<label class="ms-option"><input type="checkbox" value="' + it[0] + '" onchange="msUpdate(this)"><span class="ms-name">' + it[0] + '</span><span class="ms-desc">' + it[1] + '</span></label>';
+            var checked = preset && preset.privileges && preset.privileges.indexOf(it[0]) !== -1 ? ' checked' : '';
+            return '<label class="ms-option"><input type="checkbox" value="' + it[0] + '"' + checked + ' onchange="msUpdate(this)"><span class="ms-name">' + it[0] + '</span><span class="ms-desc">' + it[1] + '</span></label>';
         }).join('');
         return (g.group ? '<div class="ms-group">' + g.group + '</div>' : '') + opts;
     }).join('');
 }
 
-function roleRuleCategoryHTML(cat) {
+function roleRuleCategoryHTML(cat, preset) {
     var opts = cat.labels.map(function (l) {
-        return '<label class="ms-option"><input type="checkbox" value="' + l[0] + '" onchange="msUpdate(this)"> ' + l[1] + '</label>';
+        var checked = preset && preset[cat.name] && preset[cat.name].indexOf(l[0]) !== -1 ? ' checked' : '';
+        return '<label class="ms-option"><input type="checkbox" value="' + l[0] + '"' + checked + ' onchange="msUpdate(this)"> ' + l[1] + '</label>';
     }).join('');
     return '                        <div>\n'
         + '                            <label class="block text-sm font-medium text-gray-700 mb-1">' + cat.name + '</label>\n'
@@ -694,8 +752,8 @@ function roleRuleCategoryHTML(cat) {
         + '                        </div>';
 }
 
-function roleRuleHTML(n) {
-    var cats = ROLE_RULE_CATEGORIES.map(roleRuleCategoryHTML).join('\n');
+function roleRuleHTML(n, preset) {
+    var cats = ROLE_RULE_CATEGORIES.map(function (cat) { return roleRuleCategoryHTML(cat, preset); }).join('\n');
     return '                    <div class="role-rule border border-gray-200 rounded-md p-3">\n'
         + '                        <div class="flex items-center justify-between mb-2">\n'
         + '                            <span class="rule-num text-xs font-semibold text-gray-500 uppercase">Règle n°' + n + '</span>\n'
@@ -708,7 +766,7 @@ function roleRuleHTML(n) {
         + '                                    <span class="ms-value">Sélectionner…</span>\n'
         + '                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>\n'
         + '                                </div>\n'
-        + '                                <div class="multi-select-panel hidden-view">' + rolePrivilegePanelHTML([{ group: '', items: ROLE_DOC_PRIVILEGES }]) + '</div>\n'
+        + '                                <div class="multi-select-panel hidden-view">' + rolePrivilegePanelHTML([{ group: '', items: ROLE_DOC_PRIVILEGES }], preset) + '</div>\n'
         + '                            </div>\n'
         + '                        </div>\n'
         + '                        <div class="space-y-3">\n' + cats + '\n'
@@ -737,6 +795,86 @@ function removeRoleRule(btn) {
     var row = btn.closest('.role-rule');
     if (row) row.remove();
     renumberRoleRules();
+}
+
+// ==========================================
+// DUPLICATION D'UN RÔLE
+// ==========================================
+var ROLES_DB = {
+    'Administrateur système': {
+        general: ['Créer des invitations', 'Gérer les comptes', 'Gérer les rôles', 'Gérer les libellés', "Consulter l'historique", 'Gérer les accès nominatifs'],
+        rules: [{ privileges: ['Consulter', 'Télécharger', 'Déposer', 'Modifier'] }]
+    },
+    'Membre de la direction CGE': {
+        general: ['Créer des invitations', 'Gérer les comptes'],
+        rules: [
+            { privileges: ['Consulter'], Entité: ['CGE'], Audience: ['EXT'] },
+            { privileges: ['Déposer'], Entité: ['CGE'] },
+            { privileges: ['Consulter'], Organe: ['AG'] }
+        ]
+    },
+    'Secrétaire de séance': {
+        general: ['Créer des invitations'],
+        rules: [
+            { privileges: ['Déposer'], Entité: ['CGE'] },
+            { privileges: ['Consulter'], Entité: ['CGE'], Organe: ['OA'] }
+        ]
+    },
+    'Assistant de direction': {
+        general: ['Créer des invitations'],
+        rules: [
+            { privileges: ['Déposer'], Entité: ['CGE'] },
+            { privileges: ['Consulter'], Entité: ['CGE'], Organe: ['OA'] }
+        ]
+    },
+    'Auditeur externe': {
+        general: [],
+        rules: [{ privileges: ['Consulter'], Audience: ['EXT'] }]
+    },
+    'Partenaire externe CGE': {
+        general: [],
+        rules: [{ privileges: ['Consulter'], Entité: ['CGE'], Audience: ['EXT'] }]
+    }
+};
+
+function buildRoleRules(container, rules) {
+    if (!container) return;
+    container.innerHTML = '';
+    rules.forEach(function (preset, i) {
+        var div = document.createElement('div');
+        div.innerHTML = roleRuleHTML(i + 1, preset);
+        container.appendChild(div.firstElementChild);
+    });
+    container.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+        msUpdate(c);
+    });
+}
+
+function setRoleGeneralPrivileges(values) {
+    var gp = document.getElementById('role-general-privileges');
+    if (!gp) return;
+    gp.querySelectorAll('input[type="checkbox"]').forEach(function (c) {
+        c.checked = (values || []).indexOf(c.value) !== -1;
+        msUpdate(c);
+    });
+}
+
+function duplicateRole(name) {
+    var def = ROLES_DB[name];
+    if (!def) return;
+    document.getElementById('role-modal-title').textContent = 'Dupliquer un rôle';
+    document.getElementById('role-name-input').value = name + ' (copie)';
+    setRoleGeneralPrivileges(def.general);
+    buildRoleRules(document.getElementById('role-rules'), def.rules.length ? def.rules : [{}]);
+    toggleModal('modal-role', true);
+}
+
+function openRoleCreate() {
+    document.getElementById('role-modal-title').textContent = 'Créer un rôle';
+    document.getElementById('role-name-input').value = '';
+    setRoleGeneralPrivileges([]);
+    buildRoleRules(document.getElementById('role-rules'), [{}]);
+    toggleModal('modal-role', true);
 }
 
 // ==========================================
