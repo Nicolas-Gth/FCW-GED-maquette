@@ -485,7 +485,7 @@ function shareLinkWithToken(on) {
     if (f.grouping && f.grouping.length) parts.push('grouping=' + f.grouping.map(encodeURIComponent).join(','));
     if (on) parts.push('token=x7f2k9');
     var qs = parts.length ? '?' + parts.join('&') : '';
-    return 'https://ged.fcw.be/share/documents' + qs;
+    return 'https://ged.chimaywartoise.be/share/documents' + qs;
 }
 
 function openShareLink(title, btn) {

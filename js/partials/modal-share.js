@@ -37,10 +37,6 @@ PARTIALS.modalShare = `
                 <p class="text-xs text-amber-800 leading-relaxed">Si une personne sans compte accède à ce document, les actions qu'elle effectuera dessus seront visibles dans l'historique, mais son identité ne sera pas connue.</p>
             </div>
         </div>
-
-        <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 shrink-0 bg-white rounded-b-lg">
-            <button type="button" onclick="toggleModal('modal-share', false)" class="btn btn-outline">Fermer</button>
-        </div>
     </div>
 </div>
 `;
