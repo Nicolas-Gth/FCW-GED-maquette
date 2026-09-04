@@ -91,7 +91,7 @@ PARTIALS.modalRole = `
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Organe</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Instance</label>
                             <div class="multi-select" data-placeholder="Tous les libellés">
                                 <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                                     <span class="ms-value">Tous les libellés</span>
@@ -100,19 +100,6 @@ PARTIALS.modalRole = `
                                 <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="OA" onchange="msUpdate(this)"> Organe d'administration (OA)</label>
                                 <label class="ms-option"><input type="checkbox" value="AG" onchange="msUpdate(this)"> Assemblée générale (AG)</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Audience</label>
-                            <div class="multi-select" data-placeholder="Tous les libellés">
-                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
-                                    <span class="ms-value">Tous les libellés</span>
-                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                                </div>
-                                <div class="multi-select-panel hidden-view">
-                                <label class="ms-option"><input type="checkbox" value="INT" onchange="msUpdate(this)"> Interne (INT)</label>
-                                <label class="ms-option"><input type="checkbox" value="EXT" onchange="msUpdate(this)"> Externe (EXT)</label>
                                 </div>
                             </div>
                         </div>

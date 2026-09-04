@@ -84,7 +84,7 @@ PARTIALS.viewDocuments = `
                 </div>
 
                 <div class="w-44">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Organe</label>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Instance</label>
                                         <div id="f-organ" class="multi-select" data-placeholder="Tous">
                         <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                             <span class="ms-value">Tous</span>
@@ -129,7 +129,7 @@ PARTIALS.viewDocuments = `
                         </div>
                         <div id="f-grouping-panel" class="multi-select-panel hidden-view">
                             <label class="ms-option"><input type="checkbox" value="entity" data-name="Entité" onchange="onGroupingChange(this)"><span class="opt-label">Entité</span></label>
-                            <label class="ms-option"><input type="checkbox" value="organ" data-name="Organe" onchange="onGroupingChange(this)"><span class="opt-label">Organe</span></label>
+                            <label class="ms-option"><input type="checkbox" value="organ" data-name="Instance" onchange="onGroupingChange(this)"><span class="opt-label">Instance</span></label>
                             <label class="ms-option"><input type="checkbox" value="type" data-name="Type de document" onchange="onGroupingChange(this)"><span class="opt-label">Type de document</span></label>
                             <label class="ms-option"><input type="checkbox" value="year" data-name="Année" onchange="onGroupingChange(this)"><span class="opt-label">Année</span></label>
                             <label class="ms-option"><input type="checkbox" value="event" data-name="Séance" onchange="onGroupingChange(this)"><span class="opt-label">Séance</span></label>
@@ -195,7 +195,7 @@ PARTIALS.viewDocuments = `
                     </tr>
                 </thead>
                 <tbody id="docs-tbody" class="divide-y divide-gray-200">
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-01-23" data-search="pv oa fcw du 23-01-2026 fcw oa int pv julie stavrakas" data-event="ev7" onclick="openPreview('2026fcw006 - PV OA FCW du 23-01-2026.doc')" data-sort0="2026fcw006 - pv oa fcw du 23-01-2026.doc" data-sort1="2026-01-23" data-sort2="fcw oa int pv seance du 23/01/2026" data-sort4="2026-01-26" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="PV" data-date="2026-01-23" data-search="pv oa fcw du 23-01-2026 fcw oa pv julie stavrakas" data-event="ev7" onclick="openPreview('2026fcw006 - PV OA FCW du 23-01-2026.doc')" data-sort0="2026fcw006 - pv oa fcw du 23-01-2026.doc" data-sort1="2026-01-23" data-sort2="fcw oa pv seance du 23/01/2026" data-sort4="2026-01-26" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-blue-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -241,7 +241,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="CNVC" data-date="2026-03-26" data-search="convocation oa fcw du 09-04-2026 fcw oa int cnvc philippe dumont" data-event="ev8" onclick="openPreview('2026fcw016 - Convocation OA FCW du 09-04-2026.pdf')" data-sort0="2026fcw016 - convocation oa fcw du 09-04-2026.pdf" data-sort1="2026-03-26" data-sort2="fcw oa int cnvc seance du 09/04/2026" data-sort4="2026-03-26" data-sort3="philippe dumont">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="CNVC" data-date="2026-03-26" data-search="convocation oa fcw du 09-04-2026 fcw oa cnvc philippe dumont" data-event="ev8" onclick="openPreview('2026fcw016 - Convocation OA FCW du 09-04-2026.pdf')" data-sort0="2026fcw016 - convocation oa fcw du 09-04-2026.pdf" data-sort1="2026-03-26" data-sort2="fcw oa cnvc seance du 09/04/2026" data-sort4="2026-03-26" data-sort3="philippe dumont">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -287,7 +287,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-04-09" data-search="pv oa fcw du 09-04-2026 fcw oa int pv julie stavrakas" data-event="ev8" onclick="openPreview('2026fcw024 - PV OA FCW du 09-04-2026.doc')" data-sort0="2026fcw024 - pv oa fcw du 09-04-2026.doc" data-sort1="2026-04-09" data-sort2="fcw oa int pv seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="PV" data-date="2026-04-09" data-search="pv oa fcw du 09-04-2026 fcw oa pv julie stavrakas" data-event="ev8" onclick="openPreview('2026fcw024 - PV OA FCW du 09-04-2026.doc')" data-sort0="2026fcw024 - pv oa fcw du 09-04-2026.doc" data-sort1="2026-04-09" data-sort2="fcw oa pv seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-blue-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -334,7 +334,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-04-09" data-search="annexe pv oa fcw du 09-04-2026 presentation csrd 2025 fcw oa int anx philippe dumont" data-event="ev8" onclick="openPreview('2026fcw028 - Annexe PV OA FCW du 09-04-2026 - Présentation CSRD 2025.pptx')" data-sort0="2026fcw028 - annexe pv oa fcw du 09-04-2026 - presentation csrd 2025.pptx" data-sort1="2026-04-09" data-sort2="fcw oa int anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="philippe dumont">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="ANX" data-date="2026-04-09" data-search="annexe pv oa fcw du 09-04-2026 presentation csrd 2025 fcw oa anx philippe dumont" data-event="ev8" onclick="openPreview('2026fcw028 - Annexe PV OA FCW du 09-04-2026 - Présentation CSRD 2025.pptx')" data-sort0="2026fcw028 - annexe pv oa fcw du 09-04-2026 - presentation csrd 2025.pptx" data-sort1="2026-04-09" data-sort2="fcw oa anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="philippe dumont">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-orange-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 3h20" />
@@ -378,7 +378,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="AG" data-audience="EXT" data-type="PV" data-date="2026-06-23" data-search="pv ag fcw du 23-06-2026 fcw ag ext pv julie stavrakas" data-event="ev9" onclick="openPreview('2026fcw038 - PV AG FCW du 23-06-2026.doc')" data-sort0="2026fcw038 - pv ag fcw du 23-06-2026.doc" data-sort1="2026-06-23" data-sort2="fcw ag ext pv seance du 23/06/2026" data-sort4="2026-06-26" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="AG" data-type="PV" data-date="2026-06-23" data-search="pv ag fcw du 23-06-2026 fcw ag pv julie stavrakas" data-event="ev9" onclick="openPreview('2026fcw038 - PV AG FCW du 23-06-2026.doc')" data-sort0="2026fcw038 - pv ag fcw du 23-06-2026.doc" data-sort1="2026-06-23" data-sort2="fcw ag pv seance du 23/06/2026" data-sort4="2026-06-26" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-blue-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -424,7 +424,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-03-15" data-search="compte rendu ca mars 2026 pv cge oa int julie stavrakas" data-event="ev2" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="2026-03-15" data-sort2="cge oa int pv ca de mars 2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-03-15" data-search="compte rendu ca mars 2026 pv cge oa julie stavrakas" data-event="ev2" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="2026-03-15" data-sort2="cge oa pv ca de mars 2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -471,7 +471,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="CPT" data-date="2025-12-31" data-search="bilan financier annuel xlsx cpt cge oa int marc lemoine" onclick="openPreview('Bilan Financier Annuel.xlsx')" data-sort0="bilan financier annuel.xlsx" data-sort1="2025-12-31" data-sort2="cge oa cpt" data-sort4="2026-01-03" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="CPT" data-date="2025-12-31" data-search="bilan financier annuel xlsx cpt cge oa marc lemoine" onclick="openPreview('Bilan Financier Annuel.xlsx')" data-sort0="bilan financier annuel.xlsx" data-sort1="2025-12-31" data-sort2="cge oa cpt" data-sort4="2026-01-03" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -518,7 +518,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="AG" data-audience="EXT" data-type="RA" data-date="2026-02-12" data-search="rapport annuel 2025 pdf ra cpa ag ext denis buchet" data-event="ev4" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="2026-02-12" data-sort2="cpa ag ext ra assemblee generale" data-sort4="2026-02-15" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="AG" data-type="RA" data-date="2026-02-12" data-search="rapport annuel 2025 pdf ra cpa ag denis buchet" data-event="ev4" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="2026-02-12" data-sort2="cpa ag ra assemblee generale" data-sort4="2026-02-15" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -564,7 +564,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ADS" data-organ="AG" data-audience="INT" data-type="CNVC" data-date="2026-06-01" data-search="convocation ag 18 06 2026 pdf cnvc ads int julie stavrakas" data-event="ev4" onclick="openPreview('Convocation AG du 18.06.2026.pdf')" data-sort0="convocation ag du 18.06.2026.pdf" data-sort1="2026-06-01" data-sort2="ads ag cnvc assemblee generale" data-sort4="2026-06-04" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ADS" data-organ="AG" data-type="CNVC" data-date="2026-06-01" data-search="convocation ag 18 06 2026 pdf cnvc ads julie stavrakas" data-event="ev4" onclick="openPreview('Convocation AG du 18.06.2026.pdf')" data-sort0="convocation ag du 18.06.2026.pdf" data-sort1="2026-06-01" data-sort2="ads ag cnvc assemblee generale" data-sort4="2026-06-04" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -610,7 +610,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="BDC" data-organ="OA" data-audience="INT" data-type="BDGT" data-date="2026-09-30" data-search="budget prévisionnel 2027 xlsx bdgt bdc oa int marc lemoine" onclick="openPreview('Budget Prévisionnel 2027.xlsx')" data-sort0="budget prévisionnel 2027.xlsx" data-sort1="2026-09-30" data-sort2="bdc oa bdgt" data-sort4="2026-10-03" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="BDC" data-organ="OA" data-type="BDGT" data-date="2026-09-30" data-search="budget prévisionnel 2027 xlsx bdgt bdc oa marc lemoine" onclick="openPreview('Budget Prévisionnel 2027.xlsx')" data-sort0="budget prévisionnel 2027.xlsx" data-sort1="2026-09-30" data-sort2="bdc oa bdgt" data-sort4="2026-10-03" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -657,7 +657,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="SOL" data-organ="OA" data-audience="EXT" data-type="BETU" data-date="2026-01-10" data-search="bourse d'étude 2026 présentation pdf betu sol oa ext denis buchet" onclick="openPreview('Bourse étude 2026 - Présentation.pdf')" data-sort0="bourse étude 2026 - présentation.pdf" data-sort1="2026-01-10" data-sort2="sol oa ext betu" data-sort4="2026-01-13" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="SOL" data-organ="OA" data-type="BETU" data-date="2026-01-10" data-search="bourse d'étude 2026 présentation pdf betu sol oa denis buchet" onclick="openPreview('Bourse étude 2026 - Présentation.pdf')" data-sort0="bourse étude 2026 - présentation.pdf" data-sort1="2026-01-10" data-sort2="sol oa betu" data-sort4="2026-01-13" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -703,7 +703,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-01-22" data-search="procès verbal ca janvier 2026 pv cge oa int julie stavrakas" data-event="ev1" onclick="openPreview('Procès Verbal CA Janvier 2026.pdf')" data-sort0="procès verbal ca janvier 2026.pdf" data-sort1="2026-01-22" data-sort2="cge oa int pv seance du 22/01/2026" data-sort4="2026-01-25" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-01-22" data-search="procès verbal ca janvier 2026 pv cge oa julie stavrakas" data-event="ev1" onclick="openPreview('Procès Verbal CA Janvier 2026.pdf')" data-sort0="procès verbal ca janvier 2026.pdf" data-sort1="2026-01-22" data-sort2="cge oa pv seance du 22/01/2026" data-sort4="2026-01-25" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -749,7 +749,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-04-16" data-search="procès verbal ca avril 2026 pv cge oa int julie stavrakas" data-event="ev3" onclick="openPreview('Procès Verbal CA Avril 2026.pdf')" data-sort0="procès verbal ca avril 2026.pdf" data-sort1="2026-04-16" data-sort2="cge oa int pv seance du 16/04/2026" data-sort4="2026-04-19" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-04-16" data-search="procès verbal ca avril 2026 pv cge oa julie stavrakas" data-event="ev3" onclick="openPreview('Procès Verbal CA Avril 2026.pdf')" data-sort0="procès verbal ca avril 2026.pdf" data-sort1="2026-04-16" data-sort2="cge oa pv seance du 16/04/2026" data-sort4="2026-04-19" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -796,7 +796,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-06-25" data-search="procès verbal ca juin 2026 pv cge oa int julie stavrakas" data-event="ev5" onclick="openPreview('Procès Verbal CA Juin 2026.pdf')" data-sort0="procès verbal ca juin 2026.pdf" data-sort1="2026-06-25" data-sort2="cge oa int pv seance du 25/06/2026" data-sort4="2026-06-28" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-06-25" data-search="procès verbal ca juin 2026 pv cge oa julie stavrakas" data-event="ev5" onclick="openPreview('Procès Verbal CA Juin 2026.pdf')" data-sort0="procès verbal ca juin 2026.pdf" data-sort1="2026-06-25" data-sort2="cge oa pv seance du 25/06/2026" data-sort4="2026-06-28" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -842,7 +842,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-09-17" data-search="procès verbal ca septembre 2026 pv cge oa int julie stavrakas" data-event="ev6" onclick="openPreview('Procès Verbal CA Septembre 2026.pdf')" data-sort0="procès verbal ca septembre 2026.pdf" data-sort1="2026-09-17" data-sort2="cge oa int pv seance du 17/09/2026" data-sort4="2026-09-20" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-09-17" data-search="procès verbal ca septembre 2026 pv cge oa julie stavrakas" data-event="ev6" onclick="openPreview('Procès Verbal CA Septembre 2026.pdf')" data-sort0="procès verbal ca septembre 2026.pdf" data-sort1="2026-09-17" data-sort2="cge oa pv seance du 17/09/2026" data-sort4="2026-09-20" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -888,7 +888,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="OA" data-audience="EXT" data-type="PRES" data-date="2026-03-05" data-search="projet rénovation bâtiments étude pdf pres cpa oa ext denis buchet" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="2026-03-05" data-sort2="cpa oa ext pres" data-sort4="2026-03-08" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="OA" data-type="PRES" data-date="2026-03-05" data-search="projet rénovation bâtiments étude pdf pres cpa oa denis buchet" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="2026-03-05" data-sort2="cpa oa pres" data-sort4="2026-03-08" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -934,7 +934,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ESP" data-organ="OA" data-audience="EXT" data-type="NOT" data-date="2026-05-14" data-search="partenariat espace chimay note pdf not esp oa ext marc lemoine" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="2026-05-14" data-sort2="esp oa ext not" data-sort4="2026-05-17" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ESP" data-organ="OA" data-type="NOT" data-date="2026-05-14" data-search="partenariat espace chimay note pdf not esp oa marc lemoine" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="2026-05-14" data-sort2="esp oa not" data-sort4="2026-05-17" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -980,7 +980,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="SOL" data-organ="OA" data-audience="EXT" data-type="BETU" data-date="2026-02-20" data-search="résultats bourse d'étude 2025 pdf betu sol oa denis buchet" onclick="openPreview('Résultats Bourse étude 2025.pdf')" data-sort0="résultats bourse étude 2025.pdf" data-sort1="2026-02-20" data-sort2="sol oa betu" data-sort4="2026-02-23" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="SOL" data-organ="OA" data-type="BETU" data-date="2026-02-20" data-search="résultats bourse d'étude 2025 pdf betu sol oa denis buchet" onclick="openPreview('Résultats Bourse étude 2025.pdf')" data-sort0="résultats bourse étude 2025.pdf" data-sort1="2026-02-20" data-sort2="sol oa betu" data-sort4="2026-02-23" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1026,7 +1026,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="BDGT" data-date="2026-02-10" data-search="budget ca 2026 xlsx bdgt cge oa int marc lemoine" data-event="ev1" onclick="openPreview('Budget CA 2026.xlsx')" data-sort0="budget ca 2026.xlsx" data-sort1="2026-02-10" data-sort2="cge oa int bdgt seance du 22/01/2026" data-sort4="2026-02-13" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="BDGT" data-date="2026-02-10" data-search="budget ca 2026 xlsx bdgt cge oa marc lemoine" data-event="ev1" onclick="openPreview('Budget CA 2026.xlsx')" data-sort0="budget ca 2026.xlsx" data-sort1="2026-02-10" data-sort2="cge oa bdgt seance du 22/01/2026" data-sort4="2026-02-13" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1073,7 +1073,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="CPT" data-date="2026-03-20" data-search="comptes annuels 2025 xlsx cpt cge oa int marc lemoine" data-event="ev2 ev3" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="2026-03-20" data-sort2="cge oa int cpt ca de mars 2026 seance du 16/04/2026" data-sort4="2026-03-23" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="CPT" data-date="2026-03-20" data-search="comptes annuels 2025 xlsx cpt cge oa marc lemoine" data-event="ev2 ev3" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="2026-03-20" data-sort2="cge oa cpt ca de mars 2026 seance du 16/04/2026" data-sort4="2026-03-23" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1120,7 +1120,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="OA" data-audience="EXT" data-type="BDGT" data-date="2026-04-02" data-search="budget projet rénovation 2026 xlsx bdgt cpa oa ext denis buchet" onclick="openPreview('Budget Projet Rénovation 2026.xlsx')" data-sort0="budget projet rénovation 2026.xlsx" data-sort1="2026-04-02" data-sort2="cpa oa ext bdgt" data-sort4="2026-04-05" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="OA" data-type="BDGT" data-date="2026-04-02" data-search="budget projet rénovation 2026 xlsx bdgt cpa oa denis buchet" onclick="openPreview('Budget Projet Rénovation 2026.xlsx')" data-sort0="budget projet rénovation 2026.xlsx" data-sort1="2026-04-02" data-sort2="cpa oa bdgt" data-sort4="2026-04-05" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1167,7 +1167,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ESP" data-organ="OA" data-audience="EXT" data-type="CPT" data-date="2026-06-10" data-search="suivi financier partenariats 2026 xlsx cpt esp oa ext marc lemoine" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="2026-06-10" data-sort2="esp oa ext cpt" data-sort4="2026-06-13" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ESP" data-organ="OA" data-type="CPT" data-date="2026-06-10" data-search="suivi financier partenariats 2026 xlsx cpt esp oa marc lemoine" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="2026-06-10" data-sort2="esp oa cpt" data-sort4="2026-06-13" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1214,7 +1214,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-03-15" data-search="plan de trésorerie 03-2026 xlsx anx cge oa int julie stavrakas" data-event="ev2" onclick="openPreview('Plan de trésorerie 03-2026.xlsx')" data-sort0="plan de trésorerie 03-2026.xlsx" data-sort1="2026-03-15" data-sort2="cge oa int anx seance du 15/03/2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="ANX" data-date="2026-03-15" data-search="plan de trésorerie 03-2026 xlsx anx cge oa julie stavrakas" data-event="ev2" onclick="openPreview('Plan de trésorerie 03-2026.xlsx')" data-sort0="plan de trésorerie 03-2026.xlsx" data-sort1="2026-03-15" data-sort2="cge oa anx seance du 15/03/2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1261,7 +1261,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-03-15" data-search="liste de présence 15-03-2026 pdf anx cge oa int julie stavrakas" data-event="ev2" onclick="openPreview('Liste de présence 15-03-2026.pdf')" data-sort0="liste de présence 15-03-2026.pdf" data-sort1="2026-03-15" data-sort2="cge oa int anx seance du 15/03/2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="ANX" data-date="2026-03-15" data-search="liste de présence 15-03-2026 pdf anx cge oa julie stavrakas" data-event="ev2" onclick="openPreview('Liste de présence 15-03-2026.pdf')" data-sort0="liste de présence 15-03-2026.pdf" data-sort1="2026-03-15" data-sort2="cge oa anx seance du 15/03/2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1307,7 +1307,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-04-09" data-search="annexe 1 rapport d’activité 2025 pdf anx fcw oa int julie stavrakas" data-event="ev8" onclick="openPreview('Annexe 1 - Rapport d’activité 2025.pdf')" data-sort0="annexe 1 - rapport d’activité 2025.pdf" data-sort1="2026-04-09" data-sort2="fcw oa int anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="ANX" data-date="2026-04-09" data-search="annexe 1 rapport d’activité 2025 pdf anx fcw oa julie stavrakas" data-event="ev8" onclick="openPreview('Annexe 1 - Rapport d’activité 2025.pdf')" data-sort0="annexe 1 - rapport d’activité 2025.pdf" data-sort1="2026-04-09" data-sort2="fcw oa anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1353,7 +1353,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-04-09" data-search="annexe 2 liste de présence pdf anx fcw oa int julie stavrakas" data-event="ev8" onclick="openPreview('Annexe 2 - Liste de présence.pdf')" data-sort0="annexe 2 - liste de présence.pdf" data-sort1="2026-04-09" data-sort2="fcw oa int anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="ANX" data-date="2026-04-09" data-search="annexe 2 liste de présence pdf anx fcw oa julie stavrakas" data-event="ev8" onclick="openPreview('Annexe 2 - Liste de présence.pdf')" data-sort0="annexe 2 - liste de présence.pdf" data-sort1="2026-04-09" data-sort2="fcw oa anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />

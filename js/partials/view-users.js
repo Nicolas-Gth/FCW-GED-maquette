@@ -49,9 +49,9 @@ PARTIALS.viewUsers = `
                         <td class="px-6 py-4"><span class="badge badge-neutral">Auditeur externe</span></td>
                         <td class="px-6 py-4"><span class="badge badge-danger">Inactif</span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="denis buchet d.buchet@partenaire.be partenaire externe cge" onclick="openUserPopup('Denis Buchet')" data-sort0="denis buchet" data-sort1="d.buchet@partenaire.be" data-sort2="partenaire externe cge" data-sort3="actif">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="denis buchet d.buchet@chimay-gestion.be partenaire externe cge" onclick="openUserPopup('Denis Buchet')" data-sort0="denis buchet" data-sort1="d.buchet@chimay-gestion.be" data-sort2="partenaire externe cge" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Denis Buchet</td>
-                        <td class="px-6 py-4 text-gray-500">d.buchet@partenaire.be</td>
+                        <td class="px-6 py-4 text-gray-500">d.buchet@chimay-gestion.be</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Administrateur système</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                     </tr>

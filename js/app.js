@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
         'partial-modal-access-check': PARTIALS.modalAccessCheck,
         'partial-modal-doc-history': PARTIALS.modalDocHistory,
         'partial-modal-doc-access': PARTIALS.modalDocAccess,
-        'partial-modal-share': PARTIALS.modalShare
+        'partial-modal-share': PARTIALS.modalShare,
+        'partial-modal-revoke-access': PARTIALS.modalRevokeAccess
     };
 
     Object.keys(mounts).forEach(function (id) {
@@ -47,6 +48,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     initUploadEventSelect();
 
+    var uploadDate = document.getElementById('upload-doc-date');
+    if (uploadDate) {
+        var now = new Date();
+        uploadDate.value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    }
+
     var t = calendarStateToday();
     CAL_STATE.year = t.year;
     CAL_STATE.month = t.month;
@@ -61,7 +68,7 @@ var VIEW_TITLES = {
     'view-documents': 'Documents',
     'view-calendar': 'Calendrier',
     'view-users': 'Utilisateurs',
-    'view-roles': 'Rôles et privilèges',
+    'view-roles': 'Rôles et accès',
     'view-labels': 'Gestion des libellés',
     'view-audit': 'Historique des actions',
     'view-settings': 'Paramètres du compte'
@@ -140,7 +147,7 @@ var USERS_DB = {
         ]
     },
     'Denis Buchet': {
-        email: 'd.buchet@partenaire.be',
+        email: 'd.buchet@chimay-gestion.be',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '22/08/2026 - 14:40',
@@ -524,12 +531,93 @@ function copyShareLink() {
 }
 
 // ==========================================
+// ACCÈS NOMINATIFS (écran de gestion)
+// ==========================================
+function switchRolesTab(tabEl, idx) {
+    document.querySelectorAll('#view-roles .label-tab').forEach(function (t, i) {
+        t.classList.remove('label-tab-inactive', 'label-tab-active');
+        if (i === idx) {
+            t.classList.add('label-tab-active');
+        } else {
+            t.classList.add('label-tab-inactive');
+        }
+    });
+    var roles = document.getElementById('roles-tab-panel');
+    var accesses = document.getElementById('accesses-tab-panel');
+    if (roles) roles.classList.toggle('hidden-view', idx !== 0);
+    if (accesses) accesses.classList.toggle('hidden-view', idx !== 1);
+}
+
+function filterNominativeAccesses() {
+    var q = (document.getElementById('na-search').value || '').toLowerCase();
+    var statuses = multiCheckedValues('na-status-filter');
+    var rows = document.querySelectorAll('#na-tbody tr:not(.empty-row)');
+    var visible = 0;
+    rows.forEach(function (r) {
+        var ok = true;
+        if (q && (r.getAttribute('data-search') || '').indexOf(q) === -1) ok = false;
+        if (ok && statuses.length && statuses.indexOf(r.getAttribute('data-status')) === -1) ok = false;
+        r.classList.toggle('hidden-view', !ok);
+        if (ok) visible++;
+    });
+    var empty = document.getElementById('na-empty');
+    if (empty) empty.classList.toggle('hidden-view', visible > 0);
+    var count = document.getElementById('na-count');
+    if (count) count.textContent = visible + (visible > 1 ? ' accès nominatifs' : ' accès nominatif');
+}
+
+function resetNominativeAccessFilters() {
+    var search = document.getElementById('na-search');
+    if (search) search.value = '';
+    var el = document.getElementById('na-status-filter');
+    if (el) {
+        el.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+            c.checked = false;
+            msUpdate(c);
+        });
+    }
+    filterNominativeAccesses();
+}
+
+var PENDING_REVOKE_ROW = null;
+
+function openRevokeAccess(btn) {
+    var row = btn.closest('tr');
+    if (!row) return;
+    PENDING_REVOKE_ROW = row;
+    var docEl = row.querySelector('[data-role="na-doc"]');
+    var userEl = row.querySelector('[data-role="na-user"]');
+    var doc = docEl ? docEl.textContent.trim() : '';
+    var user = userEl ? userEl.textContent.replace(/\(invité\)/, '').trim() : '';
+    document.getElementById('revoke-doc-name').textContent = doc;
+    document.getElementById('revoke-user-name').textContent = user;
+    toggleModal('modal-revoke-access', true);
+}
+
+function confirmRevokeAccess() {
+    if (PENDING_REVOKE_ROW) {
+        var row = PENDING_REVOKE_ROW;
+        row.setAttribute('data-status', 'Révoqué');
+        row.setAttribute('data-sort5', 'révoqué');
+        var statusTd = row.querySelectorAll('td')[5];
+        if (statusTd) {
+            statusTd.innerHTML = '<span class="badge badge-danger">Révoqué</span>';
+        }
+        var revoke = row.querySelector('.na-revoke');
+        if (revoke) revoke.remove();
+        PENDING_REVOKE_ROW = null;
+    }
+    toggleModal('modal-revoke-access', false);
+    filterNominativeAccesses();
+}
+
+// ==========================================
 // ENREGISTREMENT DE VUE
 // ==========================================
 var SAVED_VIEW_FILTERS = {
-    'CA 2026': { search: '', entity: [], organ: ['OA'], audience: [], type: [], year: [], event: [], from: '2026-01-01', to: '2026-12-31' },
-    'Projets Externes': { search: '', entity: ['SOL'], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '' },
-    'Séances par entité': { search: '', entity: [], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '', grouping: ['entity', 'organ', 'event'] }
+    'CA 2026': { search: '', entity: [], organ: ['OA'], type: [], year: [], event: [], from: '2026-01-01', to: '2026-12-31' },
+    'Projets Externes': { search: '', entity: ['SOL'], organ: [], type: [], year: [], event: [], from: '', to: '' },
+    'Séances par entité': { search: '', entity: [], organ: [], type: [], year: [], event: [], from: '', to: '', grouping: ['entity', 'organ', 'event'] }
 };
 
 function multiCheckedValues(id) {
@@ -543,7 +631,6 @@ function currentDocumentFilters() {
         search: document.getElementById('f-search').value,
         entity: multiCheckedValues('f-entity'),
         organ: multiCheckedValues('f-organ'),
-        audience: multiCheckedValues('f-audience'),
         type: multiCheckedValues('f-type'),
         year: multiCheckedValues('f-year'),
         event: multiCheckedValues('f-event'),
@@ -570,7 +657,6 @@ function savedViewMatches(a, b) {
     return (a.search || '').trim() === (b.search || '').trim()
         && sameArrayValues(a.entity, b.entity)
         && sameArrayValues(a.organ, b.organ)
-        && sameArrayValues(a.audience, b.audience)
         && sameArrayValues(a.type, b.type)
         && sameArrayValues(a.year, b.year)
         && sameArrayValues(a.event, b.event)
@@ -675,7 +761,6 @@ function applySavedView(select) {
     };
     apply('f-entity', f.entity);
     apply('f-organ', f.organ);
-    apply('f-audience', f.audience);
     apply('f-type', f.type);
     apply('f-year', f.year);
     apply('f-event', f.event);
@@ -698,8 +783,7 @@ function applySavedView(select) {
 // ==========================================
 var ROLE_RULE_CATEGORIES = [
     { name: 'Entité', labels: [['FCW', 'Fondation Chimay-Wartoise (FCW)'], ['CGE', 'Chimay-Gestion (CGE)'], ['CPA', 'Chimay-Patrimoine (CPA)'], ['ADS', 'Abbaye Notre-Dame de Scourmont (ADS)'], ['SOL', 'Solidarité Cistercienne (SOL)'], ['AUB', 'Auberge de Poteaupré (AUB)'], ['ESP', 'Espace Chimay (ESP)'], ['BSM', 'Boissons Sambre et Meuse (BSM)'], ['BDC', 'Bières de Chimay (BDC)'], ['FRO', 'Chimay Fromages (FRO)'], ['PPB', 'Les Petits Pas de la Botte (PPB)'], ['MDC', 'La Maison De Casimir (MDC)'], ['AP', 'Albatros Poteaupré (AP)']] },
-    { name: 'Organe', labels: [['OA', "Organe d'administration (OA)"], ['AG', 'Assemblée générale (AG)']] },
-    { name: 'Audience', labels: [['INT', 'Interne (INT)'], ['EXT', 'Externe (EXT)']] },
+    { name: 'Instance', labels: [['OA', "Organe d'administration (OA)"], ['AG', 'Assemblée générale (AG)']] },
     { name: 'Type de document', labels: [['CPT', 'Comptes (CPT)'], ['BDGT', 'Budget (BDGT)'], ['PV', 'Procès-verbal (PV)'], ['CNVC', 'Convocation (CNVC)'], ['PROC', 'Procuration (PROC)'], ['NOT', 'Notes (NOT)'], ['PRES', 'Présentation (PRES)'], ['RA', 'Rapport annuel (RA)'], ['BETU', "Bourse d'étude (BETU)"], ['ANX', 'Annexe (ANX)'], ['EXTR', 'Extrait (EXTR)']] },
     { name: 'Année', labels: [['2026', '2026'], ['2025', '2025'], ['2024', '2024']] }
 ];
@@ -808,32 +892,32 @@ var ROLES_DB = {
     'Membre de la direction CGE': {
         general: ['Créer des invitations', 'Gérer les comptes'],
         rules: [
-            { privileges: ['Consulter'], Entité: ['CGE'], Audience: ['EXT'] },
+            { privileges: ['Consulter'], Entité: ['CGE'] },
             { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Organe: ['AG'] }
+            { privileges: ['Consulter'], Instance: ['AG'] }
         ]
     },
     'Secrétaire de séance': {
         general: ['Créer des invitations'],
         rules: [
             { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Entité: ['CGE'], Organe: ['OA'] }
+            { privileges: ['Consulter'], Entité: ['CGE'], Instance: ['OA'] }
         ]
     },
     'Assistant de direction': {
         general: ['Créer des invitations'],
         rules: [
             { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Entité: ['CGE'], Organe: ['OA'] }
+            { privileges: ['Consulter'], Entité: ['CGE'], Instance: ['OA'] }
         ]
     },
     'Auditeur externe': {
         general: [],
-        rules: [{ privileges: ['Consulter'], Audience: ['EXT'] }]
+        rules: [{ privileges: ['Consulter'], Instance: ['AG'] }]
     },
     'Partenaire externe CGE': {
         general: [],
-        rules: [{ privileges: ['Consulter'], Entité: ['CGE'], Audience: ['EXT'] }]
+        rules: [{ privileges: ['Consulter'], Entité: ['CGE'] }]
     }
 };
 
@@ -957,8 +1041,7 @@ function updateAccessCheck() {
     docs.forEach(function (r) {
         var d = {
             ent: r.getAttribute('data-entity') || '',
-            org: r.getAttribute('data-organ') || '',
-            aud: r.getAttribute('data-audience') || ''
+            org: r.getAttribute('data-organ') || ''
         };
         if (roles.some(function (name) {
             var fn = ROLE_ACCESS_RULES[name];
@@ -1355,7 +1438,7 @@ function rowHasNoCatValue(r, key) {
 
 var DOC_GROUPING_CATEGORIES = [
     { key: 'entity', name: 'Entité' },
-    { key: 'organ', name: 'Organe' },
+    { key: 'organ', name: 'Instance' },
     { key: 'type', name: 'Type de document' },
     { key: 'year', name: 'Année' },
     { key: 'event', name: 'Séance' }

@@ -114,7 +114,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260823-1440" data-sort2="cpa ext ra" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260823-1440" data-sort2="cpa ra" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -128,7 +128,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4 text-gray-500">Hier - 14:40</td>
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">RA</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -297,7 +296,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260815-1045" data-sort2="sol ext betu" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260815-1045" data-sort2="sol betu" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -311,7 +310,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4 text-gray-500">Il y a 2 semaines</td>
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">SOL</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">BETU</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -483,7 +481,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="20260824-1405" data-sort2="cge oa int pv" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="20260824-1405" data-sort2="cge oa pv" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -498,7 +496,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CGE</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">INT</span>
                             <span class="badge badge-violet">PV</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Julie Stavrakas<span class="row-actions row-actions-fly">
@@ -576,7 +573,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="20260823-1120" data-sort2="esp oa ext cpt" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="20260823-1120" data-sort2="esp oa cpt" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -592,7 +589,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">ESP</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">CPT</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
@@ -624,7 +620,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260822-1610" data-sort2="cpa oa ext pres" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260822-1610" data-sort2="cpa oa pres" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -639,7 +635,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">PRES</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -673,7 +668,7 @@ PARTIALS.viewRecent = `
                     </tr>
                 </tbody>
                 <tbody id="recent-tbody-2" class="labels-tbody divide-y divide-gray-200 hidden-view">
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260824-0912" data-sort2="cpa ag ext ra" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260824-0912" data-sort2="cpa ag ra" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -688,7 +683,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
                             <span class="badge badge-emerald me-1">AG</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">RA</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -720,7 +714,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260823-1440" data-sort2="sol oa ext betu" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260823-1440" data-sort2="sol oa betu" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -735,7 +729,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">SOL</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">BETU</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -767,7 +760,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="20260823-1030" data-sort2="esp oa ext not" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="20260823-1030" data-sort2="esp oa not" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -782,7 +775,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">ESP</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">NOT</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
@@ -814,7 +806,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="20260822-1615" data-sort2="cge oa int cpt" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="20260822-1615" data-sort2="cge oa cpt" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -830,7 +822,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CGE</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">INT</span>
                             <span class="badge badge-violet">CPT</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
@@ -862,7 +853,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260821-1105" data-sort2="cpa oa ext pres" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260821-1105" data-sort2="cpa oa pres" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -877,7 +868,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">PRES</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">

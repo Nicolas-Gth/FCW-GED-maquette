@@ -13,27 +13,30 @@ PARTIALS.modalUpload = `
         
         <form id="upload-form" class="flex-1 overflow-y-auto min-h-0 p-6 space-y-5" onsubmit="event.preventDefault(); alert('Document envoyé vers SharePoint !'); toggleModal('modal-upload', false);">
             
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer">
-                <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Fichier <span class="text-red-500">*</span></label>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
   <path d="m8 17 4-4 4 4" /></svg>
-                <p class="mt-1 text-sm text-gray-600">Cliquez pour parcourir ou glissez un fichier ici</p>
-                <p class="text-xs text-gray-500 mt-1">PDF, DOCX, XLSX (Max 50MB)</p>
+                    <p class="mt-1 text-sm text-gray-600">Cliquez pour parcourir ou glissez un fichier ici</p>
+                    <p class="text-xs text-gray-500 mt-1">PDF, DOCX, XLSX (Max 50MB)</p>
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Titre du document</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Titre du document <span class="text-red-500">*</span></label>
                     <input type="text" required placeholder="Ex: Compte Rendu Annuel..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date du document</label>
-                    <input type="date" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Date du document <span class="text-red-500">*</span></label>
+                    <input type="date" id="upload-doc-date" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Description (Optionnel)</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <textarea rows="2" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
             </div>
 
@@ -68,10 +71,10 @@ PARTIALS.modalUpload = `
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Organe <span class="text-red-500">*</span></label>
-                        <div class="multi-select" data-placeholder="Choisir un organe…">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Instance <span class="text-red-500">*</span></label>
+                        <div class="multi-select" data-placeholder="Choisir une instance…">
                             <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
-                                <span class="ms-value">Choisir un organe…</span>
+                                <span class="ms-value">Choisir une instance…</span>
                                 <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                             </div>
                             <div class="multi-select-panel hidden-view">
@@ -131,7 +134,7 @@ PARTIALS.modalUpload = `
                         <input type="date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre (Optionnel)</label>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre</label>
                         <input type="text" placeholder="Ex: CA de septembre 2026" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                     </div>
                     <p class="col-span-2 text-xs text-gray-500 -mt-2">Si le titre est vide, la séance sera nommée automatiquement « Séance du {date} ».</p>
@@ -141,7 +144,7 @@ PARTIALS.modalUpload = `
             <hr class="border-gray-200">
 
             <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Annexes (Optionnel)</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Annexes</label>
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition-colors" onclick="document.getElementById('annexes-input').click()">
                     <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14" />
   <path d="M5 12h14" /></svg>

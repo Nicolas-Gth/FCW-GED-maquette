@@ -802,6 +802,7 @@ body.sidebar-collapsed .sidebar-toggle svg {
     <div id="partial-modal-doc-history"></div>
     <div id="partial-modal-doc-access"></div>
     <div id="partial-modal-share"></div>
+    <div id="partial-modal-revoke-access"></div>
 
     <!-- Partiels (HTML injecté via JS, compatible file://) -->
     <script>
@@ -856,14 +857,14 @@ PARTIALS.sidebar = `
         </button>
 
         <button data-view="view-roles" onclick="switchView('view-roles', this)" class="menu-btn w-full flex items-center gap-3 text-white/85 hover:text-white hover:bg-white/15 px-3 py-2 rounded-md transition-colors">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-  <path d="m9 12 2 2 4-4" /></svg>
-            Rôles et privilèges
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></svg>
+            Rôles et accès
         </button>
 
         <button data-view="view-labels" onclick="switchView('view-labels', this)" class="menu-btn w-full flex items-center gap-3 text-white/85 hover:text-white hover:bg-white/15 px-3 py-2 rounded-md transition-colors">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
-  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></svg>
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M13.172 2a2 2 0 0 1 1.414.586l6.71 6.71a2.4 2.4 0 0 1 0 3.408l-4.592 4.592a2.4 2.4 0 0 1-3.408 0l-6.71-6.71A2 2 0 0 1 6 9.172V3a1 1 0 0 1 1-1z" />
+  <path d="M2 7v6.172a2 2 0 0 0 .586 1.414l6.71 6.71a2.4 2.4 0 0 0 3.191.193" />
+  <circle cx="10.5" cy="6.5" r=".5" fill="currentColor" /></svg>
             Gestion des libellés
         </button>
 
@@ -994,7 +995,7 @@ PARTIALS.viewDocuments = `
                 </div>
 
                 <div class="w-44">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Organe</label>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Instance</label>
                                         <div id="f-organ" class="multi-select" data-placeholder="Tous">
                         <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                             <span class="ms-value">Tous</span>
@@ -1039,7 +1040,7 @@ PARTIALS.viewDocuments = `
                         </div>
                         <div id="f-grouping-panel" class="multi-select-panel hidden-view">
                             <label class="ms-option"><input type="checkbox" value="entity" data-name="Entité" onchange="onGroupingChange(this)"><span class="opt-label">Entité</span></label>
-                            <label class="ms-option"><input type="checkbox" value="organ" data-name="Organe" onchange="onGroupingChange(this)"><span class="opt-label">Organe</span></label>
+                            <label class="ms-option"><input type="checkbox" value="organ" data-name="Instance" onchange="onGroupingChange(this)"><span class="opt-label">Instance</span></label>
                             <label class="ms-option"><input type="checkbox" value="type" data-name="Type de document" onchange="onGroupingChange(this)"><span class="opt-label">Type de document</span></label>
                             <label class="ms-option"><input type="checkbox" value="year" data-name="Année" onchange="onGroupingChange(this)"><span class="opt-label">Année</span></label>
                             <label class="ms-option"><input type="checkbox" value="event" data-name="Séance" onchange="onGroupingChange(this)"><span class="opt-label">Séance</span></label>
@@ -1105,7 +1106,7 @@ PARTIALS.viewDocuments = `
                     </tr>
                 </thead>
                 <tbody id="docs-tbody" class="divide-y divide-gray-200">
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-01-23" data-search="pv oa fcw du 23-01-2026 fcw oa int pv julie stavrakas" data-event="ev7" onclick="openPreview('2026fcw006 - PV OA FCW du 23-01-2026.doc')" data-sort0="2026fcw006 - pv oa fcw du 23-01-2026.doc" data-sort1="2026-01-23" data-sort2="fcw oa int pv seance du 23/01/2026" data-sort4="2026-01-26" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="PV" data-date="2026-01-23" data-search="pv oa fcw du 23-01-2026 fcw oa pv julie stavrakas" data-event="ev7" onclick="openPreview('2026fcw006 - PV OA FCW du 23-01-2026.doc')" data-sort0="2026fcw006 - pv oa fcw du 23-01-2026.doc" data-sort1="2026-01-23" data-sort2="fcw oa pv seance du 23/01/2026" data-sort4="2026-01-26" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-blue-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1151,7 +1152,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="CNVC" data-date="2026-03-26" data-search="convocation oa fcw du 09-04-2026 fcw oa int cnvc philippe dumont" data-event="ev8" onclick="openPreview('2026fcw016 - Convocation OA FCW du 09-04-2026.pdf')" data-sort0="2026fcw016 - convocation oa fcw du 09-04-2026.pdf" data-sort1="2026-03-26" data-sort2="fcw oa int cnvc seance du 09/04/2026" data-sort4="2026-03-26" data-sort3="philippe dumont">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="CNVC" data-date="2026-03-26" data-search="convocation oa fcw du 09-04-2026 fcw oa cnvc philippe dumont" data-event="ev8" onclick="openPreview('2026fcw016 - Convocation OA FCW du 09-04-2026.pdf')" data-sort0="2026fcw016 - convocation oa fcw du 09-04-2026.pdf" data-sort1="2026-03-26" data-sort2="fcw oa cnvc seance du 09/04/2026" data-sort4="2026-03-26" data-sort3="philippe dumont">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1197,7 +1198,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-04-09" data-search="pv oa fcw du 09-04-2026 fcw oa int pv julie stavrakas" data-event="ev8" onclick="openPreview('2026fcw024 - PV OA FCW du 09-04-2026.doc')" data-sort0="2026fcw024 - pv oa fcw du 09-04-2026.doc" data-sort1="2026-04-09" data-sort2="fcw oa int pv seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="PV" data-date="2026-04-09" data-search="pv oa fcw du 09-04-2026 fcw oa pv julie stavrakas" data-event="ev8" onclick="openPreview('2026fcw024 - PV OA FCW du 09-04-2026.doc')" data-sort0="2026fcw024 - pv oa fcw du 09-04-2026.doc" data-sort1="2026-04-09" data-sort2="fcw oa pv seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-blue-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1244,7 +1245,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-04-09" data-search="annexe pv oa fcw du 09-04-2026 presentation csrd 2025 fcw oa int anx philippe dumont" data-event="ev8" onclick="openPreview('2026fcw028 - Annexe PV OA FCW du 09-04-2026 - Présentation CSRD 2025.pptx')" data-sort0="2026fcw028 - annexe pv oa fcw du 09-04-2026 - presentation csrd 2025.pptx" data-sort1="2026-04-09" data-sort2="fcw oa int anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="philippe dumont">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="ANX" data-date="2026-04-09" data-search="annexe pv oa fcw du 09-04-2026 presentation csrd 2025 fcw oa anx philippe dumont" data-event="ev8" onclick="openPreview('2026fcw028 - Annexe PV OA FCW du 09-04-2026 - Présentation CSRD 2025.pptx')" data-sort0="2026fcw028 - annexe pv oa fcw du 09-04-2026 - presentation csrd 2025.pptx" data-sort1="2026-04-09" data-sort2="fcw oa anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="philippe dumont">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-orange-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 3h20" />
@@ -1288,7 +1289,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="AG" data-audience="EXT" data-type="PV" data-date="2026-06-23" data-search="pv ag fcw du 23-06-2026 fcw ag ext pv julie stavrakas" data-event="ev9" onclick="openPreview('2026fcw038 - PV AG FCW du 23-06-2026.doc')" data-sort0="2026fcw038 - pv ag fcw du 23-06-2026.doc" data-sort1="2026-06-23" data-sort2="fcw ag ext pv seance du 23/06/2026" data-sort4="2026-06-26" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="AG" data-type="PV" data-date="2026-06-23" data-search="pv ag fcw du 23-06-2026 fcw ag pv julie stavrakas" data-event="ev9" onclick="openPreview('2026fcw038 - PV AG FCW du 23-06-2026.doc')" data-sort0="2026fcw038 - pv ag fcw du 23-06-2026.doc" data-sort1="2026-06-23" data-sort2="fcw ag pv seance du 23/06/2026" data-sort4="2026-06-26" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-blue-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1334,7 +1335,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-03-15" data-search="compte rendu ca mars 2026 pv cge oa int julie stavrakas" data-event="ev2" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="2026-03-15" data-sort2="cge oa int pv ca de mars 2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-03-15" data-search="compte rendu ca mars 2026 pv cge oa julie stavrakas" data-event="ev2" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="2026-03-15" data-sort2="cge oa pv ca de mars 2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1381,7 +1382,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="CPT" data-date="2025-12-31" data-search="bilan financier annuel xlsx cpt cge oa int marc lemoine" onclick="openPreview('Bilan Financier Annuel.xlsx')" data-sort0="bilan financier annuel.xlsx" data-sort1="2025-12-31" data-sort2="cge oa cpt" data-sort4="2026-01-03" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="CPT" data-date="2025-12-31" data-search="bilan financier annuel xlsx cpt cge oa marc lemoine" onclick="openPreview('Bilan Financier Annuel.xlsx')" data-sort0="bilan financier annuel.xlsx" data-sort1="2025-12-31" data-sort2="cge oa cpt" data-sort4="2026-01-03" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1428,7 +1429,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="AG" data-audience="EXT" data-type="RA" data-date="2026-02-12" data-search="rapport annuel 2025 pdf ra cpa ag ext denis buchet" data-event="ev4" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="2026-02-12" data-sort2="cpa ag ext ra assemblee generale" data-sort4="2026-02-15" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="AG" data-type="RA" data-date="2026-02-12" data-search="rapport annuel 2025 pdf ra cpa ag denis buchet" data-event="ev4" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="2026-02-12" data-sort2="cpa ag ra assemblee generale" data-sort4="2026-02-15" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1474,7 +1475,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ADS" data-organ="AG" data-audience="INT" data-type="CNVC" data-date="2026-06-01" data-search="convocation ag 18 06 2026 pdf cnvc ads int julie stavrakas" data-event="ev4" onclick="openPreview('Convocation AG du 18.06.2026.pdf')" data-sort0="convocation ag du 18.06.2026.pdf" data-sort1="2026-06-01" data-sort2="ads ag cnvc assemblee generale" data-sort4="2026-06-04" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ADS" data-organ="AG" data-type="CNVC" data-date="2026-06-01" data-search="convocation ag 18 06 2026 pdf cnvc ads julie stavrakas" data-event="ev4" onclick="openPreview('Convocation AG du 18.06.2026.pdf')" data-sort0="convocation ag du 18.06.2026.pdf" data-sort1="2026-06-01" data-sort2="ads ag cnvc assemblee generale" data-sort4="2026-06-04" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1520,7 +1521,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="BDC" data-organ="OA" data-audience="INT" data-type="BDGT" data-date="2026-09-30" data-search="budget prévisionnel 2027 xlsx bdgt bdc oa int marc lemoine" onclick="openPreview('Budget Prévisionnel 2027.xlsx')" data-sort0="budget prévisionnel 2027.xlsx" data-sort1="2026-09-30" data-sort2="bdc oa bdgt" data-sort4="2026-10-03" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="BDC" data-organ="OA" data-type="BDGT" data-date="2026-09-30" data-search="budget prévisionnel 2027 xlsx bdgt bdc oa marc lemoine" onclick="openPreview('Budget Prévisionnel 2027.xlsx')" data-sort0="budget prévisionnel 2027.xlsx" data-sort1="2026-09-30" data-sort2="bdc oa bdgt" data-sort4="2026-10-03" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1567,7 +1568,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="SOL" data-organ="OA" data-audience="EXT" data-type="BETU" data-date="2026-01-10" data-search="bourse d'étude 2026 présentation pdf betu sol oa ext denis buchet" onclick="openPreview('Bourse étude 2026 - Présentation.pdf')" data-sort0="bourse étude 2026 - présentation.pdf" data-sort1="2026-01-10" data-sort2="sol oa ext betu" data-sort4="2026-01-13" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="SOL" data-organ="OA" data-type="BETU" data-date="2026-01-10" data-search="bourse d'étude 2026 présentation pdf betu sol oa denis buchet" onclick="openPreview('Bourse étude 2026 - Présentation.pdf')" data-sort0="bourse étude 2026 - présentation.pdf" data-sort1="2026-01-10" data-sort2="sol oa betu" data-sort4="2026-01-13" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1613,7 +1614,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-01-22" data-search="procès verbal ca janvier 2026 pv cge oa int julie stavrakas" data-event="ev1" onclick="openPreview('Procès Verbal CA Janvier 2026.pdf')" data-sort0="procès verbal ca janvier 2026.pdf" data-sort1="2026-01-22" data-sort2="cge oa int pv seance du 22/01/2026" data-sort4="2026-01-25" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-01-22" data-search="procès verbal ca janvier 2026 pv cge oa julie stavrakas" data-event="ev1" onclick="openPreview('Procès Verbal CA Janvier 2026.pdf')" data-sort0="procès verbal ca janvier 2026.pdf" data-sort1="2026-01-22" data-sort2="cge oa pv seance du 22/01/2026" data-sort4="2026-01-25" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1659,7 +1660,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-04-16" data-search="procès verbal ca avril 2026 pv cge oa int julie stavrakas" data-event="ev3" onclick="openPreview('Procès Verbal CA Avril 2026.pdf')" data-sort0="procès verbal ca avril 2026.pdf" data-sort1="2026-04-16" data-sort2="cge oa int pv seance du 16/04/2026" data-sort4="2026-04-19" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-04-16" data-search="procès verbal ca avril 2026 pv cge oa julie stavrakas" data-event="ev3" onclick="openPreview('Procès Verbal CA Avril 2026.pdf')" data-sort0="procès verbal ca avril 2026.pdf" data-sort1="2026-04-16" data-sort2="cge oa pv seance du 16/04/2026" data-sort4="2026-04-19" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1706,7 +1707,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-06-25" data-search="procès verbal ca juin 2026 pv cge oa int julie stavrakas" data-event="ev5" onclick="openPreview('Procès Verbal CA Juin 2026.pdf')" data-sort0="procès verbal ca juin 2026.pdf" data-sort1="2026-06-25" data-sort2="cge oa int pv seance du 25/06/2026" data-sort4="2026-06-28" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-06-25" data-search="procès verbal ca juin 2026 pv cge oa julie stavrakas" data-event="ev5" onclick="openPreview('Procès Verbal CA Juin 2026.pdf')" data-sort0="procès verbal ca juin 2026.pdf" data-sort1="2026-06-25" data-sort2="cge oa pv seance du 25/06/2026" data-sort4="2026-06-28" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1752,7 +1753,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="PV" data-date="2026-09-17" data-search="procès verbal ca septembre 2026 pv cge oa int julie stavrakas" data-event="ev6" onclick="openPreview('Procès Verbal CA Septembre 2026.pdf')" data-sort0="procès verbal ca septembre 2026.pdf" data-sort1="2026-09-17" data-sort2="cge oa int pv seance du 17/09/2026" data-sort4="2026-09-20" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="PV" data-date="2026-09-17" data-search="procès verbal ca septembre 2026 pv cge oa julie stavrakas" data-event="ev6" onclick="openPreview('Procès Verbal CA Septembre 2026.pdf')" data-sort0="procès verbal ca septembre 2026.pdf" data-sort1="2026-09-17" data-sort2="cge oa pv seance du 17/09/2026" data-sort4="2026-09-20" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1798,7 +1799,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="OA" data-audience="EXT" data-type="PRES" data-date="2026-03-05" data-search="projet rénovation bâtiments étude pdf pres cpa oa ext denis buchet" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="2026-03-05" data-sort2="cpa oa ext pres" data-sort4="2026-03-08" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="OA" data-type="PRES" data-date="2026-03-05" data-search="projet rénovation bâtiments étude pdf pres cpa oa denis buchet" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="2026-03-05" data-sort2="cpa oa pres" data-sort4="2026-03-08" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1844,7 +1845,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ESP" data-organ="OA" data-audience="EXT" data-type="NOT" data-date="2026-05-14" data-search="partenariat espace chimay note pdf not esp oa ext marc lemoine" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="2026-05-14" data-sort2="esp oa ext not" data-sort4="2026-05-17" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ESP" data-organ="OA" data-type="NOT" data-date="2026-05-14" data-search="partenariat espace chimay note pdf not esp oa marc lemoine" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="2026-05-14" data-sort2="esp oa not" data-sort4="2026-05-17" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1890,7 +1891,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="SOL" data-organ="OA" data-audience="EXT" data-type="BETU" data-date="2026-02-20" data-search="résultats bourse d'étude 2025 pdf betu sol oa denis buchet" onclick="openPreview('Résultats Bourse étude 2025.pdf')" data-sort0="résultats bourse étude 2025.pdf" data-sort1="2026-02-20" data-sort2="sol oa betu" data-sort4="2026-02-23" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="SOL" data-organ="OA" data-type="BETU" data-date="2026-02-20" data-search="résultats bourse d'étude 2025 pdf betu sol oa denis buchet" onclick="openPreview('Résultats Bourse étude 2025.pdf')" data-sort0="résultats bourse étude 2025.pdf" data-sort1="2026-02-20" data-sort2="sol oa betu" data-sort4="2026-02-23" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1936,7 +1937,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="BDGT" data-date="2026-02-10" data-search="budget ca 2026 xlsx bdgt cge oa int marc lemoine" data-event="ev1" onclick="openPreview('Budget CA 2026.xlsx')" data-sort0="budget ca 2026.xlsx" data-sort1="2026-02-10" data-sort2="cge oa int bdgt seance du 22/01/2026" data-sort4="2026-02-13" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="BDGT" data-date="2026-02-10" data-search="budget ca 2026 xlsx bdgt cge oa marc lemoine" data-event="ev1" onclick="openPreview('Budget CA 2026.xlsx')" data-sort0="budget ca 2026.xlsx" data-sort1="2026-02-10" data-sort2="cge oa bdgt seance du 22/01/2026" data-sort4="2026-02-13" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -1983,7 +1984,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="CPT" data-date="2026-03-20" data-search="comptes annuels 2025 xlsx cpt cge oa int marc lemoine" data-event="ev2 ev3" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="2026-03-20" data-sort2="cge oa int cpt ca de mars 2026 seance du 16/04/2026" data-sort4="2026-03-23" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="CPT" data-date="2026-03-20" data-search="comptes annuels 2025 xlsx cpt cge oa marc lemoine" data-event="ev2 ev3" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="2026-03-20" data-sort2="cge oa cpt ca de mars 2026 seance du 16/04/2026" data-sort4="2026-03-23" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2030,7 +2031,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="OA" data-audience="EXT" data-type="BDGT" data-date="2026-04-02" data-search="budget projet rénovation 2026 xlsx bdgt cpa oa ext denis buchet" onclick="openPreview('Budget Projet Rénovation 2026.xlsx')" data-sort0="budget projet rénovation 2026.xlsx" data-sort1="2026-04-02" data-sort2="cpa oa ext bdgt" data-sort4="2026-04-05" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CPA" data-organ="OA" data-type="BDGT" data-date="2026-04-02" data-search="budget projet rénovation 2026 xlsx bdgt cpa oa denis buchet" onclick="openPreview('Budget Projet Rénovation 2026.xlsx')" data-sort0="budget projet rénovation 2026.xlsx" data-sort1="2026-04-02" data-sort2="cpa oa bdgt" data-sort4="2026-04-05" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2077,7 +2078,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ESP" data-organ="OA" data-audience="EXT" data-type="CPT" data-date="2026-06-10" data-search="suivi financier partenariats 2026 xlsx cpt esp oa ext marc lemoine" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="2026-06-10" data-sort2="esp oa ext cpt" data-sort4="2026-06-13" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="ESP" data-organ="OA" data-type="CPT" data-date="2026-06-10" data-search="suivi financier partenariats 2026 xlsx cpt esp oa marc lemoine" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="2026-06-10" data-sort2="esp oa cpt" data-sort4="2026-06-13" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2124,7 +2125,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-03-15" data-search="plan de trésorerie 03-2026 xlsx anx cge oa int julie stavrakas" data-event="ev2" onclick="openPreview('Plan de trésorerie 03-2026.xlsx')" data-sort0="plan de trésorerie 03-2026.xlsx" data-sort1="2026-03-15" data-sort2="cge oa int anx seance du 15/03/2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="ANX" data-date="2026-03-15" data-search="plan de trésorerie 03-2026 xlsx anx cge oa julie stavrakas" data-event="ev2" onclick="openPreview('Plan de trésorerie 03-2026.xlsx')" data-sort0="plan de trésorerie 03-2026.xlsx" data-sort1="2026-03-15" data-sort2="cge oa anx seance du 15/03/2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2171,7 +2172,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-03-15" data-search="liste de présence 15-03-2026 pdf anx cge oa int julie stavrakas" data-event="ev2" onclick="openPreview('Liste de présence 15-03-2026.pdf')" data-sort0="liste de présence 15-03-2026.pdf" data-sort1="2026-03-15" data-sort2="cge oa int anx seance du 15/03/2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="CGE" data-organ="OA" data-type="ANX" data-date="2026-03-15" data-search="liste de présence 15-03-2026 pdf anx cge oa julie stavrakas" data-event="ev2" onclick="openPreview('Liste de présence 15-03-2026.pdf')" data-sort0="liste de présence 15-03-2026.pdf" data-sort1="2026-03-15" data-sort2="cge oa anx seance du 15/03/2026" data-sort4="2026-03-18" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2217,7 +2218,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-04-09" data-search="annexe 1 rapport d’activité 2025 pdf anx fcw oa int julie stavrakas" data-event="ev8" onclick="openPreview('Annexe 1 - Rapport d’activité 2025.pdf')" data-sort0="annexe 1 - rapport d’activité 2025.pdf" data-sort1="2026-04-09" data-sort2="fcw oa int anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="ANX" data-date="2026-04-09" data-search="annexe 1 rapport d’activité 2025 pdf anx fcw oa julie stavrakas" data-event="ev8" onclick="openPreview('Annexe 1 - Rapport d’activité 2025.pdf')" data-sort0="annexe 1 - rapport d’activité 2025.pdf" data-sort1="2026-04-09" data-sort2="fcw oa anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2263,7 +2264,7 @@ PARTIALS.viewDocuments = `
                                 </button>
                             </span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-audience="INT" data-type="ANX" data-date="2026-04-09" data-search="annexe 2 liste de présence pdf anx fcw oa int julie stavrakas" data-event="ev8" onclick="openPreview('Annexe 2 - Liste de présence.pdf')" data-sort0="annexe 2 - liste de présence.pdf" data-sort1="2026-04-09" data-sort2="fcw oa int anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-entity="FCW" data-organ="OA" data-type="ANX" data-date="2026-04-09" data-search="annexe 2 liste de présence pdf anx fcw oa julie stavrakas" data-event="ev8" onclick="openPreview('Annexe 2 - Liste de présence.pdf')" data-sort0="annexe 2 - liste de présence.pdf" data-sort1="2026-04-09" data-sort2="fcw oa anx seance du 09/04/2026" data-sort4="2026-04-12" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2594,7 +2595,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260823-1440" data-sort2="cpa ext ra" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260823-1440" data-sort2="cpa ra" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2608,7 +2609,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4 text-gray-500">Hier - 14:40</td>
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">RA</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -2777,7 +2777,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260815-1045" data-sort2="sol ext betu" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260815-1045" data-sort2="sol betu" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2791,7 +2791,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4 text-gray-500">Il y a 2 semaines</td>
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">SOL</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">BETU</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -2963,7 +2962,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="20260824-1405" data-sort2="cge oa int pv" data-sort3="julie stavrakas">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Compte Rendu CA Mars 2026.pdf')" data-sort0="compte rendu ca mars 2026.pdf" data-sort1="20260824-1405" data-sort2="cge oa pv" data-sort3="julie stavrakas">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -2978,7 +2977,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CGE</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">INT</span>
                             <span class="badge badge-violet">PV</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Julie Stavrakas<span class="row-actions row-actions-fly">
@@ -3056,7 +3054,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="20260823-1120" data-sort2="esp oa ext cpt" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Suivi Financier Partenariats 2026.xlsx')" data-sort0="suivi financier partenariats 2026.xlsx" data-sort1="20260823-1120" data-sort2="esp oa cpt" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -3072,7 +3070,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">ESP</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">CPT</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
@@ -3104,7 +3101,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260822-1610" data-sort2="cpa oa ext pres" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260822-1610" data-sort2="cpa oa pres" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -3119,7 +3116,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">PRES</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -3153,7 +3149,7 @@ PARTIALS.viewRecent = `
                     </tr>
                 </tbody>
                 <tbody id="recent-tbody-2" class="labels-tbody divide-y divide-gray-200 hidden-view">
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260824-0912" data-sort2="cpa ag ext ra" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Rapport Annuel 2025.pdf')" data-sort0="rapport annuel 2025.pdf" data-sort1="20260824-0912" data-sort2="cpa ag ra" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -3168,7 +3164,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
                             <span class="badge badge-emerald me-1">AG</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">RA</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -3200,7 +3195,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260823-1440" data-sort2="sol oa ext betu" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Bourse détude 2026 - Présentation.pdf')" data-sort0="bourse détude 2026 - présentation.pdf" data-sort1="20260823-1440" data-sort2="sol oa betu" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -3215,7 +3210,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">SOL</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">BETU</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -3247,7 +3241,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="20260823-1030" data-sort2="esp oa ext not" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Partenariat Espace Chimay - Note.pdf')" data-sort0="partenariat espace chimay - note.pdf" data-sort1="20260823-1030" data-sort2="esp oa not" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -3262,7 +3256,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">ESP</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">NOT</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
@@ -3294,7 +3287,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="20260822-1615" data-sort2="cge oa int cpt" data-sort3="marc lemoine">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Comptes Annuels 2025.xlsx')" data-sort0="comptes annuels 2025.xlsx" data-sort1="20260822-1615" data-sort2="cge oa cpt" data-sort3="marc lemoine">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-green-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -3310,7 +3303,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CGE</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">INT</span>
                             <span class="badge badge-violet">CPT</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Marc Lemoine<span class="row-actions row-actions-fly">
@@ -3342,7 +3334,7 @@ PARTIALS.viewRecent = `
                             </span></td>
 
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260821-1105" data-sort2="cpa oa ext pres" data-sort3="denis buchet">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" onclick="openPreview('Projet Rénovation Bâtiments - Étude.pdf')" data-sort0="projet rénovation bâtiments - étude.pdf" data-sort1="20260821-1105" data-sort2="cpa oa pres" data-sort3="denis buchet">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3 font-medium text-gray-900">
                                 <svg class="w-5 h-5 text-red-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -3357,7 +3349,6 @@ PARTIALS.viewRecent = `
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
                             <span class="badge badge-emerald me-1">OA</span>
-                            <span class="badge badge-warning me-1">EXT</span>
                             <span class="badge badge-violet">PRES</span>
                         </td>
                         <td class="px-6 py-4 text-gray-500">Denis Buchet<span class="row-actions row-actions-fly">
@@ -3450,9 +3441,9 @@ PARTIALS.viewUsers = `
                         <td class="px-6 py-4"><span class="badge badge-neutral">Auditeur externe</span></td>
                         <td class="px-6 py-4"><span class="badge badge-danger">Inactif</span></td>
                     </tr>
-                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="denis buchet d.buchet@partenaire.be partenaire externe cge" onclick="openUserPopup('Denis Buchet')" data-sort0="denis buchet" data-sort1="d.buchet@partenaire.be" data-sort2="partenaire externe cge" data-sort3="actif">
+                    <tr class="clickable-row hover:bg-primary-light transition-colors" data-search="denis buchet d.buchet@chimay-gestion.be partenaire externe cge" onclick="openUserPopup('Denis Buchet')" data-sort0="denis buchet" data-sort1="d.buchet@chimay-gestion.be" data-sort2="partenaire externe cge" data-sort3="actif">
                         <td class="px-6 py-4 font-medium text-gray-900">Denis Buchet</td>
-                        <td class="px-6 py-4 text-gray-500">d.buchet@partenaire.be</td>
+                        <td class="px-6 py-4 text-gray-500">d.buchet@chimay-gestion.be</td>
                         <td class="px-6 py-4"><span class="badge badge-neutral">Administrateur système</span></td>
                         <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
                     </tr>
@@ -3527,121 +3518,278 @@ PARTIALS.viewRoles = `
 <section id="view-roles" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
-        <div class="flex items-center justify-between mb-4">
-            <p class="text-sm text-gray-600">5 rôles · <span class="text-gray-400">Un rôle ne peut être attribué que par un compte disposant de tous ses privilèges et de tous ses libellés.</span></p>
-            <div class="flex gap-3">
-                <button onclick="openAccessCheck()" class="btn btn-outline">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+        <!-- Onglets -->
+        <div class="flex gap-2">
+            <button type="button" onclick="switchRolesTab(this, 0)" class="label-tab label-tab-active">Rôles</button>
+            <button type="button" onclick="switchRolesTab(this, 1)" class="label-tab label-tab-inactive">Accès nominatifs</button>
+        </div>
+
+        <!-- ONGLET RÔLES -->
+        <div id="roles-tab-panel" class="flex-1 flex flex-col min-h-0">
+
+            <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                    <p class="text-sm text-gray-600">5 rôles · <span class="text-gray-400">Un rôle ne peut être attribué que par un compte disposant de tous ses privilèges et de tous ses libellés.</span></p>
+                    <div class="flex gap-3">
+                        <button onclick="openAccessCheck()" class="btn btn-outline">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
   <circle cx="12" cy="12" r="3" /></svg>
-                    Vérifier les accès
-                </button>
-                <button onclick="openRoleCreate()" class="btn btn-primary">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14" />
+                            Vérifier les accès
+                        </button>
+                        <button onclick="openRoleCreate()" class="btn btn-primary">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14" />
   <path d="M12 5v14" /></svg>
-                    Créer un rôle
-                </button>
+                            Créer un rôle
+                        </button>
+                    </div>
+                </div>                
+                <div class="flex-1 overflow-y-auto min-h-0">
+                <table class="data-table w-full text-left text-sm whitespace-nowrap">
+                    <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
+                        <tr>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 0)">Rôle <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 1)">Utilisateurs <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 2)">Règles d'accès <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 3)">Statut <span class="sort-indicator"></span></th>
+                            <th class="px-6 py-4"></th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="administrateur système" data-sort1="2" data-sort2="tous les privilèges" data-sort3="actif">
+                            <td class="px-6 py-4 font-medium text-gray-900">Administrateur système</td>
+                            <td class="px-6 py-4 text-gray-500">2</td>
+                            <td class="px-6 py-4"><span class="badge badge-neutral">Tous les privilèges</span></td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="duplicateRole('Administrateur système')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="membre de la direction cge" data-sort1="4" data-sort2="consulter cge déposer cge consulter ag" data-sort3="actif">
+                            <td class="px-6 py-4 font-medium text-gray-900">Membre de la direction CGE</td>
+                            <td class="px-6 py-4 text-gray-500">4</td>
+                            <td class="px-6 py-4">
+                                <span class="badge badge-neutral me-1">Consulter · CGE</span>
+                                <span class="badge badge-neutral me-1">Déposer · CGE</span>
+                                <span class="badge badge-neutral">Consulter · AG</span>
+                            </td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="duplicateRole('Membre de la direction CGE')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="secrétaire de séance" data-sort1="2" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
+                            <td class="px-6 py-4 font-medium text-gray-900">Secrétaire de séance</td>
+                            <td class="px-6 py-4 text-gray-500">2</td>
+                            <td class="px-6 py-4">
+                                <span class="badge badge-neutral me-1">Déposer · CGE</span>
+                                <span class="badge badge-neutral">Consulter · CGE + OA</span>
+                            </td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="duplicateRole('Secrétaire de séance')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="assistant de direction" data-sort1="1" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
+                            <td class="px-6 py-4 font-medium text-gray-900">Assistant de direction</td>
+                            <td class="px-6 py-4 text-gray-500">1</td>
+                            <td class="px-6 py-4">
+                                <span class="badge badge-neutral me-1">Déposer · CGE</span>
+                                <span class="badge badge-neutral">Consulter · CGE + OA</span>
+                            </td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="duplicateRole('Assistant de direction')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="auditeur externe" data-sort1="5" data-sort2="consulter ag" data-sort3="actif">
+                            <td class="px-6 py-4 font-medium text-gray-900">Auditeur externe</td>
+                            <td class="px-6 py-4 text-gray-500">5</td>
+                            <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · AG</span></td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="duplicateRole('Auditeur externe')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-sort0="partenaire externe cge" data-sort1="1" data-sort2="consulter cge sauf oa" data-sort3="actif">
+                            <td class="px-6 py-4 font-medium text-gray-900">Partenaire externe CGE</td>
+                            <td class="px-6 py-4 text-gray-500">1</td>
+                            <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · CGE sauf OA</span></td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="duplicateRole('Partenaire externe CGE')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
-            
-            <div class="flex-1 overflow-y-auto min-h-0">
-            <table class="data-table w-full text-left text-sm whitespace-nowrap">
-                <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
-                    <tr>
-                        <th class="sortable px-6 py-4" onclick="sortTable(this, 0)">Rôle <span class="sort-indicator"></span></th>
-                        <th class="sortable px-6 py-4" onclick="sortTable(this, 1)">Utilisateurs <span class="sort-indicator"></span></th>
-                        <th class="sortable px-6 py-4" onclick="sortTable(this, 2)">Règles d'accès <span class="sort-indicator"></span></th>
-                        <th class="sortable px-6 py-4" onclick="sortTable(this, 3)">Statut <span class="sort-indicator"></span></th>
-                        <th class="px-6 py-4"></th>
+        <!-- ONGLET ACCÈS NOMINATIFS -->
+        <div id="accesses-tab-panel" class="hidden-view flex-1 flex flex-col min-h-0">
 
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <tr class="hover:bg-primary-light transition-colors" data-sort0="administrateur système" data-sort1="2" data-sort2="tous les privilèges" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Administrateur système</td>
-                        <td class="px-6 py-4 text-gray-500">2</td>
-                        <td class="px-6 py-4"><span class="badge badge-neutral">Tous les privilèges</span></td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
-                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                            <button onclick="duplicateRole('Administrateur système')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
-                            </button>
-                        </span></td>
-                    </tr>
-                    <tr class="hover:bg-primary-light transition-colors" data-sort0="membre de la direction cge" data-sort1="4" data-sort2="consulter cge ext déposer cge consulter ag" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Membre de la direction CGE</td>
-                        <td class="px-6 py-4 text-gray-500">4</td>
-                        <td class="px-6 py-4">
-                            <span class="badge badge-neutral me-1">Consulter · CGE + EXT</span>
-                            <span class="badge badge-neutral me-1">Déposer · CGE</span>
-                            <span class="badge badge-neutral">Consulter · AG</span>
-                        </td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
-                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                            <button onclick="duplicateRole('Membre de la direction CGE')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
-                            </button>
-                        </span></td>
-                    </tr>
-                    <tr class="hover:bg-primary-light transition-colors" data-sort0="secrétaire de séance" data-sort1="2" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Secrétaire de séance</td>
-                        <td class="px-6 py-4 text-gray-500">2</td>
-                        <td class="px-6 py-4">
-                            <span class="badge badge-neutral me-1">Déposer · CGE</span>
-                            <span class="badge badge-neutral">Consulter · CGE + OA</span>
-                        </td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
-                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                            <button onclick="duplicateRole('Secrétaire de séance')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
-                            </button>
-                        </span></td>
-                    </tr>
-                    <tr class="hover:bg-primary-light transition-colors" data-sort0="assistant de direction" data-sort1="1" data-sort2="déposer cge consulter cge oa" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Assistant de direction</td>
-                        <td class="px-6 py-4 text-gray-500">1</td>
-                        <td class="px-6 py-4">
-                            <span class="badge badge-neutral me-1">Déposer · CGE</span>
-                            <span class="badge badge-neutral">Consulter · CGE + OA</span>
-                        </td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
-                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                            <button onclick="duplicateRole('Assistant de direction')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
-                            </button>
-                        </span></td>
-                    </tr>
-                    <tr class="hover:bg-primary-light transition-colors" data-sort0="auditeur externe" data-sort1="5" data-sort2="consulter ext" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Auditeur externe</td>
-                        <td class="px-6 py-4 text-gray-500">5</td>
-                        <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · EXT</span></td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
-                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                            <button onclick="duplicateRole('Auditeur externe')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
-                            </button>
-                        </span></td>
-                    </tr>
-                    <tr class="hover:bg-primary-light transition-colors" data-sort0="partenaire externe cge" data-sort1="1" data-sort2="consulter cge ext sauf oa" data-sort3="actif">
-                        <td class="px-6 py-4 font-medium text-gray-900">Partenaire externe CGE</td>
-                        <td class="px-6 py-4 text-gray-500">1</td>
-                        <td class="px-6 py-4"><span class="badge badge-neutral">Consulter · CGE + EXT sauf OA</span></td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
-                        <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                            <button onclick="duplicateRole('Partenaire externe CGE')" title="Dupliquer le rôle" class="p-1.5 rounded hover:bg-gray-100 hover:text-primary transition-colors">
-                                <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
-                            </button>
-                        </span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+
+                <!-- FILTRES -->
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex flex-wrap gap-3 items-end">
+                        <div class="flex-1 min-w-[220px]">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
+                            <div class="search-box">
+                                <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
+  <circle cx="11" cy="11" r="8" /></svg>
+                                <input id="na-search" type="text" oninput="filterNominativeAccesses()" placeholder="Document, utilisateur, accordé par..." class="input input-search w-full">
+                            </div>
+                        </div>
+                        <div class="w-44">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Statut</label>
+                            <div id="na-status-filter" class="multi-select" data-placeholder="Tous">
+                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                                    <span class="ms-value">Tous</span>
+                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                </div>
+                                <div class="multi-select-panel hidden-view">
+                                    <label class="ms-option"><input type="checkbox" value="Actif" onchange="msUpdate(this); filterNominativeAccesses()"> Actif</label>
+                                    <label class="ms-option"><input type="checkbox" value="Planifié" onchange="msUpdate(this); filterNominativeAccesses()"> Planifié</label>
+                                    <label class="ms-option"><input type="checkbox" value="Expiré" onchange="msUpdate(this); filterNominativeAccesses()"> Expiré</label>
+                                    <label class="ms-option"><input type="checkbox" value="Révoqué" onchange="msUpdate(this); filterNominativeAccesses()"> Révoqué</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="resetNominativeAccessFilters()" class="btn btn-outline-danger">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12.531 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14v6a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341l.427-.473" />
+  <path d="m16.5 3.5 5 5" />
+  <path d="m21.5 3.5-5 5" /></svg>
+                            Réinitialiser les filtres
+                        </button>
+                    </div>
+                    <p id="na-count" class="text-sm text-gray-600 mt-3">6 accès nominatifs</p>
+                </div>
+
+                <div class="flex-1 overflow-y-auto min-h-0">
+                <table class="data-table w-full text-left text-sm whitespace-nowrap">
+                    <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
+                        <tr>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 0)">Document <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 1)">Utilisateur <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 2)">Privilèges accordés <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 3)">Période de validité <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 4)">Accordé par <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 5)">Statut <span class="sort-indicator"></span></th>
+                            <th class="px-6 py-4"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="na-tbody" class="divide-y divide-gray-200">
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Planifié" data-search="compte rendu ca mars 2026 sophie durant philippe dumont" data-sort0="compte rendu ca mars 2026" data-sort1="sophie durant" data-sort2="consulter" data-sort3="20260910" data-sort4="philippe dumont" data-sort5="planifié">
+                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Compte Rendu CA Mars 2026</td>
+                            <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Sophie Durant');" class="font-medium text-primary hover:underline" data-role="na-user">Sophie Durant</button></td>
+                            <td class="px-6 py-4"><span class="badge badge-neutral">Consulter</span></td>
+                            <td class="px-6 py-4 text-gray-500">Débute le 10/09/2026</td>
+                            <td class="px-6 py-4 text-gray-500">Philippe Dumont · 24/08/2026</td>
+                            <td class="px-6 py-4"><span class="badge badge-warning">Planifié</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <circle cx="9" cy="7" r="4" />
+  <line x1="17" x2="22" y1="8" y2="13" />
+  <line x1="22" x2="17" y1="8" y2="13" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Actif" data-search="rapport annuel 2025 denis buchet marc lemoine" data-sort0="rapport annuel 2025" data-sort1="denis buchet" data-sort2="consulter télécharger" data-sort3="20260101" data-sort4="marc lemoine" data-sort5="actif">
+                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Rapport Annuel 2025</td>
+                            <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Denis Buchet');" class="font-medium text-primary hover:underline" data-role="na-user">Denis Buchet</button></td>
+                            <td class="px-6 py-4">
+                                <span class="badge badge-neutral me-1">Consulter</span>
+                                <span class="badge badge-neutral">Télécharger</span>
+                            </td>
+                            <td class="px-6 py-4 text-gray-500">01/01/2026 → 31/12/2026</td>
+                            <td class="px-6 py-4 text-gray-500">Marc Lemoine · 15/01/2026</td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
+  <circle cx="10" cy="7" r="4" />
+  <line x1="17" x2="22" y1="8" y2="13" />
+  <line x1="22" x2="17" y1="8" y2="13" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Actif" data-search="procès verbal ca avril 2026 julie stavrakas philippe dumont" data-sort0="procès verbal ca avril 2026" data-sort1="julie stavrakas" data-sort2="consulter modifier" data-sort3="permanent" data-sort4="philippe dumont" data-sort5="actif">
+                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Procès Verbal CA Avril 2026</td>
+                            <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Julie Stavrakas');" class="font-medium text-primary hover:underline" data-role="na-user">Julie Stavrakas</button></td>
+                            <td class="px-6 py-4">
+                                <span class="badge badge-neutral me-1">Consulter</span>
+                                <span class="badge badge-neutral">Modifier</span>
+                            </td>
+                            <td class="px-6 py-4 text-gray-500">Permanent</td>
+                            <td class="px-6 py-4 text-gray-500">Philippe Dumont · 18/04/2026</td>
+                            <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
+                                <button onclick="openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
+                                    <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <circle cx="9" cy="7" r="4" />
+  <line x1="17" x2="22" y1="8" y2="13" />
+  <line x1="22" x2="17" y1="8" y2="13" /></svg>
+                                </button>
+                            </span></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Expiré" data-search="bilan financier annuel 2025 d.buchet@chimay-gestion.be philippe dumont" data-sort0="bilan financier annuel 2025" data-sort1="d.buchet@chimay-gestion.be" data-sort2="consulter" data-sort3="20260630" data-sort4="philippe dumont" data-sort5="expiré">
+                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Bilan Financier Annuel 2025</td>
+                            <td class="px-6 py-4 text-gray-600" data-role="na-user">d.buchet@chimay-gestion.be <span class="text-xs text-gray-400">(invité)</span></td>
+                            <td class="px-6 py-4"><span class="badge badge-neutral">Consulter</span></td>
+                            <td class="px-6 py-4 text-gray-500">Jusqu'au 30/06/2026</td>
+                            <td class="px-6 py-4 text-gray-500">Philippe Dumont · 02/03/2026</td>
+                            <td class="px-6 py-4"><span class="badge badge-neutral">Expiré</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Expiré" data-search="2026fcw024 pv oa fcw 09-04-2026 laurent petit julie stavrakas" data-sort0="2026fcw024 pv oa fcw 09-04-2026" data-sort1="laurent petit" data-sort2="consulter télécharger" data-sort3="20260531" data-sort4="julie stavrakas" data-sort5="expiré">
+                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">2026fcw024 - PV OA FCW du 09-04-2026</td>
+                            <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Laurent Petit');" class="font-medium text-primary hover:underline" data-role="na-user">Laurent Petit</button></td>
+                            <td class="px-6 py-4">
+                                <span class="badge badge-neutral me-1">Consulter</span>
+                                <span class="badge badge-neutral">Télécharger</span>
+                            </td>
+                            <td class="px-6 py-4 text-gray-500">Jusqu'au 31/05/2026</td>
+                            <td class="px-6 py-4 text-gray-500">Julie Stavrakas · 02/05/2026</td>
+                            <td class="px-6 py-4"><span class="badge badge-neutral">Expiré</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"></td>
+                        </tr>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Révoqué" data-search="rapport annuel 2025 sophie durant philippe dumont" data-sort0="rapport annuel 2025" data-sort1="sophie durant" data-sort2="consulter" data-sort3="permanent" data-sort4="philippe dumont" data-sort5="révoqué">
+                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Rapport Annuel 2025</td>
+                            <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Sophie Durant');" class="font-medium text-primary hover:underline" data-role="na-user">Sophie Durant</button></td>
+                            <td class="px-6 py-4"><span class="badge badge-neutral">Consulter</span></td>
+                            <td class="px-6 py-4 text-gray-500">Permanent</td>
+                            <td class="px-6 py-4 text-gray-500">Philippe Dumont · 20/02/2026</td>
+                            <td class="px-6 py-4"><span class="badge badge-danger">Révoqué</span></td>
+                            <td class="px-6 py-4 text-right text-gray-500"></td>
+                        </tr>
+                        <tr id="na-empty" class="empty-row hidden-view">
+                            <td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucun accès nominatif ne correspond à vos filtres.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
             </div>
         </div>
     </div>
@@ -3671,7 +3819,7 @@ PARTIALS.viewLabels = `
         <!-- Onglets de catégories -->
         <div class="flex gap-2">
                 <button type="button" onclick="switchLabelCategory(this, 0)" data-tab-color="label-tab-0" class="label-tab label-tab-0">Entités</button>
-                <button type="button" onclick="switchLabelCategory(this, 1)" data-tab-color="label-tab-1" class="label-tab label-tab-inactive">Type d'organe</button>
+                <button type="button" onclick="switchLabelCategory(this, 1)" data-tab-color="label-tab-1" class="label-tab label-tab-inactive">Type d'instance</button>
                 <button type="button" onclick="switchLabelCategory(this, 2)" data-tab-color="label-tab-3" class="label-tab label-tab-inactive">Type de document</button>
         </div>
 
@@ -4433,27 +4581,30 @@ PARTIALS.modalUpload = `
         
         <form id="upload-form" class="flex-1 overflow-y-auto min-h-0 p-6 space-y-5" onsubmit="event.preventDefault(); alert('Document envoyé vers SharePoint !'); toggleModal('modal-upload', false);">
             
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer">
-                <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Fichier <span class="text-red-500">*</span></label>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
   <path d="m8 17 4-4 4 4" /></svg>
-                <p class="mt-1 text-sm text-gray-600">Cliquez pour parcourir ou glissez un fichier ici</p>
-                <p class="text-xs text-gray-500 mt-1">PDF, DOCX, XLSX (Max 50MB)</p>
+                    <p class="mt-1 text-sm text-gray-600">Cliquez pour parcourir ou glissez un fichier ici</p>
+                    <p class="text-xs text-gray-500 mt-1">PDF, DOCX, XLSX (Max 50MB)</p>
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Titre du document</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Titre du document <span class="text-red-500">*</span></label>
                     <input type="text" required placeholder="Ex: Compte Rendu Annuel..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date du document</label>
-                    <input type="date" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Date du document <span class="text-red-500">*</span></label>
+                    <input type="date" id="upload-doc-date" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Description (Optionnel)</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <textarea rows="2" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
             </div>
 
@@ -4488,10 +4639,10 @@ PARTIALS.modalUpload = `
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Organe <span class="text-red-500">*</span></label>
-                        <div class="multi-select" data-placeholder="Choisir un organe…">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Instance <span class="text-red-500">*</span></label>
+                        <div class="multi-select" data-placeholder="Choisir une instance…">
                             <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
-                                <span class="ms-value">Choisir un organe…</span>
+                                <span class="ms-value">Choisir une instance…</span>
                                 <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                             </div>
                             <div class="multi-select-panel hidden-view">
@@ -4551,7 +4702,7 @@ PARTIALS.modalUpload = `
                         <input type="date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre (Optionnel)</label>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre</label>
                         <input type="text" placeholder="Ex: CA de septembre 2026" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                     </div>
                     <p class="col-span-2 text-xs text-gray-500 -mt-2">Si le titre est vide, la séance sera nommée automatiquement « Séance du {date} ».</p>
@@ -4561,7 +4712,7 @@ PARTIALS.modalUpload = `
             <hr class="border-gray-200">
 
             <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Annexes (Optionnel)</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Annexes</label>
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition-colors" onclick="document.getElementById('annexes-input').click()">
                     <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14" />
   <path d="M5 12h14" /></svg>
@@ -4802,8 +4953,7 @@ PARTIALS.modalLabel = `
                 <label class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
                 <select class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white outline-none focus:border-primary">
                     <option>Entité</option>
-                    <option>Organe</option>
-                    <option>Audience</option>
+                    <option>Instance</option>
                     <option>Type de document</option>
                     <option>Année</option>
                 </select>
@@ -4914,7 +5064,7 @@ PARTIALS.modalRole = `
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Organe</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Instance</label>
                             <div class="multi-select" data-placeholder="Tous les libellés">
                                 <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                                     <span class="ms-value">Tous les libellés</span>
@@ -4923,19 +5073,6 @@ PARTIALS.modalRole = `
                                 <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="OA" onchange="msUpdate(this)"> Organe d'administration (OA)</label>
                                 <label class="ms-option"><input type="checkbox" value="AG" onchange="msUpdate(this)"> Assemblée générale (AG)</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Audience</label>
-                            <div class="multi-select" data-placeholder="Tous les libellés">
-                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
-                                    <span class="ms-value">Tous les libellés</span>
-                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                                </div>
-                                <div class="multi-select-panel hidden-view">
-                                <label class="ms-option"><input type="checkbox" value="INT" onchange="msUpdate(this)"> Interne (INT)</label>
-                                <label class="ms-option"><input type="checkbox" value="EXT" onchange="msUpdate(this)"> Externe (EXT)</label>
                                 </div>
                             </div>
                         </div>
@@ -5293,6 +5430,40 @@ PARTIALS.modalShare = `
 
 </script>
     <script>
+window.PARTIALS = window.PARTIALS || {};
+PARTIALS.modalRevokeAccess = `
+<div id="modal-revoke-access" class="hidden-view fixed inset-0 bg-slate-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden">
+
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+            <h3 class="text-lg font-bold text-gray-800">Révoquer l'accès</h3>
+            <button onclick="toggleModal('modal-revoke-access', false)" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
+  <path d="m6 6 12 12" /></svg>
+            </button>
+        </div>
+
+        <div class="px-6 py-5 space-y-4">
+            <p class="text-sm text-gray-600">Voulez-vous vraiment révoquer l'accès de <span id="revoke-user-name" class="font-semibold text-gray-800"></span> au document «&nbsp;<span id="revoke-doc-name" class="font-semibold text-gray-800"></span>&nbsp;»&nbsp;?</p>
+            <p class="text-xs text-gray-500">L'utilisateur ne pourra plus consulter ce document. Cette action sera consignée dans l'historique.</p>
+
+            <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
+                <button type="button" onclick="toggleModal('modal-revoke-access', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
+                <button type="button" onclick="confirmRevokeAccess()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm font-medium shadow-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <circle cx="9" cy="7" r="4" />
+  <line x1="17" x2="22" y1="8" y2="13" />
+  <line x1="22" x2="17" y1="8" y2="13" /></svg>
+                    Révoquer l'accès
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+`;
+
+</script>
+    <script>
 // ==========================================
 // LOGIQUE JAVASCRIPT (Interactivité)
 // ==========================================
@@ -5320,7 +5491,8 @@ document.addEventListener('DOMContentLoaded', function () {
         'partial-modal-access-check': PARTIALS.modalAccessCheck,
         'partial-modal-doc-history': PARTIALS.modalDocHistory,
         'partial-modal-doc-access': PARTIALS.modalDocAccess,
-        'partial-modal-share': PARTIALS.modalShare
+        'partial-modal-share': PARTIALS.modalShare,
+        'partial-modal-revoke-access': PARTIALS.modalRevokeAccess
     };
 
     Object.keys(mounts).forEach(function (id) {
@@ -5342,6 +5514,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     initUploadEventSelect();
 
+    var uploadDate = document.getElementById('upload-doc-date');
+    if (uploadDate) {
+        var now = new Date();
+        uploadDate.value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    }
+
     var t = calendarStateToday();
     CAL_STATE.year = t.year;
     CAL_STATE.month = t.month;
@@ -5356,7 +5534,7 @@ var VIEW_TITLES = {
     'view-documents': 'Documents',
     'view-calendar': 'Calendrier',
     'view-users': 'Utilisateurs',
-    'view-roles': 'Rôles et privilèges',
+    'view-roles': 'Rôles et accès',
     'view-labels': 'Gestion des libellés',
     'view-audit': 'Historique des actions',
     'view-settings': 'Paramètres du compte'
@@ -5435,7 +5613,7 @@ var USERS_DB = {
         ]
     },
     'Denis Buchet': {
-        email: 'd.buchet@partenaire.be',
+        email: 'd.buchet@chimay-gestion.be',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '22/08/2026 - 14:40',
@@ -5819,12 +5997,93 @@ function copyShareLink() {
 }
 
 // ==========================================
+// ACCÈS NOMINATIFS (écran de gestion)
+// ==========================================
+function switchRolesTab(tabEl, idx) {
+    document.querySelectorAll('#view-roles .label-tab').forEach(function (t, i) {
+        t.classList.remove('label-tab-inactive', 'label-tab-active');
+        if (i === idx) {
+            t.classList.add('label-tab-active');
+        } else {
+            t.classList.add('label-tab-inactive');
+        }
+    });
+    var roles = document.getElementById('roles-tab-panel');
+    var accesses = document.getElementById('accesses-tab-panel');
+    if (roles) roles.classList.toggle('hidden-view', idx !== 0);
+    if (accesses) accesses.classList.toggle('hidden-view', idx !== 1);
+}
+
+function filterNominativeAccesses() {
+    var q = (document.getElementById('na-search').value || '').toLowerCase();
+    var statuses = multiCheckedValues('na-status-filter');
+    var rows = document.querySelectorAll('#na-tbody tr:not(.empty-row)');
+    var visible = 0;
+    rows.forEach(function (r) {
+        var ok = true;
+        if (q && (r.getAttribute('data-search') || '').indexOf(q) === -1) ok = false;
+        if (ok && statuses.length && statuses.indexOf(r.getAttribute('data-status')) === -1) ok = false;
+        r.classList.toggle('hidden-view', !ok);
+        if (ok) visible++;
+    });
+    var empty = document.getElementById('na-empty');
+    if (empty) empty.classList.toggle('hidden-view', visible > 0);
+    var count = document.getElementById('na-count');
+    if (count) count.textContent = visible + (visible > 1 ? ' accès nominatifs' : ' accès nominatif');
+}
+
+function resetNominativeAccessFilters() {
+    var search = document.getElementById('na-search');
+    if (search) search.value = '';
+    var el = document.getElementById('na-status-filter');
+    if (el) {
+        el.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+            c.checked = false;
+            msUpdate(c);
+        });
+    }
+    filterNominativeAccesses();
+}
+
+var PENDING_REVOKE_ROW = null;
+
+function openRevokeAccess(btn) {
+    var row = btn.closest('tr');
+    if (!row) return;
+    PENDING_REVOKE_ROW = row;
+    var docEl = row.querySelector('[data-role="na-doc"]');
+    var userEl = row.querySelector('[data-role="na-user"]');
+    var doc = docEl ? docEl.textContent.trim() : '';
+    var user = userEl ? userEl.textContent.replace(/\(invité\)/, '').trim() : '';
+    document.getElementById('revoke-doc-name').textContent = doc;
+    document.getElementById('revoke-user-name').textContent = user;
+    toggleModal('modal-revoke-access', true);
+}
+
+function confirmRevokeAccess() {
+    if (PENDING_REVOKE_ROW) {
+        var row = PENDING_REVOKE_ROW;
+        row.setAttribute('data-status', 'Révoqué');
+        row.setAttribute('data-sort5', 'révoqué');
+        var statusTd = row.querySelectorAll('td')[5];
+        if (statusTd) {
+            statusTd.innerHTML = '<span class="badge badge-danger">Révoqué</span>';
+        }
+        var revoke = row.querySelector('.na-revoke');
+        if (revoke) revoke.remove();
+        PENDING_REVOKE_ROW = null;
+    }
+    toggleModal('modal-revoke-access', false);
+    filterNominativeAccesses();
+}
+
+// ==========================================
 // ENREGISTREMENT DE VUE
 // ==========================================
 var SAVED_VIEW_FILTERS = {
-    'CA 2026': { search: '', entity: [], organ: ['OA'], audience: [], type: [], year: [], event: [], from: '2026-01-01', to: '2026-12-31' },
-    'Projets Externes': { search: '', entity: ['SOL'], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '' },
-    'Séances par entité': { search: '', entity: [], organ: [], audience: [], type: [], year: [], event: [], from: '', to: '', grouping: ['entity', 'organ', 'event'] }
+    'CA 2026': { search: '', entity: [], organ: ['OA'], type: [], year: [], event: [], from: '2026-01-01', to: '2026-12-31' },
+    'Projets Externes': { search: '', entity: ['SOL'], organ: [], type: [], year: [], event: [], from: '', to: '' },
+    'Séances par entité': { search: '', entity: [], organ: [], type: [], year: [], event: [], from: '', to: '', grouping: ['entity', 'organ', 'event'] }
 };
 
 function multiCheckedValues(id) {
@@ -5838,7 +6097,6 @@ function currentDocumentFilters() {
         search: document.getElementById('f-search').value,
         entity: multiCheckedValues('f-entity'),
         organ: multiCheckedValues('f-organ'),
-        audience: multiCheckedValues('f-audience'),
         type: multiCheckedValues('f-type'),
         year: multiCheckedValues('f-year'),
         event: multiCheckedValues('f-event'),
@@ -5865,7 +6123,6 @@ function savedViewMatches(a, b) {
     return (a.search || '').trim() === (b.search || '').trim()
         && sameArrayValues(a.entity, b.entity)
         && sameArrayValues(a.organ, b.organ)
-        && sameArrayValues(a.audience, b.audience)
         && sameArrayValues(a.type, b.type)
         && sameArrayValues(a.year, b.year)
         && sameArrayValues(a.event, b.event)
@@ -5970,7 +6227,6 @@ function applySavedView(select) {
     };
     apply('f-entity', f.entity);
     apply('f-organ', f.organ);
-    apply('f-audience', f.audience);
     apply('f-type', f.type);
     apply('f-year', f.year);
     apply('f-event', f.event);
@@ -5993,8 +6249,7 @@ function applySavedView(select) {
 // ==========================================
 var ROLE_RULE_CATEGORIES = [
     { name: 'Entité', labels: [['FCW', 'Fondation Chimay-Wartoise (FCW)'], ['CGE', 'Chimay-Gestion (CGE)'], ['CPA', 'Chimay-Patrimoine (CPA)'], ['ADS', 'Abbaye Notre-Dame de Scourmont (ADS)'], ['SOL', 'Solidarité Cistercienne (SOL)'], ['AUB', 'Auberge de Poteaupré (AUB)'], ['ESP', 'Espace Chimay (ESP)'], ['BSM', 'Boissons Sambre et Meuse (BSM)'], ['BDC', 'Bières de Chimay (BDC)'], ['FRO', 'Chimay Fromages (FRO)'], ['PPB', 'Les Petits Pas de la Botte (PPB)'], ['MDC', 'La Maison De Casimir (MDC)'], ['AP', 'Albatros Poteaupré (AP)']] },
-    { name: 'Organe', labels: [['OA', "Organe d'administration (OA)"], ['AG', 'Assemblée générale (AG)']] },
-    { name: 'Audience', labels: [['INT', 'Interne (INT)'], ['EXT', 'Externe (EXT)']] },
+    { name: 'Instance', labels: [['OA', "Organe d'administration (OA)"], ['AG', 'Assemblée générale (AG)']] },
     { name: 'Type de document', labels: [['CPT', 'Comptes (CPT)'], ['BDGT', 'Budget (BDGT)'], ['PV', 'Procès-verbal (PV)'], ['CNVC', 'Convocation (CNVC)'], ['PROC', 'Procuration (PROC)'], ['NOT', 'Notes (NOT)'], ['PRES', 'Présentation (PRES)'], ['RA', 'Rapport annuel (RA)'], ['BETU', "Bourse d'étude (BETU)"], ['ANX', 'Annexe (ANX)'], ['EXTR', 'Extrait (EXTR)']] },
     { name: 'Année', labels: [['2026', '2026'], ['2025', '2025'], ['2024', '2024']] }
 ];
@@ -6103,32 +6358,32 @@ var ROLES_DB = {
     'Membre de la direction CGE': {
         general: ['Créer des invitations', 'Gérer les comptes'],
         rules: [
-            { privileges: ['Consulter'], Entité: ['CGE'], Audience: ['EXT'] },
+            { privileges: ['Consulter'], Entité: ['CGE'] },
             { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Organe: ['AG'] }
+            { privileges: ['Consulter'], Instance: ['AG'] }
         ]
     },
     'Secrétaire de séance': {
         general: ['Créer des invitations'],
         rules: [
             { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Entité: ['CGE'], Organe: ['OA'] }
+            { privileges: ['Consulter'], Entité: ['CGE'], Instance: ['OA'] }
         ]
     },
     'Assistant de direction': {
         general: ['Créer des invitations'],
         rules: [
             { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Entité: ['CGE'], Organe: ['OA'] }
+            { privileges: ['Consulter'], Entité: ['CGE'], Instance: ['OA'] }
         ]
     },
     'Auditeur externe': {
         general: [],
-        rules: [{ privileges: ['Consulter'], Audience: ['EXT'] }]
+        rules: [{ privileges: ['Consulter'], Instance: ['AG'] }]
     },
     'Partenaire externe CGE': {
         general: [],
-        rules: [{ privileges: ['Consulter'], Entité: ['CGE'], Audience: ['EXT'] }]
+        rules: [{ privileges: ['Consulter'], Entité: ['CGE'] }]
     }
 };
 
@@ -6252,8 +6507,7 @@ function updateAccessCheck() {
     docs.forEach(function (r) {
         var d = {
             ent: r.getAttribute('data-entity') || '',
-            org: r.getAttribute('data-organ') || '',
-            aud: r.getAttribute('data-audience') || ''
+            org: r.getAttribute('data-organ') || ''
         };
         if (roles.some(function (name) {
             var fn = ROLE_ACCESS_RULES[name];
@@ -6650,7 +6904,7 @@ function rowHasNoCatValue(r, key) {
 
 var DOC_GROUPING_CATEGORIES = [
     { key: 'entity', name: 'Entité' },
-    { key: 'organ', name: 'Organe' },
+    { key: 'organ', name: 'Instance' },
     { key: 'type', name: 'Type de document' },
     { key: 'year', name: 'Année' },
     { key: 'event', name: 'Séance' }
