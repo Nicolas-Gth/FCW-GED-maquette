@@ -770,6 +770,21 @@ body.sidebar-collapsed .sidebar-toggle svg {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
+
+/* Bloc séance verrouillé tant qu'entité et instance ne sont pas choisies */
+.upload-locked { opacity: 0.45; pointer-events: none; }
+
+.upload-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+}
+.upload-hint-info { background-color: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+.upload-hint-warn { background-color: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
 </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans h-screen flex overflow-hidden">
@@ -2441,8 +2456,46 @@ PARTIALS.viewCalendar = `
         <p class="text-sm text-gray-600 mb-4">Cliquez sur une séance pour afficher ses documents.</p>
 
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <h2 id="calendar-month-label" class="text-lg font-bold text-gray-800"></h2>
+            <div class="flex flex-wrap items-end gap-3 px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <h2 id="calendar-month-label" class="text-lg font-bold text-gray-800 mb-1"></h2>
+                <div class="flex flex-wrap items-end gap-3 ml-auto">
+                    <div class="w-48">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Entité</label>
+                    <div id="cal-entity" class="multi-select" data-placeholder="Toutes">
+                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                            <span class="ms-value">Toutes</span>
+                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                        </div>
+                        <div class="multi-select-panel hidden-view">
+                            <label class="ms-option"><input type="checkbox" value="FCW" onchange="msUpdate(this); onCalendarFilterChange()"> Fondation Chimay-Wartoise (FCW)</label>
+                            <label class="ms-option"><input type="checkbox" value="CGE" onchange="msUpdate(this); onCalendarFilterChange()"> Chimay-Gestion (CGE)</label>
+                            <label class="ms-option"><input type="checkbox" value="CPA" onchange="msUpdate(this); onCalendarFilterChange()"> Chimay-Patrimoine (CPA)</label>
+                            <label class="ms-option"><input type="checkbox" value="ADS" onchange="msUpdate(this); onCalendarFilterChange()"> Abbaye Notre-Dame de Scourmont (ADS)</label>
+                            <label class="ms-option"><input type="checkbox" value="SOL" onchange="msUpdate(this); onCalendarFilterChange()"> Solidarité Cistercienne (SOL)</label>
+                            <label class="ms-option"><input type="checkbox" value="AUB" onchange="msUpdate(this); onCalendarFilterChange()"> Auberge de Poteaupré (AUB)</label>
+                            <label class="ms-option"><input type="checkbox" value="ESP" onchange="msUpdate(this); onCalendarFilterChange()"> Espace Chimay (ESP)</label>
+                            <label class="ms-option"><input type="checkbox" value="BSM" onchange="msUpdate(this); onCalendarFilterChange()"> Boissons Sambre et Meuse (BSM)</label>
+                            <label class="ms-option"><input type="checkbox" value="BDC" onchange="msUpdate(this); onCalendarFilterChange()"> Bières de Chimay (BDC)</label>
+                            <label class="ms-option"><input type="checkbox" value="FRO" onchange="msUpdate(this); onCalendarFilterChange()"> Chimay Fromages (FRO)</label>
+                            <label class="ms-option"><input type="checkbox" value="PPB" onchange="msUpdate(this); onCalendarFilterChange()"> Les Petits Pas de la Botte (PPB)</label>
+                            <label class="ms-option"><input type="checkbox" value="MDC" onchange="msUpdate(this); onCalendarFilterChange()"> La Maison De Casimir (MDC)</label>
+                            <label class="ms-option"><input type="checkbox" value="AP" onchange="msUpdate(this); onCalendarFilterChange()"> Albatros Poteaupré (AP)</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-48">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Instance</label>
+                    <div id="cal-instance" class="multi-select" data-placeholder="Toutes">
+                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                            <span class="ms-value">Toutes</span>
+                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                        </div>
+                        <div class="multi-select-panel hidden-view">
+                            <label class="ms-option"><input type="checkbox" value="OA" onchange="msUpdate(this); onCalendarFilterChange()"> Organe d'administration (OA)</label>
+                            <label class="ms-option"><input type="checkbox" value="AG" onchange="msUpdate(this); onCalendarFilterChange()"> Assemblée générale (AG)</label>
+                        </div>
+                    </div>
+                </div>
                 <div class="flex gap-2">
                     <button type="button" onclick="calendarPrev()" class="btn btn-outline" title="Mois précédent">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></svg>
@@ -2452,6 +2505,7 @@ PARTIALS.viewCalendar = `
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></svg>
                     </button>
                     <button type="button" id="calendar-view-toggle" onclick="toggleCalendarView()" class="btn btn-outline"></button>
+                </div>
                 </div>
             </div>
 
@@ -4599,7 +4653,7 @@ PARTIALS.modalUpload = `
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Date du document <span class="text-red-500">*</span></label>
-                    <input type="date" id="upload-doc-date" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <input type="date" id="upload-doc-date" onchange="refreshUploadEvents()" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
             </div>
 
@@ -4616,7 +4670,7 @@ PARTIALS.modalUpload = `
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Entité <span class="text-red-500">*</span></label>
-                        <div class="multi-select" data-placeholder="Choisir une entité…">
+                        <div id="upload-entity" class="multi-select" data-placeholder="Choisir une entité…">
                             <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                                 <span class="ms-value">Choisir une entité…</span>
                                 <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
@@ -4640,7 +4694,7 @@ PARTIALS.modalUpload = `
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Instance <span class="text-red-500">*</span></label>
-                        <div class="multi-select" data-placeholder="Choisir une instance…">
+                        <div id="upload-instance" class="multi-select" data-placeholder="Choisir une instance…">
                             <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                                 <span class="ms-value">Choisir une instance…</span>
                                 <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
@@ -4678,34 +4732,52 @@ PARTIALS.modalUpload = `
             <hr class="border-gray-200">
 
             <div>
-                <h4 class="text-sm font-bold text-gray-800 mb-3">Séance</h4>
-                <div class="flex items-end gap-3">
-                    <div class="flex-1">
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Séance existante</label>
-                        <select id="upload-event-select" onchange="onUploadEventSelect()" class="select w-full">
-                            <option value="">Aucune séance</option>
-                        </select>
-                    </div>
-                    <button type="button" onclick="toggleUploadNewEvent()" class="btn btn-outline">
-                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M8 2v4" />
+                <h4 class="text-sm font-bold text-gray-800 mb-3">Séance(s) associée(s)</h4>
+                <div id="upload-event-lock-hint" class="hidden-view flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-md px-3 py-2.5 mb-3">
+                    <svg class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+  <path d="M12 9v4" />
+  <path d="M12 17h.01" /></svg>
+                    <p class="text-xs text-amber-800 leading-relaxed">Sélectionnez d'abord une entité et une instance dans les libellés pour lier ce document à une séance.</p>
+                </div>
+                <div id="upload-event-fields">
+                    <div id="upload-event-hint" class="upload-hint upload-hint-info hidden-view mb-3"></div>
+                    <div class="flex items-end gap-3">
+                        <div class="flex-1 min-w-0">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Séances existantes</label>
+                            <div id="upload-event-select" class="multi-select" data-placeholder="Aucune séance">
+                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                                    <span class="ms-value">Aucune séance</span>
+                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                </div>
+                                <div id="upload-event-panel" class="multi-select-panel hidden-view"></div>
+                            </div>
+                        </div>
+                        <button type="button" id="upload-new-event-btn" onclick="toggleUploadNewEvent()" class="btn btn-outline">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M8 2v4" />
   <path d="M16 2v4" />
   <path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8" />
   <path d="M3 10h18" />
   <path d="M16 19h6" />
   <path d="M19 16v6" /></svg>
-                        Nouvelle séance
-                    </button>
-                </div>
-                <div id="upload-new-event" class="hidden-view mt-3 grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date de la séance <span class="text-red-500">*</span></label>
-                        <input type="date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                            Nouvelle séance
+                        </button>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre</label>
-                        <input type="text" placeholder="Ex: CA de septembre 2026" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <div id="upload-new-event" class="hidden-view mt-3 grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date de la séance <span class="text-red-500">*</span></label>
+                            <input type="date" id="upload-new-event-date" onchange="refreshUploadNewEventInfo()" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre</label>
+                            <input type="text" id="upload-new-event-title" onchange="refreshUploadNewEventInfo()" placeholder="Ex: CA de septembre 2026" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                            <label class="inline-flex items-center gap-2 text-sm text-gray-600 cursor-pointer mt-1.5">
+                                <input id="upload-custom-title-toggle" type="checkbox" class="toggle-switch" onchange="refreshUploadNewEventInfo()">
+                                Utiliser un titre personnalisé
+                            </label>
+                        </div>
+                        <p id="upload-new-event-auto-hint" class="col-span-2 text-xs text-gray-500 -mt-2"></p>
+                        <p id="upload-new-event-warning" class="col-span-2 upload-hint upload-hint-warn hidden-view -mt-1"></p>
                     </div>
-                    <p class="col-span-2 text-xs text-gray-500 -mt-2">Si le titre est vide, la séance sera nommée automatiquement « Séance du {date} ».</p>
                 </div>
             </div>
 
@@ -5512,13 +5584,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setDateRangeMode(false);
 
-    initUploadEventSelect();
-
     var uploadDate = document.getElementById('upload-doc-date');
     if (uploadDate) {
         var now = new Date();
         uploadDate.value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
     }
+
+    refreshUploadEvents();
 
     var t = calendarStateToday();
     CAL_STATE.year = t.year;
@@ -5738,7 +5810,11 @@ var TYPE_DESC = {
     'EXTR': 'Extrait de document.'
 };
 
-var PAPERCLIP_SVG = '<svg class="w-3.5 h-3.5 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" /></svg>';
+var PAPERCLIP_SVG = '<svg class="w-3.5 h-3.5 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.2a2 2 0 0 1-2.83-2.83l8.49-8.48" /></svg>';
+
+function normName(s) {
+    return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
 
 function openPreview(title, filename) {
     var file = filename || title;
@@ -5761,7 +5837,7 @@ function openPreview(title, filename) {
     });
     var annexes = DOC_ANNEXES[file];
     if (!annexes) {
-        var annexKey = Object.keys(DOC_ANNEXES).find(function (key) { return key.toLowerCase() === file.toLowerCase(); });
+        var annexKey = Object.keys(DOC_ANNEXES).find(function (key) { return normName(key) === normName(file); });
         if (annexKey) annexes = DOC_ANNEXES[annexKey];
     }
     annexes = annexes || [];
@@ -5783,7 +5859,7 @@ function openPreview(title, filename) {
     var parents = [];
     Object.keys(DOC_ANNEXES).forEach(function (p) {
         DOC_ANNEXES[p].forEach(function (a) {
-            if (a.toLowerCase() === file.toLowerCase()) parents.push(p);
+            if (normName(a) === normName(file)) parents.push(p);
         });
     });
     var parSec = document.getElementById('preview-parent-section');
@@ -5807,10 +5883,14 @@ function updatePreviewLabels(file) {
     var labelsEl = document.getElementById('preview-labels');
     var eventsEl = document.getElementById('preview-events');
     var found = Array.prototype.filter.call(document.querySelectorAll('#docs-tbody tr'), function (r) {
-        return (r.getAttribute('data-sort0') || '').toLowerCase() === file.toLowerCase();
+        return normName(r.getAttribute('data-sort0') || '') === normName(file);
     })[0] || null;
-    var metaKey = file.toLowerCase();
+    var metaKey = normName(file);
     var meta = DOC_META[metaKey] || null;
+    if (!meta) {
+        var mk = Object.keys(DOC_META).find(function (key) { return normName(key) === metaKey; });
+        if (mk) meta = DOC_META[mk];
+    }
     var h = 0;
     for (var i = 0; i < metaKey.length; i++) h = (h * 31 + metaKey.charCodeAt(i)) % 997;
     var version = meta ? meta.version : (1 + h % 4);
@@ -6476,6 +6556,12 @@ function msUncheck(btn, value) {
     }
 }
 
+document.addEventListener('change', function (e) {
+    if (e.target.closest && e.target.closest('#upload-entity, #upload-instance')) {
+        refreshUploadEvents();
+    }
+});
+
 function msModeChange(sel) {
     var ms = sel.parentNode.querySelector('.multi-select');
     if (ms) ms.classList.toggle('hidden-view', sel.value === 'Tous');
@@ -6705,15 +6791,15 @@ function filterDocuments() {
 // REGROUPEMENT PAR CATÉGORIES (navigation par dossiers)
 // ==========================================
 var EVENTS = [
-    { id: 'ev1', date: '2026-01-22', title: '', entity: 'CGE', label: 'CA CGE' },
-    { id: 'ev7', date: '2026-01-23', title: 'CA FCW du 23-01-2026', entity: 'FCW', label: 'CA FCW' },
-    { id: 'ev2', date: '2026-03-15', title: 'CA de mars 2026', entity: 'CGE', label: 'CA CGE' },
-    { id: 'ev8', date: '2026-04-09', title: 'CA FCW du 09-04-2026', entity: 'FCW', label: 'CA FCW' },
-    { id: 'ev3', date: '2026-04-16', title: '', entity: 'CGE', label: 'CA CGE' },
-    { id: 'ev4', date: '2026-06-01', title: 'Assemblée générale', entity: 'CPA', label: 'AG CPA' },
-    { id: 'ev9', date: '2026-06-23', title: 'AG FCW du 23-06-2026', entity: 'FCW', label: 'AG FCW' },
-    { id: 'ev5', date: '2026-06-25', title: '', entity: 'CGE', label: 'CA CGE' },
-    { id: 'ev6', date: '2026-09-17', title: '', entity: 'CGE', label: 'CA CGE' }
+    { id: 'ev1', date: '2026-01-22', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' },
+    { id: 'ev7', date: '2026-01-23', title: '', entities: ['FCW'], instance: 'OA', label: 'CA FCW' },
+    { id: 'ev2', date: '2026-03-15', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' },
+    { id: 'ev8', date: '2026-04-09', title: '', entities: ['FCW'], instance: 'OA', label: 'CA FCW' },
+    { id: 'ev3', date: '2026-04-16', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' },
+    { id: 'ev4', date: '2026-06-01', title: '', entities: ['CPA', 'ADS'], instance: 'AG', label: 'AG' },
+    { id: 'ev9', date: '2026-06-23', title: '', entities: ['FCW'], instance: 'AG', label: 'AG FCW' },
+    { id: 'ev5', date: '2026-06-25', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' },
+    { id: 'ev6', date: '2026-09-17', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' }
 ];
 
 function formatEventDate(d) {
@@ -6725,8 +6811,12 @@ function eventById(id) {
     return EVENTS.find(function (e) { return e.id === id; }) || null;
 }
 
+function eventAutoName(ev) {
+    return ev.instance + ' du ' + formatEventDate(ev.date) + ' pour ' + (ev.entities || []).join(' et ');
+}
+
 function eventDisplayName(ev) {
-    return 'Séance du ' + formatEventDate(ev.date);
+    return ev.title ? ev.title : eventAutoName(ev);
 }
 
 // ==========================================
@@ -6745,9 +6835,29 @@ function eventChipClass(ev) {
     return 'cal-chip cal-chip-event';
 }
 
+var CAL_FILTERS = { entities: [], instances: [] };
+
+function onCalendarFilterChange() {
+    CAL_FILTERS.entities = [];
+    var e = document.getElementById('cal-entity');
+    if (e) e.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) { CAL_FILTERS.entities.push(c.value); });
+    CAL_FILTERS.instances = [];
+    var i = document.getElementById('cal-instance');
+    if (i) i.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) { CAL_FILTERS.instances.push(c.value); });
+    renderCalendar();
+}
+
+function calendarFilteredEvents() {
+    return EVENTS.filter(function (ev) {
+        var okE = !CAL_FILTERS.entities.length || (ev.entities || []).some(function (e) { return CAL_FILTERS.entities.indexOf(e) !== -1; });
+        var okI = !CAL_FILTERS.instances.length || CAL_FILTERS.instances.indexOf(ev.instance) !== -1;
+        return okE && okI;
+    });
+}
+
 function eventsByDateMap() {
     var map = {};
-    EVENTS.forEach(function (ev) {
+    calendarFilteredEvents().forEach(function (ev) {
         (map[ev.date] = map[ev.date] || []).push(ev);
     });
     return map;
@@ -6800,7 +6910,7 @@ function renderMonthCalendar() {
         var isToday = today.getFullYear() === y && today.getMonth() === m && today.getDate() === d;
         html += '<div class="cal-cell' + (isToday ? ' today' : '') + '"><span class="cal-day">' + d + '</span>';
         evs.forEach(function (ev) {
-            html += '<button type="button" onclick="openEventFromCalendar(\'' + iso + '\')" class="' + eventChipClass(ev) + '" title="' + eventDisplayName(ev) + '">' + ev.label + '</button>';
+            html += '<button type="button" onclick="openEventFromCalendar(\'' + iso + '\')" class="' + eventChipClass(ev) + '" title="' + eventDisplayName(ev) + '">' + eventDisplayName(ev) + '</button>';
         });
         html += '</div>';
     }
@@ -7168,27 +7278,178 @@ function updateDocView() {
     if (grouped) buildDocTree();
 }
 
-function initUploadEventSelect() {
-    var sel = document.getElementById('upload-event-select');
-    if (!sel) return;
-    var html = '<option value="">Aucune séance</option>';
-    EVENTS.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).forEach(function (ev) {
-        html += '<option value="' + ev.id + '">' + eventDisplayName(ev) + '</option>';
-    });
-    sel.innerHTML = html;
+function uploadSelectedValues(id) {
+    var el = document.getElementById(id);
+    if (!el) return [];
+    var vals = [];
+    el.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) { vals.push(c.value); });
+    return vals;
 }
 
-function onUploadEventSelect() {
-    var sel = document.getElementById('upload-event-select');
-    if (sel && sel.value) {
-        var wrap = document.getElementById('upload-new-event');
-        if (wrap) wrap.classList.add('hidden-view');
+function uploadContextReady() {
+    return uploadSelectedValues('upload-entity').length > 0 && uploadSelectedValues('upload-instance').length > 0;
+}
+
+function eventsMatchingUploadContext() {
+    var entities = uploadSelectedValues('upload-entity');
+    var instances = uploadSelectedValues('upload-instance');
+    return EVENTS.filter(function (ev) {
+        var okE = !entities.length || (ev.entities || []).some(function (e) { return entities.indexOf(e) !== -1; });
+        var okI = !instances.length || instances.indexOf(ev.instance) !== -1;
+        return okE && okI;
+    }).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+}
+
+var UPLOAD_EVENT_CONTEXT = '';
+
+function refreshUploadEvents() {
+    var fields = document.getElementById('upload-event-fields');
+    var lockHint = document.getElementById('upload-event-lock-hint');
+    var locked = !uploadContextReady();
+    if (fields) fields.classList.toggle('upload-locked', locked);
+    if (lockHint) lockHint.classList.toggle('hidden-view', !locked);
+
+    var panel = document.getElementById('upload-event-panel');
+    if (!panel) return;
+
+    var newBtn = document.getElementById('upload-new-event-btn');
+    if (newBtn) newBtn.disabled = locked;
+
+    var hint = document.getElementById('upload-event-hint');
+
+    if (locked) {
+        panel.innerHTML = '';
+        renderUploadEventChips();
+        UPLOAD_EVENT_CONTEXT = '';
+        if (hint) hint.classList.add('hidden-view');
+        refreshUploadNewEventInfo();
+        return;
+    }
+
+    var list = eventsMatchingUploadContext();
+    var checkedIds = [];
+    panel.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) { checkedIds.push(c.getAttribute('data-event')); });
+
+    var html = '';
+    list.forEach(function (ev) {
+        var name = eventDisplayName(ev);
+        html += '<label class="ms-option"><input type="checkbox" value="' + name + '" data-event="' + ev.id + '"' + (checkedIds.indexOf(ev.id) !== -1 ? ' checked' : '') + ' onchange="msUpdate(this)"> ' + name + '</label>';
+    });
+    if (!html) html = '<div class="px-3 py-2 text-xs text-gray-500">Aucune séance pour cette combinaison.</div>';
+    panel.innerHTML = html;
+    renderUploadEventChips();
+
+    var docDate = document.getElementById('upload-doc-date');
+    var ctx = (docDate ? docDate.value : '') + '|' + uploadSelectedValues('upload-entity').join(',') + '|' + uploadSelectedValues('upload-instance').join(',');
+    if (ctx !== UPLOAD_EVENT_CONTEXT) {
+        UPLOAD_EVENT_CONTEXT = ctx;
+        var matches = (docDate && docDate.value) ? list.filter(function (ev) { return ev.date === docDate.value; }) : [];
+        if (matches.length === 1) {
+            var cb = panel.querySelector('input[data-event="' + matches[0].id + '"]');
+            if (cb && !cb.checked) {
+                cb.checked = true;
+                renderUploadEventChips();
+            }
+            if (hint) {
+                hint.innerHTML = 'Séance existante détectée : <b>' + eventDisplayName(matches[0]) + '</b> — ce document y sera lié.';
+                hint.classList.remove('hidden-view');
+            }
+        } else if (matches.length > 1) {
+            if (hint) {
+                hint.innerHTML = matches.length + ' séances correspondent à cette date. Cochez celles qui conviennent.';
+                hint.classList.remove('hidden-view');
+            }
+        } else if (hint) {
+            hint.classList.add('hidden-view');
+        }
+    }
+    refreshUploadNewEventInfo();
+}
+
+function renderUploadEventChips() {
+    var ms = document.getElementById('upload-event-select');
+    if (!ms) return;
+    var holder = ms.querySelector('.ms-value');
+    if (!holder) return;
+    holder.innerHTML = '';
+    var chips = document.createElement('span');
+    chips.className = 'ms-chips';
+    ms.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+        var chip = document.createElement('span');
+        chip.className = 'ms-chip';
+        chip.textContent = c.value + ' ';
+        var x = document.createElement('button');
+        x.type = 'button';
+        x.textContent = '×';
+        x.onclick = function (ev) { ev.stopPropagation(); msUncheck(this, c.value); };
+        chip.appendChild(x);
+        chips.appendChild(chip);
+    });
+    if (!chips.children.length) {
+        holder.textContent = ms.getAttribute('data-placeholder') || 'Aucune séance';
+    } else {
+        holder.appendChild(chips);
     }
 }
 
 function toggleUploadNewEvent() {
     var el = document.getElementById('upload-new-event');
-    if (el) el.classList.toggle('hidden-view');
+    if (!el) return;
+    if (el.classList.contains('hidden-view')) {
+        var docDate = document.getElementById('upload-doc-date');
+        var dateInput = document.getElementById('upload-new-event-date');
+        if (dateInput && docDate && !dateInput.value) dateInput.value = docDate.value;
+        el.classList.remove('hidden-view');
+    } else {
+        el.classList.add('hidden-view');
+    }
+    refreshUploadNewEventInfo();
+}
+
+function refreshUploadNewEventInfo() {
+    var el = document.getElementById('upload-new-event');
+    if (!el) return;
+    var entities = uploadSelectedValues('upload-entity');
+    var instances = uploadSelectedValues('upload-instance');
+    var dateInput = document.getElementById('upload-new-event-date');
+    var titleInput = document.getElementById('upload-new-event-title');
+    var customToggle = document.getElementById('upload-custom-title-toggle');
+    var autoHint = document.getElementById('upload-new-event-auto-hint');
+    var warn = document.getElementById('upload-new-event-warning');
+    if (!dateInput || !titleInput || !autoHint || !warn) return;
+
+    var custom = customToggle && customToggle.checked;
+    var docDate = document.getElementById('upload-doc-date');
+    var dateValue = dateInput.value || (docDate ? docDate.value : '');
+    var autoName = entities.length && instances.length
+        ? instances[0] + ' du ' + (dateValue ? formatEventDate(dateValue) : '{date}') + ' pour ' + entities.join(' et ')
+        : '{code instance} du {date} pour {entité}';
+
+    titleInput.readOnly = !custom;
+    titleInput.disabled = !custom;
+    titleInput.classList.toggle('bg-gray-50', !custom);
+    if (!custom) {
+        titleInput.value = autoName;
+        autoHint.textContent = '';
+    } else if (titleInput.value) {
+        autoHint.textContent = '';
+    } else {
+        autoHint.textContent = 'Laissez vide pour utiliser le nom automatique « ' + autoName + ' ».';
+    }
+
+    if (entities.length && instances.length && dateInput.value) {
+        var dup = EVENTS.find(function (ev) {
+            return ev.date === dateInput.value
+                && ev.instance === instances[0]
+                && (ev.entities || []).some(function (e) { return entities.indexOf(e) !== -1; });
+        });
+        if (dup) {
+            warn.innerHTML = 'Une séance existe déjà pour cette combinaison : <b>' + eventDisplayName(dup) + '</b>. Sélectionnez-la plutôt pour éviter un doublon.';
+            warn.classList.remove('hidden-view');
+            return;
+        }
+    }
+    warn.classList.add('hidden-view');
 }
 
 function hideFiltersPanel() {

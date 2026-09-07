@@ -46,13 +46,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setDateRangeMode(false);
 
-    initUploadEventSelect();
-
     var uploadDate = document.getElementById('upload-doc-date');
     if (uploadDate) {
         var now = new Date();
         uploadDate.value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
     }
+
+    refreshUploadEvents();
 
     var t = calendarStateToday();
     CAL_STATE.year = t.year;
@@ -272,7 +272,11 @@ var TYPE_DESC = {
     'EXTR': 'Extrait de document.'
 };
 
-var PAPERCLIP_SVG = '<svg class="w-3.5 h-3.5 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" /></svg>';
+var PAPERCLIP_SVG = '<svg class="w-3.5 h-3.5 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.2a2 2 0 0 1-2.83-2.83l8.49-8.48" /></svg>';
+
+function normName(s) {
+    return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
 
 function openPreview(title, filename) {
     var file = filename || title;
@@ -295,7 +299,7 @@ function openPreview(title, filename) {
     });
     var annexes = DOC_ANNEXES[file];
     if (!annexes) {
-        var annexKey = Object.keys(DOC_ANNEXES).find(function (key) { return key.toLowerCase() === file.toLowerCase(); });
+        var annexKey = Object.keys(DOC_ANNEXES).find(function (key) { return normName(key) === normName(file); });
         if (annexKey) annexes = DOC_ANNEXES[annexKey];
     }
     annexes = annexes || [];
@@ -317,7 +321,7 @@ function openPreview(title, filename) {
     var parents = [];
     Object.keys(DOC_ANNEXES).forEach(function (p) {
         DOC_ANNEXES[p].forEach(function (a) {
-            if (a.toLowerCase() === file.toLowerCase()) parents.push(p);
+            if (normName(a) === normName(file)) parents.push(p);
         });
     });
     var parSec = document.getElementById('preview-parent-section');
@@ -341,10 +345,14 @@ function updatePreviewLabels(file) {
     var labelsEl = document.getElementById('preview-labels');
     var eventsEl = document.getElementById('preview-events');
     var found = Array.prototype.filter.call(document.querySelectorAll('#docs-tbody tr'), function (r) {
-        return (r.getAttribute('data-sort0') || '').toLowerCase() === file.toLowerCase();
+        return normName(r.getAttribute('data-sort0') || '') === normName(file);
     })[0] || null;
-    var metaKey = file.toLowerCase();
+    var metaKey = normName(file);
     var meta = DOC_META[metaKey] || null;
+    if (!meta) {
+        var mk = Object.keys(DOC_META).find(function (key) { return normName(key) === metaKey; });
+        if (mk) meta = DOC_META[mk];
+    }
     var h = 0;
     for (var i = 0; i < metaKey.length; i++) h = (h * 31 + metaKey.charCodeAt(i)) % 997;
     var version = meta ? meta.version : (1 + h % 4);
@@ -1010,6 +1018,12 @@ function msUncheck(btn, value) {
     }
 }
 
+document.addEventListener('change', function (e) {
+    if (e.target.closest && e.target.closest('#upload-entity, #upload-instance')) {
+        refreshUploadEvents();
+    }
+});
+
 function msModeChange(sel) {
     var ms = sel.parentNode.querySelector('.multi-select');
     if (ms) ms.classList.toggle('hidden-view', sel.value === 'Tous');
@@ -1239,15 +1253,15 @@ function filterDocuments() {
 // REGROUPEMENT PAR CATÉGORIES (navigation par dossiers)
 // ==========================================
 var EVENTS = [
-    { id: 'ev1', date: '2026-01-22', title: '', entity: 'CGE', label: 'CA CGE' },
-    { id: 'ev7', date: '2026-01-23', title: 'CA FCW du 23-01-2026', entity: 'FCW', label: 'CA FCW' },
-    { id: 'ev2', date: '2026-03-15', title: 'CA de mars 2026', entity: 'CGE', label: 'CA CGE' },
-    { id: 'ev8', date: '2026-04-09', title: 'CA FCW du 09-04-2026', entity: 'FCW', label: 'CA FCW' },
-    { id: 'ev3', date: '2026-04-16', title: '', entity: 'CGE', label: 'CA CGE' },
-    { id: 'ev4', date: '2026-06-01', title: 'Assemblée générale', entity: 'CPA', label: 'AG CPA' },
-    { id: 'ev9', date: '2026-06-23', title: 'AG FCW du 23-06-2026', entity: 'FCW', label: 'AG FCW' },
-    { id: 'ev5', date: '2026-06-25', title: '', entity: 'CGE', label: 'CA CGE' },
-    { id: 'ev6', date: '2026-09-17', title: '', entity: 'CGE', label: 'CA CGE' }
+    { id: 'ev1', date: '2026-01-22', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' },
+    { id: 'ev7', date: '2026-01-23', title: '', entities: ['FCW'], instance: 'OA', label: 'CA FCW' },
+    { id: 'ev2', date: '2026-03-15', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' },
+    { id: 'ev8', date: '2026-04-09', title: '', entities: ['FCW'], instance: 'OA', label: 'CA FCW' },
+    { id: 'ev3', date: '2026-04-16', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' },
+    { id: 'ev4', date: '2026-06-01', title: '', entities: ['CPA', 'ADS'], instance: 'AG', label: 'AG' },
+    { id: 'ev9', date: '2026-06-23', title: '', entities: ['FCW'], instance: 'AG', label: 'AG FCW' },
+    { id: 'ev5', date: '2026-06-25', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' },
+    { id: 'ev6', date: '2026-09-17', title: '', entities: ['CGE'], instance: 'OA', label: 'CA CGE' }
 ];
 
 function formatEventDate(d) {
@@ -1259,8 +1273,12 @@ function eventById(id) {
     return EVENTS.find(function (e) { return e.id === id; }) || null;
 }
 
+function eventAutoName(ev) {
+    return ev.instance + ' du ' + formatEventDate(ev.date) + ' pour ' + (ev.entities || []).join(' et ');
+}
+
 function eventDisplayName(ev) {
-    return 'Séance du ' + formatEventDate(ev.date);
+    return ev.title ? ev.title : eventAutoName(ev);
 }
 
 // ==========================================
@@ -1279,9 +1297,29 @@ function eventChipClass(ev) {
     return 'cal-chip cal-chip-event';
 }
 
+var CAL_FILTERS = { entities: [], instances: [] };
+
+function onCalendarFilterChange() {
+    CAL_FILTERS.entities = [];
+    var e = document.getElementById('cal-entity');
+    if (e) e.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) { CAL_FILTERS.entities.push(c.value); });
+    CAL_FILTERS.instances = [];
+    var i = document.getElementById('cal-instance');
+    if (i) i.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) { CAL_FILTERS.instances.push(c.value); });
+    renderCalendar();
+}
+
+function calendarFilteredEvents() {
+    return EVENTS.filter(function (ev) {
+        var okE = !CAL_FILTERS.entities.length || (ev.entities || []).some(function (e) { return CAL_FILTERS.entities.indexOf(e) !== -1; });
+        var okI = !CAL_FILTERS.instances.length || CAL_FILTERS.instances.indexOf(ev.instance) !== -1;
+        return okE && okI;
+    });
+}
+
 function eventsByDateMap() {
     var map = {};
-    EVENTS.forEach(function (ev) {
+    calendarFilteredEvents().forEach(function (ev) {
         (map[ev.date] = map[ev.date] || []).push(ev);
     });
     return map;
@@ -1334,7 +1372,7 @@ function renderMonthCalendar() {
         var isToday = today.getFullYear() === y && today.getMonth() === m && today.getDate() === d;
         html += '<div class="cal-cell' + (isToday ? ' today' : '') + '"><span class="cal-day">' + d + '</span>';
         evs.forEach(function (ev) {
-            html += '<button type="button" onclick="openEventFromCalendar(\'' + iso + '\')" class="' + eventChipClass(ev) + '" title="' + eventDisplayName(ev) + '">' + ev.label + '</button>';
+            html += '<button type="button" onclick="openEventFromCalendar(\'' + iso + '\')" class="' + eventChipClass(ev) + '" title="' + eventDisplayName(ev) + '">' + eventDisplayName(ev) + '</button>';
         });
         html += '</div>';
     }
@@ -1702,27 +1740,178 @@ function updateDocView() {
     if (grouped) buildDocTree();
 }
 
-function initUploadEventSelect() {
-    var sel = document.getElementById('upload-event-select');
-    if (!sel) return;
-    var html = '<option value="">Aucune séance</option>';
-    EVENTS.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).forEach(function (ev) {
-        html += '<option value="' + ev.id + '">' + eventDisplayName(ev) + '</option>';
-    });
-    sel.innerHTML = html;
+function uploadSelectedValues(id) {
+    var el = document.getElementById(id);
+    if (!el) return [];
+    var vals = [];
+    el.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) { vals.push(c.value); });
+    return vals;
 }
 
-function onUploadEventSelect() {
-    var sel = document.getElementById('upload-event-select');
-    if (sel && sel.value) {
-        var wrap = document.getElementById('upload-new-event');
-        if (wrap) wrap.classList.add('hidden-view');
+function uploadContextReady() {
+    return uploadSelectedValues('upload-entity').length > 0 && uploadSelectedValues('upload-instance').length > 0;
+}
+
+function eventsMatchingUploadContext() {
+    var entities = uploadSelectedValues('upload-entity');
+    var instances = uploadSelectedValues('upload-instance');
+    return EVENTS.filter(function (ev) {
+        var okE = !entities.length || (ev.entities || []).some(function (e) { return entities.indexOf(e) !== -1; });
+        var okI = !instances.length || instances.indexOf(ev.instance) !== -1;
+        return okE && okI;
+    }).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+}
+
+var UPLOAD_EVENT_CONTEXT = '';
+
+function refreshUploadEvents() {
+    var fields = document.getElementById('upload-event-fields');
+    var lockHint = document.getElementById('upload-event-lock-hint');
+    var locked = !uploadContextReady();
+    if (fields) fields.classList.toggle('upload-locked', locked);
+    if (lockHint) lockHint.classList.toggle('hidden-view', !locked);
+
+    var panel = document.getElementById('upload-event-panel');
+    if (!panel) return;
+
+    var newBtn = document.getElementById('upload-new-event-btn');
+    if (newBtn) newBtn.disabled = locked;
+
+    var hint = document.getElementById('upload-event-hint');
+
+    if (locked) {
+        panel.innerHTML = '';
+        renderUploadEventChips();
+        UPLOAD_EVENT_CONTEXT = '';
+        if (hint) hint.classList.add('hidden-view');
+        refreshUploadNewEventInfo();
+        return;
+    }
+
+    var list = eventsMatchingUploadContext();
+    var checkedIds = [];
+    panel.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) { checkedIds.push(c.getAttribute('data-event')); });
+
+    var html = '';
+    list.forEach(function (ev) {
+        var name = eventDisplayName(ev);
+        html += '<label class="ms-option"><input type="checkbox" value="' + name + '" data-event="' + ev.id + '"' + (checkedIds.indexOf(ev.id) !== -1 ? ' checked' : '') + ' onchange="msUpdate(this)"> ' + name + '</label>';
+    });
+    if (!html) html = '<div class="px-3 py-2 text-xs text-gray-500">Aucune séance pour cette combinaison.</div>';
+    panel.innerHTML = html;
+    renderUploadEventChips();
+
+    var docDate = document.getElementById('upload-doc-date');
+    var ctx = (docDate ? docDate.value : '') + '|' + uploadSelectedValues('upload-entity').join(',') + '|' + uploadSelectedValues('upload-instance').join(',');
+    if (ctx !== UPLOAD_EVENT_CONTEXT) {
+        UPLOAD_EVENT_CONTEXT = ctx;
+        var matches = (docDate && docDate.value) ? list.filter(function (ev) { return ev.date === docDate.value; }) : [];
+        if (matches.length === 1) {
+            var cb = panel.querySelector('input[data-event="' + matches[0].id + '"]');
+            if (cb && !cb.checked) {
+                cb.checked = true;
+                renderUploadEventChips();
+            }
+            if (hint) {
+                hint.innerHTML = 'Séance existante détectée : <b>' + eventDisplayName(matches[0]) + '</b> — ce document y sera lié.';
+                hint.classList.remove('hidden-view');
+            }
+        } else if (matches.length > 1) {
+            if (hint) {
+                hint.innerHTML = matches.length + ' séances correspondent à cette date. Cochez celles qui conviennent.';
+                hint.classList.remove('hidden-view');
+            }
+        } else if (hint) {
+            hint.classList.add('hidden-view');
+        }
+    }
+    refreshUploadNewEventInfo();
+}
+
+function renderUploadEventChips() {
+    var ms = document.getElementById('upload-event-select');
+    if (!ms) return;
+    var holder = ms.querySelector('.ms-value');
+    if (!holder) return;
+    holder.innerHTML = '';
+    var chips = document.createElement('span');
+    chips.className = 'ms-chips';
+    ms.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+        var chip = document.createElement('span');
+        chip.className = 'ms-chip';
+        chip.textContent = c.value + ' ';
+        var x = document.createElement('button');
+        x.type = 'button';
+        x.textContent = '×';
+        x.onclick = function (ev) { ev.stopPropagation(); msUncheck(this, c.value); };
+        chip.appendChild(x);
+        chips.appendChild(chip);
+    });
+    if (!chips.children.length) {
+        holder.textContent = ms.getAttribute('data-placeholder') || 'Aucune séance';
+    } else {
+        holder.appendChild(chips);
     }
 }
 
 function toggleUploadNewEvent() {
     var el = document.getElementById('upload-new-event');
-    if (el) el.classList.toggle('hidden-view');
+    if (!el) return;
+    if (el.classList.contains('hidden-view')) {
+        var docDate = document.getElementById('upload-doc-date');
+        var dateInput = document.getElementById('upload-new-event-date');
+        if (dateInput && docDate && !dateInput.value) dateInput.value = docDate.value;
+        el.classList.remove('hidden-view');
+    } else {
+        el.classList.add('hidden-view');
+    }
+    refreshUploadNewEventInfo();
+}
+
+function refreshUploadNewEventInfo() {
+    var el = document.getElementById('upload-new-event');
+    if (!el) return;
+    var entities = uploadSelectedValues('upload-entity');
+    var instances = uploadSelectedValues('upload-instance');
+    var dateInput = document.getElementById('upload-new-event-date');
+    var titleInput = document.getElementById('upload-new-event-title');
+    var customToggle = document.getElementById('upload-custom-title-toggle');
+    var autoHint = document.getElementById('upload-new-event-auto-hint');
+    var warn = document.getElementById('upload-new-event-warning');
+    if (!dateInput || !titleInput || !autoHint || !warn) return;
+
+    var custom = customToggle && customToggle.checked;
+    var docDate = document.getElementById('upload-doc-date');
+    var dateValue = dateInput.value || (docDate ? docDate.value : '');
+    var autoName = entities.length && instances.length
+        ? instances[0] + ' du ' + (dateValue ? formatEventDate(dateValue) : '{date}') + ' pour ' + entities.join(' et ')
+        : '{code instance} du {date} pour {entité}';
+
+    titleInput.readOnly = !custom;
+    titleInput.disabled = !custom;
+    titleInput.classList.toggle('bg-gray-50', !custom);
+    if (!custom) {
+        titleInput.value = autoName;
+        autoHint.textContent = '';
+    } else if (titleInput.value) {
+        autoHint.textContent = '';
+    } else {
+        autoHint.textContent = 'Laissez vide pour utiliser le nom automatique « ' + autoName + ' ».';
+    }
+
+    if (entities.length && instances.length && dateInput.value) {
+        var dup = EVENTS.find(function (ev) {
+            return ev.date === dateInput.value
+                && ev.instance === instances[0]
+                && (ev.entities || []).some(function (e) { return entities.indexOf(e) !== -1; });
+        });
+        if (dup) {
+            warn.innerHTML = 'Une séance existe déjà pour cette combinaison : <b>' + eventDisplayName(dup) + '</b>. Sélectionnez-la plutôt pour éviter un doublon.';
+            warn.classList.remove('hidden-view');
+            return;
+        }
+    }
+    warn.classList.add('hidden-view');
 }
 
 function hideFiltersPanel() {

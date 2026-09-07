@@ -31,7 +31,7 @@ PARTIALS.modalUpload = `
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Date du document <span class="text-red-500">*</span></label>
-                    <input type="date" id="upload-doc-date" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <input type="date" id="upload-doc-date" onchange="refreshUploadEvents()" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
             </div>
 
@@ -48,7 +48,7 @@ PARTIALS.modalUpload = `
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Entité <span class="text-red-500">*</span></label>
-                        <div class="multi-select" data-placeholder="Choisir une entité…">
+                        <div id="upload-entity" class="multi-select" data-placeholder="Choisir une entité…">
                             <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                                 <span class="ms-value">Choisir une entité…</span>
                                 <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
@@ -72,7 +72,7 @@ PARTIALS.modalUpload = `
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Instance <span class="text-red-500">*</span></label>
-                        <div class="multi-select" data-placeholder="Choisir une instance…">
+                        <div id="upload-instance" class="multi-select" data-placeholder="Choisir une instance…">
                             <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
                                 <span class="ms-value">Choisir une instance…</span>
                                 <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
@@ -110,34 +110,52 @@ PARTIALS.modalUpload = `
             <hr class="border-gray-200">
 
             <div>
-                <h4 class="text-sm font-bold text-gray-800 mb-3">Séance</h4>
-                <div class="flex items-end gap-3">
-                    <div class="flex-1">
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Séance existante</label>
-                        <select id="upload-event-select" onchange="onUploadEventSelect()" class="select w-full">
-                            <option value="">Aucune séance</option>
-                        </select>
-                    </div>
-                    <button type="button" onclick="toggleUploadNewEvent()" class="btn btn-outline">
-                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M8 2v4" />
+                <h4 class="text-sm font-bold text-gray-800 mb-3">Séance(s) associée(s)</h4>
+                <div id="upload-event-lock-hint" class="hidden-view flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-md px-3 py-2.5 mb-3">
+                    <svg class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+  <path d="M12 9v4" />
+  <path d="M12 17h.01" /></svg>
+                    <p class="text-xs text-amber-800 leading-relaxed">Sélectionnez d'abord une entité et une instance dans les libellés pour lier ce document à une séance.</p>
+                </div>
+                <div id="upload-event-fields">
+                    <div id="upload-event-hint" class="upload-hint upload-hint-info hidden-view mb-3"></div>
+                    <div class="flex items-end gap-3">
+                        <div class="flex-1 min-w-0">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Séances existantes</label>
+                            <div id="upload-event-select" class="multi-select" data-placeholder="Aucune séance">
+                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                                    <span class="ms-value">Aucune séance</span>
+                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                </div>
+                                <div id="upload-event-panel" class="multi-select-panel hidden-view"></div>
+                            </div>
+                        </div>
+                        <button type="button" id="upload-new-event-btn" onclick="toggleUploadNewEvent()" class="btn btn-outline">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M8 2v4" />
   <path d="M16 2v4" />
   <path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8" />
   <path d="M3 10h18" />
   <path d="M16 19h6" />
   <path d="M19 16v6" /></svg>
-                        Nouvelle séance
-                    </button>
-                </div>
-                <div id="upload-new-event" class="hidden-view mt-3 grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date de la séance <span class="text-red-500">*</span></label>
-                        <input type="date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                            Nouvelle séance
+                        </button>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre</label>
-                        <input type="text" placeholder="Ex: CA de septembre 2026" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <div id="upload-new-event" class="hidden-view mt-3 grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date de la séance <span class="text-red-500">*</span></label>
+                            <input type="date" id="upload-new-event-date" onchange="refreshUploadNewEventInfo()" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre</label>
+                            <input type="text" id="upload-new-event-title" onchange="refreshUploadNewEventInfo()" placeholder="Ex: CA de septembre 2026" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                            <label class="inline-flex items-center gap-2 text-sm text-gray-600 cursor-pointer mt-1.5">
+                                <input id="upload-custom-title-toggle" type="checkbox" class="toggle-switch" onchange="refreshUploadNewEventInfo()">
+                                Utiliser un titre personnalisé
+                            </label>
+                        </div>
+                        <p id="upload-new-event-auto-hint" class="col-span-2 text-xs text-gray-500 -mt-2"></p>
+                        <p id="upload-new-event-warning" class="col-span-2 upload-hint upload-hint-warn hidden-view -mt-1"></p>
                     </div>
-                    <p class="col-span-2 text-xs text-gray-500 -mt-2">Si le titre est vide, la séance sera nommée automatiquement « Séance du {date} ».</p>
                 </div>
             </div>
 
