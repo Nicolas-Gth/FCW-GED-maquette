@@ -14,7 +14,7 @@ PARTIALS.viewRoles = `
 
             <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
 
-                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between px-6 py-4 bg-gray-50 border-b border-gray-200">
                     <p class="text-sm text-gray-600">5 rôles · <span class="text-gray-400">Un rôle ne peut être attribué que par un compte disposant de tous ses privilèges et de tous ses libellés.</span></p>
                     <div class="flex gap-3">
                         <button onclick="openAccessCheck()" class="btn btn-outline">
@@ -23,8 +23,9 @@ PARTIALS.viewRoles = `
                             Vérifier les accès
                         </button>
                         <button onclick="openRoleCreate()" class="btn btn-primary">
-                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14" />
-  <path d="M12 5v14" /></svg>
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="M9 12h6" />
+  <path d="M12 9v6" /></svg>
                             Créer un rôle
                         </button>
                     </div>
@@ -136,7 +137,7 @@ PARTIALS.viewRoles = `
             <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
 
                 <!-- FILTRES -->
-                <div class="px-6 py-4 border-b border-gray-200">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
                     <div class="flex flex-wrap gap-3 items-end">
                         <div class="flex-1 min-w-[220px]">
                             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
@@ -172,28 +173,30 @@ PARTIALS.viewRoles = `
                 </div>
 
                 <div class="flex-1 overflow-y-auto min-h-0">
-                <table class="data-table w-full text-left text-sm whitespace-nowrap">
+                <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
                     <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
                         <tr>
                             <th class="sortable px-6 py-4" onclick="sortTable(this, 0)">Document <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTable(this, 1)">Utilisateur <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTable(this, 2)">Privilèges accordés <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTable(this, 3)">Période de validité <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTable(this, 4)">Accordé par <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTable(this, 5)">Statut <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 4)">Statut <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 5)">Accordé par <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTable(this, 6)">Accordé le <span class="sort-indicator"></span></th>
                             <th class="px-6 py-4"></th>
                         </tr>
                     </thead>
                     <tbody id="na-tbody" class="divide-y divide-gray-200">
-                        <tr class="hover:bg-primary-light transition-colors" data-status="Planifié" data-search="compte rendu ca mars 2026 sophie durant philippe dumont" data-sort0="compte rendu ca mars 2026" data-sort1="sophie durant" data-sort2="consulter" data-sort3="20260910" data-sort4="philippe dumont" data-sort5="planifié">
-                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Compte Rendu CA Mars 2026</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Planifié" data-search="compte rendu ca mars 2026 sophie durant philippe dumont" data-sort0="compte rendu ca mars 2026" data-sort1="sophie durant" data-sort2="consulter" data-sort3="20260910" data-sort4="planifié" data-sort5="philippe dumont" data-sort6="20260824">
+                            <td class="px-6 py-4 font-medium text-primary hover:underline cursor-pointer" data-role="na-doc" data-file="Compte Rendu CA Mars 2026.pdf" onclick="openNominativeDocument(this)">Compte Rendu CA Mars 2026</td>
                             <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Sophie Durant');" class="font-medium text-primary hover:underline" data-role="na-user">Sophie Durant</button></td>
                             <td class="px-6 py-4"><span class="badge badge-neutral">Consulter</span></td>
-                            <td class="px-6 py-4 text-gray-500">Débute le 10/09/2026</td>
-                            <td class="px-6 py-4 text-gray-500">Philippe Dumont · 24/08/2026</td>
+                            <td class="px-6 py-4 text-gray-500">À partir du 10/09/2026</td>
                             <td class="px-6 py-4"><span class="badge badge-warning">Planifié</span></td>
-                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                                <button onclick="openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
+                            <td class="px-6 py-4 text-gray-500">Philippe Dumont</td>
+                            <td class="px-6 py-4 text-gray-500">24/08/2026</td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions row-actions-fly">
+                                <button onclick="event.stopPropagation(); openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
   <circle cx="9" cy="7" r="4" />
   <line x1="17" x2="22" y1="8" y2="13" />
@@ -201,18 +204,19 @@ PARTIALS.viewRoles = `
                                 </button>
                             </span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-status="Actif" data-search="rapport annuel 2025 denis buchet marc lemoine" data-sort0="rapport annuel 2025" data-sort1="denis buchet" data-sort2="consulter télécharger" data-sort3="20260101" data-sort4="marc lemoine" data-sort5="actif">
-                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Rapport Annuel 2025</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Actif" data-search="rapport annuel 2025 denis buchet marc lemoine" data-sort0="rapport annuel 2025" data-sort1="denis buchet" data-sort2="consulter télécharger" data-sort3="20260101" data-sort4="actif" data-sort5="marc lemoine" data-sort6="20260115">
+                            <td class="px-6 py-4 font-medium text-primary hover:underline cursor-pointer" data-role="na-doc" data-file="Rapport Annuel 2025.pdf" onclick="openNominativeDocument(this)">Rapport Annuel 2025</td>
                             <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Denis Buchet');" class="font-medium text-primary hover:underline" data-role="na-user">Denis Buchet</button></td>
                             <td class="px-6 py-4">
                                 <span class="badge badge-neutral me-1">Consulter</span>
                                 <span class="badge badge-neutral">Télécharger</span>
                             </td>
-                            <td class="px-6 py-4 text-gray-500">01/01/2026 → 31/12/2026</td>
-                            <td class="px-6 py-4 text-gray-500">Marc Lemoine · 15/01/2026</td>
+                            <td class="px-6 py-4 text-gray-500">Du 01/01/2026 au 31/12/2026</td>
                             <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
-                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                                <button onclick="openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
+                            <td class="px-6 py-4 text-gray-500">Marc Lemoine</td>
+                            <td class="px-6 py-4 text-gray-500">15/01/2026</td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions row-actions-fly">
+                                <button onclick="event.stopPropagation(); openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 2.072.578" />
   <circle cx="10" cy="7" r="4" />
   <line x1="17" x2="22" y1="8" y2="13" />
@@ -220,18 +224,19 @@ PARTIALS.viewRoles = `
                                 </button>
                             </span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-status="Actif" data-search="procès verbal ca avril 2026 julie stavrakas philippe dumont" data-sort0="procès verbal ca avril 2026" data-sort1="julie stavrakas" data-sort2="consulter modifier" data-sort3="permanent" data-sort4="philippe dumont" data-sort5="actif">
-                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Procès Verbal CA Avril 2026</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Actif" data-search="procès verbal ca avril 2026 julie stavrakas philippe dumont" data-sort0="procès verbal ca avril 2026" data-sort1="julie stavrakas" data-sort2="consulter modifier" data-sort3="permanente" data-sort4="actif" data-sort5="philippe dumont" data-sort6="20260418">
+                            <td class="px-6 py-4 font-medium text-primary hover:underline cursor-pointer" data-role="na-doc" data-file="Procès Verbal CA Avril 2026.pdf" onclick="openNominativeDocument(this)">Procès Verbal CA Avril 2026</td>
                             <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Julie Stavrakas');" class="font-medium text-primary hover:underline" data-role="na-user">Julie Stavrakas</button></td>
                             <td class="px-6 py-4">
                                 <span class="badge badge-neutral me-1">Consulter</span>
                                 <span class="badge badge-neutral">Modifier</span>
                             </td>
-                            <td class="px-6 py-4 text-gray-500">Permanent</td>
-                            <td class="px-6 py-4 text-gray-500">Philippe Dumont · 18/04/2026</td>
+                            <td class="px-6 py-4 text-gray-500">Permanente</td>
                             <td class="px-6 py-4"><span class="badge badge-success">Actif</span></td>
-                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions inline-flex items-center">
-                                <button onclick="openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
+                            <td class="px-6 py-4 text-gray-500">Philippe Dumont</td>
+                            <td class="px-6 py-4 text-gray-500">18/04/2026</td>
+                            <td class="px-6 py-4 text-right text-gray-500"><span class="row-actions row-actions-fly">
+                                <button onclick="event.stopPropagation(); openRevokeAccess(this)" title="Révoquer l'accès" class="na-revoke p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors">
                                     <svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
   <circle cx="9" cy="7" r="4" />
   <line x1="17" x2="22" y1="8" y2="13" />
@@ -239,38 +244,41 @@ PARTIALS.viewRoles = `
                                 </button>
                             </span></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-status="Expiré" data-search="bilan financier annuel 2025 d.buchet@chimay-gestion.be philippe dumont" data-sort0="bilan financier annuel 2025" data-sort1="d.buchet@chimay-gestion.be" data-sort2="consulter" data-sort3="20260630" data-sort4="philippe dumont" data-sort5="expiré">
-                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Bilan Financier Annuel 2025</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Expiré" data-search="bilan financier annuel 2025 d.buchet@chimay-gestion.be philippe dumont" data-sort0="bilan financier annuel 2025" data-sort1="d.buchet@chimay-gestion.be" data-sort2="consulter" data-sort3="20260630" data-sort4="expiré" data-sort5="philippe dumont" data-sort6="20260302">
+                            <td class="px-6 py-4 font-medium text-primary hover:underline cursor-pointer" data-role="na-doc" data-file="Bilan Financier Annuel.xlsx" onclick="openNominativeDocument(this)">Bilan Financier Annuel 2025</td>
                             <td class="px-6 py-4 text-gray-600" data-role="na-user">d.buchet@chimay-gestion.be <span class="text-xs text-gray-400">(invité)</span></td>
                             <td class="px-6 py-4"><span class="badge badge-neutral">Consulter</span></td>
                             <td class="px-6 py-4 text-gray-500">Jusqu'au 30/06/2026</td>
-                            <td class="px-6 py-4 text-gray-500">Philippe Dumont · 02/03/2026</td>
                             <td class="px-6 py-4"><span class="badge badge-neutral">Expiré</span></td>
+                            <td class="px-6 py-4 text-gray-500">Philippe Dumont</td>
+                            <td class="px-6 py-4 text-gray-500">02/03/2026</td>
                             <td class="px-6 py-4 text-right text-gray-500"></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-status="Expiré" data-search="2026fcw024 pv oa fcw 09-04-2026 laurent petit julie stavrakas" data-sort0="2026fcw024 pv oa fcw 09-04-2026" data-sort1="laurent petit" data-sort2="consulter télécharger" data-sort3="20260531" data-sort4="julie stavrakas" data-sort5="expiré">
-                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">2026fcw024 - PV OA FCW du 09-04-2026</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Expiré" data-search="2026fcw024 pv oa fcw 09-04-2026 laurent petit julie stavrakas" data-sort0="2026fcw024 pv oa fcw 09-04-2026" data-sort1="laurent petit" data-sort2="consulter télécharger" data-sort3="20260531" data-sort4="expiré" data-sort5="julie stavrakas" data-sort6="20260502">
+                            <td class="px-6 py-4 font-medium text-primary hover:underline cursor-pointer" data-role="na-doc" data-file="2026fcw024 - PV OA FCW du 09-04-2026.doc" onclick="openNominativeDocument(this)">2026fcw024 - PV OA FCW du 09-04-2026</td>
                             <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Laurent Petit');" class="font-medium text-primary hover:underline" data-role="na-user">Laurent Petit</button></td>
                             <td class="px-6 py-4">
                                 <span class="badge badge-neutral me-1">Consulter</span>
                                 <span class="badge badge-neutral">Télécharger</span>
                             </td>
                             <td class="px-6 py-4 text-gray-500">Jusqu'au 31/05/2026</td>
-                            <td class="px-6 py-4 text-gray-500">Julie Stavrakas · 02/05/2026</td>
                             <td class="px-6 py-4"><span class="badge badge-neutral">Expiré</span></td>
+                            <td class="px-6 py-4 text-gray-500">Julie Stavrakas</td>
+                            <td class="px-6 py-4 text-gray-500">02/05/2026</td>
                             <td class="px-6 py-4 text-right text-gray-500"></td>
                         </tr>
-                        <tr class="hover:bg-primary-light transition-colors" data-status="Révoqué" data-search="rapport annuel 2025 sophie durant philippe dumont" data-sort0="rapport annuel 2025" data-sort1="sophie durant" data-sort2="consulter" data-sort3="permanent" data-sort4="philippe dumont" data-sort5="révoqué">
-                            <td class="px-6 py-4 font-medium text-gray-900" data-role="na-doc">Rapport Annuel 2025</td>
+                        <tr class="hover:bg-primary-light transition-colors" data-status="Révoqué" data-search="rapport annuel 2025 sophie durant philippe dumont" data-sort0="rapport annuel 2025" data-sort1="sophie durant" data-sort2="consulter" data-sort3="permanente" data-sort4="révoqué" data-sort5="philippe dumont" data-sort6="20260220">
+                            <td class="px-6 py-4 font-medium text-primary hover:underline cursor-pointer" data-role="na-doc" data-file="Rapport Annuel 2025.pdf" onclick="openNominativeDocument(this)">Rapport Annuel 2025</td>
                             <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Sophie Durant');" class="font-medium text-primary hover:underline" data-role="na-user">Sophie Durant</button></td>
                             <td class="px-6 py-4"><span class="badge badge-neutral">Consulter</span></td>
-                            <td class="px-6 py-4 text-gray-500">Permanent</td>
-                            <td class="px-6 py-4 text-gray-500">Philippe Dumont · 20/02/2026</td>
+                            <td class="px-6 py-4 text-gray-500">Permanente</td>
                             <td class="px-6 py-4"><span class="badge badge-danger">Révoqué</span></td>
+                            <td class="px-6 py-4 text-gray-500">Philippe Dumont</td>
+                            <td class="px-6 py-4 text-gray-500">20/02/2026</td>
                             <td class="px-6 py-4 text-right text-gray-500"></td>
                         </tr>
                         <tr id="na-empty" class="empty-row hidden-view">
-                            <td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucun accès nominatif ne correspond à vos filtres.</td>
+                            <td colspan="8" class="px-6 py-10 text-center text-gray-500">Aucun accès nominatif ne correspond à vos filtres.</td>
                         </tr>
                     </tbody>
                 </table>

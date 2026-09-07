@@ -19,7 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
         'partial-modal-preview': PARTIALS.modalPreview,
         'partial-modal-user': PARTIALS.modalUser,
         'partial-modal-label': PARTIALS.modalLabel,
+        'partial-modal-label-details': PARTIALS.modalLabelDetails,
         'partial-modal-role': PARTIALS.modalRole,
+        'partial-modal-role-details': PARTIALS.modalRoleDetails,
         'partial-modal-save-view': PARTIALS.modalSaveView,
         'partial-modal-delete-view': PARTIALS.modalDeleteView,
         'partial-modal-access-check': PARTIALS.modalAccessCheck,
@@ -587,6 +589,12 @@ function resetNominativeAccessFilters() {
     filterNominativeAccesses();
 }
 
+function openNominativeDocument(cell) {
+    var file = cell.getAttribute('data-file') || cell.textContent.trim();
+    navigateTo('view-documents');
+    openPreview(file, file);
+}
+
 var PENDING_REVOKE_ROW = null;
 
 function openRevokeAccess(btn) {
@@ -606,8 +614,8 @@ function confirmRevokeAccess() {
     if (PENDING_REVOKE_ROW) {
         var row = PENDING_REVOKE_ROW;
         row.setAttribute('data-status', 'Révoqué');
-        row.setAttribute('data-sort5', 'révoqué');
-        var statusTd = row.querySelectorAll('td')[5];
+        row.setAttribute('data-sort4', 'révoqué');
+        var statusTd = row.querySelectorAll('td')[4];
         if (statusTd) {
             statusTd.innerHTML = '<span class="badge badge-danger">Révoqué</span>';
         }
@@ -968,6 +976,71 @@ function openRoleCreate() {
     buildRoleRules(document.getElementById('role-rules'), [{}]);
     toggleModal('modal-role', true);
 }
+
+function roleDetailsMultiWrap(panelHTML) {
+    return '<div class="multi-select">'
+        + '<div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">'
+        + '<span class="ms-value">Sélectionner…</span>'
+        + '<svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>'
+        + '</div>'
+        + '<div class="multi-select-panel hidden-view">' + panelHTML + '</div>'
+        + '</div>';
+}
+
+function openRoleDetails(name) {
+    var def = ROLES_DB[name];
+    if (!def) return;
+
+    var nameInput = document.getElementById('role-details-name');
+    if (nameInput) nameInput.value = name;
+
+    var usersEl = document.getElementById('role-details-users');
+    if (usersEl) {
+        var row = Array.prototype.filter.call(document.querySelectorAll('#roles-tab-panel tbody tr'), function (r) {
+            return (r.getAttribute('data-sort0') || '') === normName(name);
+        })[0] || null;
+        usersEl.textContent = row && row.children[1] ? row.children[1].textContent.trim() : '—';
+    }
+
+    var genEl = document.getElementById('role-details-general');
+    if (genEl) {
+        genEl.innerHTML = roleDetailsMultiWrap(rolePrivilegePanelHTML(ROLE_GENERAL_PRIVILEGES, { privileges: def.general }));
+    }
+
+    var rulesEl = document.getElementById('role-details-rules');
+    if (rulesEl) {
+        rulesEl.innerHTML = (def.rules.length ? def.rules : [{}]).map(function (preset, i) {
+            var priv = rolePrivilegePanelHTML([{ group: '', items: ROLE_DOC_PRIVILEGES }], preset);
+            var cats = ROLE_RULE_CATEGORIES.map(function (cat) { return roleRuleCategoryHTML(cat, preset); }).join('\n');
+            return '<div class="role-rule border border-gray-200 rounded-md p-3">'
+                + '<div class="mb-2"><span class="rule-num text-xs font-semibold text-gray-500 uppercase">Règle n°' + (i + 1) + '</span></div>'
+                + '<div class="mb-2">'
+                + '<label class="block text-sm font-medium text-gray-700 mb-1">Privilège(s)</label>'
+                + roleDetailsMultiWrap(priv)
+                + '</div>'
+                + '<div class="space-y-3">' + cats + '</div>'
+                + '</div>';
+        }).join('');
+    }
+
+    var modal = document.getElementById('modal-role-details');
+    if (!modal) return;
+    modal.querySelectorAll('input[type="checkbox"]').forEach(function (c) { c.disabled = true; });
+    modal.querySelectorAll('.multi-select').forEach(function (ms) {
+        var first = ms.querySelector('input');
+        if (first) msUpdate(first);
+    });
+
+    toggleModal('modal-role-details', true);
+}
+
+document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('button')) return;
+    if (e.target.closest && e.target.closest('#roles-tab-panel tbody tr[data-sort0]')) {
+        var row = e.target.closest('#roles-tab-panel tbody tr[data-sort0]');
+        openRoleDetails(row.children[0].textContent.trim());
+    }
+});
 
 // ==========================================
 // LISTE À COCHER (multi-select des règles)
@@ -2084,6 +2157,51 @@ function renumberLabels(tbody) {
         }
     });
 }
+
+function openLabelDetails(row) {
+    var cells = row.children;
+    var name = cells[0] ? cells[0].textContent.trim() : '—';
+    var code = cells[1] ? cells[1].textContent.trim() : '—';
+    var orderEl = row.querySelector('.label-order');
+    var order = orderEl ? orderEl.textContent.trim() : '—';
+    var badge = row.querySelector('.badge');
+    var status = badge ? badge.textContent.trim() : 'Actif';
+    var tbody = row.closest('.labels-tbody');
+    var catMap = { 'labels-tbody-0': 'Entité', 'labels-tbody-1': 'Instance', 'labels-tbody-2': 'Type de document' };
+    var attrMap = { 'labels-tbody-0': 'entity', 'labels-tbody-1': 'organ', 'labels-tbody-2': 'type' };
+    var category = tbody ? (catMap[tbody.id] || '—') : '—';
+    var attr = tbody ? attrMap[tbody.id] : null;
+    var count = 0;
+    if (attr) {
+        document.querySelectorAll('#docs-tbody tr[data-' + attr + ']').forEach(function (r) {
+            if ((r.getAttribute('data-' + attr) || '').split(/\s+/).indexOf(code) !== -1) count++;
+        });
+    }
+
+    var nameEl = document.getElementById('label-details-name');
+    var codeEl = document.getElementById('label-details-code');
+    var catEl = document.getElementById('label-details-category');
+    var orderOut = document.getElementById('label-details-order');
+    var countEl = document.getElementById('label-details-count');
+    var statusEl = document.getElementById('label-details-status');
+    if (nameEl) nameEl.textContent = name;
+    if (codeEl) codeEl.textContent = code;
+    if (catEl) catEl.textContent = category;
+    if (orderOut) orderOut.textContent = order;
+    if (countEl) countEl.textContent = count + (count > 1 ? ' documents' : ' document');
+    if (statusEl) {
+        statusEl.textContent = status;
+        statusEl.className = 'badge ' + (status === 'Actif' ? 'badge-success' : 'badge-danger');
+    }
+    toggleModal('modal-label-details', true);
+}
+
+document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('button')) return;
+    if (e.target.closest && e.target.closest('#view-labels .labels-tbody tr[data-sort0]')) {
+        openLabelDetails(e.target.closest('#view-labels .labels-tbody tr[data-sort0]'));
+    }
+});
 
 // ==========================================
 // FILTRES ET TRI DE L'HISTORIQUE
