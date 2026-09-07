@@ -34,7 +34,7 @@ PARTIALS.viewRecent = `
                                 2026fcw038 - PV AG FCW du 23-06-2026
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Aujourd'hui - 17:05</td>
+                        <td class="px-6 py-4 text-gray-500">Aujourd'hui à 17h05</td>
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">FCW</span>
                             <span class="badge badge-emerald me-1">AG</span>
@@ -80,7 +80,7 @@ PARTIALS.viewRecent = `
                                 Compte Rendu CA Mars 2026
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Aujourd'hui - 16:42</td>
+                        <td class="px-6 py-4 text-gray-500">Aujourd'hui à 16h42</td>
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CGE</span>
                             <span class="badge badge-violet">PV</span>
@@ -125,7 +125,7 @@ PARTIALS.viewRecent = `
                                 Rapport Annuel 2025
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-gray-500">Hier - 14:40</td>
+                        <td class="px-6 py-4 text-gray-500">Hier à 14h40</td>
                         <td class="px-6 py-4">
                             <span class="badge badge-primary me-1">CPA</span>
                             <span class="badge badge-violet">RA</span>

@@ -14,7 +14,7 @@ PARTIALS.sidebar = `
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></svg>
     </button>
     
-    <nav class="flex-1 px-4 pt-4 space-y-2 overflow-y-auto">
+    <nav class="flex-1 mx-4 mt-4 space-y-2 overflow-y-auto rounded-md">
 
         <button data-view="view-recent" onclick="switchView('view-recent', this)" class="menu-btn w-full flex items-center gap-3 text-white/85 hover:text-white hover:bg-white/15 px-3 py-2 rounded-md transition-colors">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
@@ -67,6 +67,19 @@ PARTIALS.sidebar = `
   <path d="M3 5h18" />
   <circle cx="16" cy="15" r="6" /></svg>
             Historique des actions
+        </button>
+
+        <button data-view="view-configuration" onclick="switchView('view-configuration', this)" class="menu-btn w-full flex items-center gap-3 text-white/85 hover:text-white hover:bg-white/15 px-3 py-2 rounded-md transition-colors">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 21v-7" />
+  <path d="M4 10V3" />
+  <path d="M12 21v-9" />
+  <path d="M12 8V3" />
+  <path d="M20 21v-5" />
+  <path d="M20 12V3" />
+  <path d="M2 14h4" />
+  <path d="M10 8h4" />
+  <path d="M18 16h4" /></svg>
+            Configuration globale
         </button>
     </nav>
     
