@@ -47,7 +47,6 @@ scripts = [
     'js/partials/view-labels.js',
     'js/partials/view-audit.js',
     'js/partials/view-settings.js',
-    'js/partials/view-configuration.js',
     'js/partials/modal-invite.js',
     'js/partials/modal-upload.js',
     'js/partials/modal-preview.js',

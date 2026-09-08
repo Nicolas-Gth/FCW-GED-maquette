@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
         'partial-view-labels': PARTIALS.viewLabels,
         'partial-view-audit': PARTIALS.viewAudit,
         'partial-view-settings': PARTIALS.viewSettings,
-        'partial-view-configuration': PARTIALS.viewConfiguration,
         'partial-modal-invite': PARTIALS.modalInvite,
         'partial-modal-upload': PARTIALS.modalUpload,
         'partial-modal-preview': PARTIALS.modalPreview,
@@ -74,8 +73,7 @@ var VIEW_TITLES = {
     'view-roles': 'Rôles et accès',
     'view-labels': 'Gestion des libellés',
     'view-audit': 'Historique des actions',
-    'view-settings': 'Paramètres du compte',
-    'view-configuration': 'Configuration globale'
+    'view-settings': 'Paramètres du compte'
 };
 
 // Fonction pour changer de vue depuis le menu
@@ -99,11 +97,6 @@ function switchView(viewId, btnElement) {
 function navigateTo(viewId) {
     var btn = document.querySelector('.menu-btn[data-view="' + viewId + '"]');
     switchView(viewId, btn);
-}
-
-// Enregistrement de la configuration globale
-function saveGlobalConfig() {
-    alert('Configuration globale enregistrée (prototype)');
 }
 
 // ==========================================

@@ -68,19 +68,6 @@ PARTIALS.sidebar = `
   <circle cx="16" cy="15" r="6" /></svg>
             Historique des actions
         </button>
-
-        <button data-view="view-configuration" onclick="switchView('view-configuration', this)" class="menu-btn w-full flex items-center gap-3 text-white/85 hover:text-white hover:bg-white/15 px-3 py-2 rounded-md transition-colors">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 21v-7" />
-  <path d="M4 10V3" />
-  <path d="M12 21v-9" />
-  <path d="M12 8V3" />
-  <path d="M20 21v-5" />
-  <path d="M20 12V3" />
-  <path d="M2 14h4" />
-  <path d="M10 8h4" />
-  <path d="M18 16h4" /></svg>
-            Configuration globale
-        </button>
     </nav>
     
     <img src="assets/separateur-blason.svg" alt="Blason Fondation Chimay-Wartoise" class="w-full block shrink-0">
