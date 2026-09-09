@@ -2455,11 +2455,12 @@ PARTIALS.viewCalendar = `
 <section id="view-calendar" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
-        <p class="text-sm text-gray-600 mb-4">Cliquez sur une séance pour afficher ses documents.</p>
-
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
             <div class="flex flex-wrap items-end gap-3 px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <h2 id="calendar-month-label" class="text-lg font-bold text-gray-800 mb-1"></h2>
+                <div>
+                    <h2 id="calendar-month-label" class="text-lg font-bold text-gray-800"></h2>
+                    <p class="text-xs text-gray-500 mt-1">Cliquez sur une séance pour afficher ses documents.</p>
+                </div>
                 <div class="flex flex-wrap items-end gap-3 ml-auto">
                     <div class="w-48">
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Entité</label>
