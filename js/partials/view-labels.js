@@ -25,9 +25,9 @@ PARTIALS.viewLabels = `
                 <button type="button" onclick="switchLabelCategory(this, 2)" data-tab-color="label-tab-3" class="label-tab label-tab-inactive">Type de document</button>
         </div>
 
-        <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 h-[50vh] overflow-y-auto">
             <table class="data-table w-full text-left text-sm whitespace-nowrap">
-                <thead class="thead-tab-0 border-b border-gray-200 uppercase text-xs font-semibold">
+                <thead class="thead-tab-0 sticky top-0 z-10 border-b border-gray-200 uppercase text-xs font-semibold">
                     <tr>
                         <th class="sortable px-6 py-3" onclick="sortTabTable(this, 0)">Nom <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-3" onclick="sortTabTable(this, 1)">Code Unique <span class="sort-indicator"></span></th>
@@ -499,45 +499,42 @@ PARTIALS.viewLabels = `
         <!-- FORMAT DE NOMMAGE DES FICHIERS TÉLÉCHARGÉS -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 mt-4">
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <h3 class="text-sm font-semibold text-gray-800">Format de nommage des fichiers téléchargés</h3>
+                <h3 class="uppercase text-xs font-semibold text-gray-600">Format de nommage des fichiers téléchargés</h3>
             </div>
 
             <div class="px-6 py-5 space-y-5">
                 <div>
                     <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Variables disponibles</h4>
-                    <div class="grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm">
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{titre document}</code><span class="text-gray-600">Titre du document</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{version}</code><span class="text-gray-600">Numéro de version</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{entité}</code><span class="text-gray-600">Entité (libellé complet)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{entité code}</code><span class="text-gray-600">Entité (code, ex. CGE)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{instance}</code><span class="text-gray-600">Instance (libellé complet)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{instance code}</code><span class="text-gray-600">Instance (code, ex. OA / AG)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{type document}</code><span class="text-gray-600">Type de document (libellé complet)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{type document code}</code><span class="text-gray-600">Type de document (code, ex. PV)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{séance}</code><span class="text-gray-600">Nom de la séance</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document}</code><span class="text-gray-600">Date du document (JJ/MM/AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document iso}</code><span class="text-gray-600">Date du document (AAAA-MM-JJ)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document court}</code><span class="text-gray-600">Date du document (JJ/MM/AA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année document}</code><span class="text-gray-600">Année du document (AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{mois document}</code><span class="text-gray-600">Mois du document (MM)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{jour document}</code><span class="text-gray-600">Jour du document (JJ)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date séance}</code><span class="text-gray-600">Date de la séance (JJ/MM/AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date séance iso}</code><span class="text-gray-600">Date de la séance (AAAA-MM-JJ)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année séance}</code><span class="text-gray-600">Année de la séance (AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date dépôt}</code><span class="text-gray-600">Date de dépôt (JJ/MM/AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année dépôt}</code><span class="text-gray-600">Année de dépôt (AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date du jour}</code><span class="text-gray-600">Date du jour (JJ/MM/AAAA)</span></div>
+                    <div class="columns-2 gap-x-8 text-sm">
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{titre document}</code><span class="text-gray-600">Titre du document</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{version document}</code><span class="text-gray-600">Numéro de version</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{entité}</code><span class="text-gray-600">Libellé complet de l'entité</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{entité code}</code><span class="text-gray-600">Code de l'entité (ex: CGE)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{instance}</code><span class="text-gray-600">Libellé complet de l'instance</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{instance code}</code><span class="text-gray-600">Code de l'instance (ex: OA, AG)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{type document}</code><span class="text-gray-600">Libellé complet du type de document</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{type document code}</code><span class="text-gray-600">Code du type de document (ex: PV)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{séance}</code><span class="text-gray-600">Nom de la séance</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{année document}</code><span class="text-gray-600">Année du document (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{mois document}</code><span class="text-gray-600">Mois du document (MM)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{jour document}</code><span class="text-gray-600">Jour du document (JJ)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{année séance}</code><span class="text-gray-600">Année de la séance (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{mois séance}</code><span class="text-gray-600">Mois de la séance (MM)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{jour séance}</code><span class="text-gray-600">Jour de la séance (JJ)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{année dépôt}</code><span class="text-gray-600">Année de dépôt (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{mois dépôt}</code><span class="text-gray-600">Mois de dépôt (MM)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{jour dépôt}</code><span class="text-gray-600">Jour de dépôt (JJ)</span></div>
                     </div>
                 </div>
 
                 <div class="flex gap-3 items-end">
                     <div class="flex-1">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Modèle prédéfini</label>
-                        <select id="naming-preset" onchange="applyNamingPreset(this)" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm font-mono outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Modèle prédéfini</label>
+                        <select id="naming-preset" onchange="applyNamingPreset(this)" class="select w-full">
                             <option value="">Modèle personnalisé</option>
-                            <option value="{titre document} - {date document} {entité} {instance} {type document}">{titre document} - {date document} {entité} {instance} {type document}</option>
-                            <option value="{date document iso} - {titre document}">{date document iso} - {titre document}</option>
-                            <option value="{entité code} {instance code} {type document code} - {titre document} v{version}">{entité code} {instance code} {type document code} - {titre document} v{version}</option>
+                            <option value="{titre document} - {jour document}-{mois document}-{année document} {entité} {instance} {type document}">{titre document} - {jour document}-{mois document}-{année document} {entité} {instance} {type document}</option>
+                            <option value="{jour document}-{mois document}-{année document} - {titre document}">{jour document}-{mois document}-{année document} - {titre document}</option>
+                            <option value="{entité code} {instance code} {type document code} - {titre document} v{version document}">{entité code} {instance code} {type document code} - {titre document} v{version document}</option>
                             <option value="{année document} - {titre document}">{année document} - {titre document}</option>
                             <option value="{séance} - {type document} - {titre document}">{séance} - {type document} - {titre document}</option>
                         </select>
@@ -545,12 +542,13 @@ PARTIALS.viewLabels = `
                 </div>
 
                 <div>
-                    <label for="naming-format" class="block text-sm font-medium text-gray-700 mb-1">Format</label>
-                    <div class="flex items-center gap-1">
-                        <input id="naming-format" type="text" value="{titre document} - {date document} {entité} {instance} {type document}" oninput="updateNamingExample()" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm font-mono outline-none focus:border-primary focus:ring-1 focus:ring-primary">
-                        <span class="text-sm font-mono text-gray-600 shrink-0">.extension</span>
+                    <label for="naming-format" class="block text-xs font-semibold text-gray-500 uppercase mb-1">Format</label>
+                    <div class="flex items-center border border-gray-300 rounded-md bg-white focus-within:border-primary focus-within:ring-1 focus-within:ring-primary overflow-hidden">
+                        <input id="naming-format" type="text" value="{titre document} - {entité code} {instance code} {type document code} {jour document}-{mois document}-{année document}" oninput="updateNamingExample()" class="flex-1 px-3 py-2 text-sm outline-none bg-transparent border-0">
+                        <span class="px-3 py-2 text-sm font-mono text-gray-400 bg-gray-50 shrink-0 border-l border-gray-200 select-none">.extension</span>
                     </div>
                     <p class="text-xs text-gray-400 mt-1">Exemple de résultat : <span id="naming-example-result" class="font-mono"></span></p>
+                    <p class="text-xs text-gray-400 mt-1">Symboles interdits : <span class="font-mono">\ / : * ? " &lt; &gt; |</span></p>
                 </div>
             </div>
 

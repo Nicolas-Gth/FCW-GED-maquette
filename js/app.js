@@ -70,7 +70,7 @@ var VIEW_TITLES = {
     'view-documents': 'Documents',
     'view-calendar': 'Calendrier',
     'view-users': 'Utilisateurs et accès',
-    'view-labels': 'Gestion des libellés',
+    'view-labels': 'Libellés et nommage',
     'view-audit': 'Historique des actions',
     'view-settings': 'Paramètres du compte'
 };
@@ -130,6 +130,7 @@ function toggleModal(modalId, show) {
 var USERS_DB = {
     'Marc Lemoine': {
         email: 'm.lemoine@cge.fr',
+        type: 'Permanent',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '24/08/2026 - 16:12',
@@ -154,6 +155,7 @@ var USERS_DB = {
     },
     'Sophie Durant': {
         email: 's.durant@audit-externe.be',
+        type: 'Permanent',
         status: 'Inactif',
         statusClass: 'badge-danger',
         lastLogin: 'Jamais connectée',
@@ -175,6 +177,7 @@ var USERS_DB = {
     },
     'Denis Buchet': {
         email: 'd.buchet@chimay-gestion.be',
+        type: 'Permanent',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '22/08/2026 - 14:40',
@@ -197,6 +200,7 @@ var USERS_DB = {
     },
     'Philippe Dumont': {
         email: 'p.dumont@chimay-gestion.be',
+        type: 'Permanent',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '24/08/2026 - 16:42',
@@ -219,6 +223,7 @@ var USERS_DB = {
     },
     'Julie Stavrakas': {
         email: 'j.stavrakas@chimay-gestion.be',
+        type: 'Permanent',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '21/08/2026 - 16:30',
@@ -241,6 +246,7 @@ var USERS_DB = {
     },
      'Laurent Petit': {
          email: 'l.petit@externe.be',
+         type: 'Permanent',
          status: 'Inactif',
          statusClass: 'badge-danger',
          lastLogin: '15/05/2026 - 10:02',
@@ -262,6 +268,7 @@ var USERS_DB = {
      },
      'Dom Damien Debaisieux': {
          email: 'd.damien@scourmont.be',
+         type: 'Permanent',
          status: 'Actif',
          statusClass: 'badge-success',
          lastLogin: '23/08/2026 - 09:05',
@@ -279,11 +286,58 @@ var USERS_DB = {
                      OA: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' }
                  }
              }
-         }
-     }
+          }
+      },
+      'Marie Lefèvre': {
+          email: 'm.lefevre@cabinet-comptable.be',
+          type: 'Temporaire',
+          status: 'Actif',
+          statusClass: 'badge-success',
+          lastLogin: '24/08/2026 - 11:20',
+          accessLines: [
+              "Accès nominatif à Rapport Annuel 2025 jusqu'au 31/12/2026",
+              "Accès nominatif à Compte Rendu CA Mars 2026 jusqu'au 31/03/2026"
+          ],
+          access: [
+              { scope: 'Accès nominatif à Rapport Annuel 2025', permissions: ['Consulter'], period: "Jusqu'au 31/12/2026" },
+              { scope: 'Accès nominatif à Compte Rendu CA Mars 2026', permissions: ['Consulter'], period: "Jusqu'au 31/03/2026" }
+          ],
+          general: [],
+          config: { allEntities: false, entities: {} }
+      },
+      'Thomas Delcroix': {
+          email: 't.delcroix@partenaire.be',
+          type: 'Temporaire',
+          status: 'Actif',
+          statusClass: 'badge-success',
+          lastLogin: '20/08/2026 - 15:05',
+          accessLines: [
+              "Accès nominatif à Procès Verbal CA Avril 2026 jusqu'au 30/06/2026"
+          ],
+          access: [
+              { scope: 'Accès nominatif à Procès Verbal CA Avril 2026', permissions: ['Télécharger'], period: "Jusqu'au 30/06/2026" }
+          ],
+          general: [],
+          config: { allEntities: false, entities: {} }
+      },
+      'Isabelle Moreau': {
+          email: 'i.moreau@audit-externe.be',
+          type: 'Temporaire',
+          status: 'Actif',
+          statusClass: 'badge-success',
+          lastLogin: '18/08/2026 - 09:45',
+          accessLines: [
+              "Accès nominatif à Rapport Annuel 2025 jusqu'au 15/01/2027"
+          ],
+          access: [
+              { scope: 'Accès nominatif à Rapport Annuel 2025', permissions: ['Consulter'], period: "Jusqu'au 15/01/2027" }
+          ],
+          general: [],
+          config: { allEntities: false, entities: {} }
+      }
  };
 
- var USER_ORDER = ['Marc Lemoine', 'Sophie Durant', 'Denis Buchet', 'Philippe Dumont', 'Dom Damien Debaisieux', 'Julie Stavrakas', 'Laurent Petit'];
+ var USER_ORDER = ['Marc Lemoine', 'Sophie Durant', 'Denis Buchet', 'Philippe Dumont', 'Dom Damien Debaisieux', 'Julie Stavrakas', 'Laurent Petit', 'Marie Lefèvre', 'Thomas Delcroix', 'Isabelle Moreau'];
 
 var INVITES_DB = [
     { name: 'Lucie Fontaine', email: 'l.fontaine@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
@@ -311,18 +365,20 @@ function accessLinesHTML(lines) {
     return '<div class="flex flex-col items-start gap-1">' + lines.map(function (l) { return '<span class="badge badge-neutral">' + l + '</span>'; }).join('') + '</div>';
 }
 
-function userRowHTML(name, email, status, statusClass, general, accessLines, clickable) {
+function userRowHTML(name, email, status, statusClass, general, accessLines, type, clickable) {
     var n = splitName(name);
     var search = (name + ' ' + email + ' ' + (general || []).join(' ') + ' ' + (accessLines || []).join(' ')).toLowerCase();
     var click = clickable ? ' onclick="openUserPopup(\'' + name + '\')"' : '';
     var cls = clickable ? 'clickable-row hover:bg-primary-light transition-colors' : 'hover:bg-primary-light transition-colors';
+    var typeHtml = type === 'Temporaire' ? '<span class="badge badge-warning">Temporaire</span>' : (type === 'Permanent' ? '<span class="badge badge-neutral">Permanent</span>' : '<span class="text-gray-400">—</span>');
     return '<tr class="' + cls + '" data-search="' + search + '"' + click
-        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + status.toLowerCase() + '">'
+        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + (type || '').toLowerCase() + '" data-sort6="' + status.toLowerCase() + '">'
         + '<td class="px-6 py-4 align-top font-medium text-gray-900">' + n.nom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + n.prenom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + email + '</td>'
         + '<td class="px-6 py-4 align-top">' + generalBadgesHTML(general) + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-700">' + accessLinesHTML(accessLines) + '</td>'
+        + '<td class="px-6 py-4 align-top">' + typeHtml + '</td>'
         + '<td class="px-6 py-4 align-top"><span class="badge ' + statusClass + '">' + status + '</span></td>'
         + '</tr>';
 }
@@ -333,14 +389,14 @@ function renderUsersTable() {
         usersTbody.innerHTML = USER_ORDER.map(function (name) {
             var u = USERS_DB[name];
             if (!u) return '';
-            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, true);
-        }).join('') + '<tr id="users-empty" class="empty-row hidden-view"><td colspan="6" class="px-6 py-10 text-center text-gray-500">Aucun utilisateur ne correspond à votre recherche.</td></tr>';
+            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, u.type, true);
+        }).join('') + '<tr id="users-empty" class="empty-row hidden-view"><td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucun utilisateur ne correspond à votre recherche.</td></tr>';
     }
     var invitesTbody = document.getElementById('invites-tbody');
     if (invitesTbody) {
         invitesTbody.innerHTML = INVITES_DB.map(function (inv) {
-            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, false);
-        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="6" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
+            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, inv.type, false);
+        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
     }
 }
 
@@ -2215,7 +2271,20 @@ function applyNamingPreset(select) {
     updateNamingExample();
 }
 
-var DEFAULT_NAMING_FORMAT = '{titre document} - {date document} {entité} {instance} {type document}';
+function insertNamingVariable(el) {
+    var input = document.getElementById('naming-format');
+    if (!input) return;
+    var token = el.textContent.trim();
+    var start = input.selectionStart;
+    var end = input.selectionEnd;
+    input.value = input.value.slice(0, start) + token + input.value.slice(end);
+    var pos = start + token.length;
+    input.focus();
+    input.setSelectionRange(pos, pos);
+    updateNamingExample();
+}
+
+var DEFAULT_NAMING_FORMAT = '{titre document} - {entité code} {instance code} {type document code} {jour document}-{mois document}-{année document}';
 
 function toggleNamingReset(value) {
     var btn = document.getElementById('naming-reset');
@@ -2234,29 +2303,25 @@ function updateNamingExample() {
     var input = document.getElementById('naming-format');
     var out = document.getElementById('naming-example-result');
     if (!input || !out) return;
-    var d = new Date();
     var sample = {
         '{titre document}': 'PV AG FCW du 23-06-2026',
-        '{version}': '3',
+        '{version document}': '3',
         '{entité}': 'Fondation Chimay-Wartoise',
         '{entité code}': 'FCW',
         '{instance}': 'Assemblée générale',
         '{instance code}': 'AG',
         '{type document}': 'Procès-verbal',
         '{type document code}': 'PV',
-        '{séance}': 'AG FCW du 23/06/2026',
-        '{date document}': '23/06/2026',
-        '{date document iso}': '2026-06-23',
-        '{date document court}': '23/06/26',
+        '{séance}': 'AG FCW du 23-06-2026',
         '{année document}': '2026',
         '{mois document}': '06',
         '{jour document}': '23',
-        '{date séance}': '23/06/2026',
-        '{date séance iso}': '2026-06-23',
         '{année séance}': '2026',
-        '{date dépôt}': '25/06/2026',
+        '{mois séance}': '06',
+        '{jour séance}': '23',
         '{année dépôt}': '2026',
-        '{date du jour}': String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear()
+        '{mois dépôt}': '06',
+        '{jour dépôt}': '25'
     };
     var s = input.value;
     Object.keys(sample).forEach(function (k) {

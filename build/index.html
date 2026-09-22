@@ -876,7 +876,7 @@ PARTIALS.sidebar = `
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M13.172 2a2 2 0 0 1 1.414.586l6.71 6.71a2.4 2.4 0 0 1 0 3.408l-4.592 4.592a2.4 2.4 0 0 1-3.408 0l-6.71-6.71A2 2 0 0 1 6 9.172V3a1 1 0 0 1 1-1z" />
   <path d="M2 7v6.172a2 2 0 0 0 .586 1.414l6.71 6.71a2.4 2.4 0 0 0 3.191.193" />
   <circle cx="10.5" cy="6.5" r=".5" fill="currentColor" /></svg>
-            Gestion des libellés
+            Libellés et nommage
         </button>
 
         <button data-view="view-audit" onclick="switchView('view-audit', this)" class="menu-btn w-full flex items-center gap-3 text-white/85 hover:text-white hover:bg-white/15 px-3 py-2 rounded-md transition-colors">
@@ -3198,7 +3198,8 @@ PARTIALS.viewUsers = `
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 2)">Email <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 3)">Permissions générales <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 4)">Accès <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 5)">Statut <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 5)">Type de compte <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 6)">Statut <span class="sort-indicator"></span></th>
                         </tr>
                     </thead>
                     <tbody id="users-tbody" class="labels-tbody divide-y divide-gray-200"></tbody>
@@ -3384,9 +3385,9 @@ PARTIALS.viewLabels = `
                 <button type="button" onclick="switchLabelCategory(this, 2)" data-tab-color="label-tab-3" class="label-tab label-tab-inactive">Type de document</button>
         </div>
 
-        <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 h-[50vh] overflow-y-auto">
             <table class="data-table w-full text-left text-sm whitespace-nowrap">
-                <thead class="thead-tab-0 border-b border-gray-200 uppercase text-xs font-semibold">
+                <thead class="thead-tab-0 sticky top-0 z-10 border-b border-gray-200 uppercase text-xs font-semibold">
                     <tr>
                         <th class="sortable px-6 py-3" onclick="sortTabTable(this, 0)">Nom <span class="sort-indicator"></span></th>
                         <th class="sortable px-6 py-3" onclick="sortTabTable(this, 1)">Code Unique <span class="sort-indicator"></span></th>
@@ -3858,45 +3859,42 @@ PARTIALS.viewLabels = `
         <!-- FORMAT DE NOMMAGE DES FICHIERS TÉLÉCHARGÉS -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 mt-4">
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <h3 class="text-sm font-semibold text-gray-800">Format de nommage des fichiers téléchargés</h3>
+                <h3 class="uppercase text-xs font-semibold text-gray-600">Format de nommage des fichiers téléchargés</h3>
             </div>
 
             <div class="px-6 py-5 space-y-5">
                 <div>
                     <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Variables disponibles</h4>
-                    <div class="grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm">
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{titre document}</code><span class="text-gray-600">Titre du document</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{version}</code><span class="text-gray-600">Numéro de version</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{entité}</code><span class="text-gray-600">Entité (libellé complet)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{entité code}</code><span class="text-gray-600">Entité (code, ex. CGE)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{instance}</code><span class="text-gray-600">Instance (libellé complet)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{instance code}</code><span class="text-gray-600">Instance (code, ex. OA / AG)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{type document}</code><span class="text-gray-600">Type de document (libellé complet)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{type document code}</code><span class="text-gray-600">Type de document (code, ex. PV)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{séance}</code><span class="text-gray-600">Nom de la séance</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document}</code><span class="text-gray-600">Date du document (JJ/MM/AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document iso}</code><span class="text-gray-600">Date du document (AAAA-MM-JJ)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document court}</code><span class="text-gray-600">Date du document (JJ/MM/AA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année document}</code><span class="text-gray-600">Année du document (AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{mois document}</code><span class="text-gray-600">Mois du document (MM)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{jour document}</code><span class="text-gray-600">Jour du document (JJ)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date séance}</code><span class="text-gray-600">Date de la séance (JJ/MM/AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date séance iso}</code><span class="text-gray-600">Date de la séance (AAAA-MM-JJ)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année séance}</code><span class="text-gray-600">Année de la séance (AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date dépôt}</code><span class="text-gray-600">Date de dépôt (JJ/MM/AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année dépôt}</code><span class="text-gray-600">Année de dépôt (AAAA)</span></div>
-                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date du jour}</code><span class="text-gray-600">Date du jour (JJ/MM/AAAA)</span></div>
+                    <div class="columns-2 gap-x-8 text-sm">
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{titre document}</code><span class="text-gray-600">Titre du document</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{version document}</code><span class="text-gray-600">Numéro de version</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{entité}</code><span class="text-gray-600">Libellé complet de l'entité</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{entité code}</code><span class="text-gray-600">Code de l'entité (ex: CGE)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{instance}</code><span class="text-gray-600">Libellé complet de l'instance</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{instance code}</code><span class="text-gray-600">Code de l'instance (ex: OA, AG)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{type document}</code><span class="text-gray-600">Libellé complet du type de document</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{type document code}</code><span class="text-gray-600">Code du type de document (ex: PV)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{séance}</code><span class="text-gray-600">Nom de la séance</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{année document}</code><span class="text-gray-600">Année du document (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{mois document}</code><span class="text-gray-600">Mois du document (MM)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{jour document}</code><span class="text-gray-600">Jour du document (JJ)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{année séance}</code><span class="text-gray-600">Année de la séance (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{mois séance}</code><span class="text-gray-600">Mois de la séance (MM)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{jour séance}</code><span class="text-gray-600">Jour de la séance (JJ)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{année dépôt}</code><span class="text-gray-600">Année de dépôt (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{mois dépôt}</code><span class="text-gray-600">Mois de dépôt (MM)</span></div>
+                        <div class="flex items-baseline gap-2 break-inside-avoid mb-1.5"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0 cursor-pointer hover:bg-primary-light hover:text-primary" onclick="insertNamingVariable(this)" title="Insérer la variable">{jour dépôt}</code><span class="text-gray-600">Jour de dépôt (JJ)</span></div>
                     </div>
                 </div>
 
                 <div class="flex gap-3 items-end">
                     <div class="flex-1">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Modèle prédéfini</label>
-                        <select id="naming-preset" onchange="applyNamingPreset(this)" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm font-mono outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Modèle prédéfini</label>
+                        <select id="naming-preset" onchange="applyNamingPreset(this)" class="select w-full">
                             <option value="">Modèle personnalisé</option>
-                            <option value="{titre document} - {date document} {entité} {instance} {type document}">{titre document} - {date document} {entité} {instance} {type document}</option>
-                            <option value="{date document iso} - {titre document}">{date document iso} - {titre document}</option>
-                            <option value="{entité code} {instance code} {type document code} - {titre document} v{version}">{entité code} {instance code} {type document code} - {titre document} v{version}</option>
+                            <option value="{titre document} - {jour document}-{mois document}-{année document} {entité} {instance} {type document}">{titre document} - {jour document}-{mois document}-{année document} {entité} {instance} {type document}</option>
+                            <option value="{jour document}-{mois document}-{année document} - {titre document}">{jour document}-{mois document}-{année document} - {titre document}</option>
+                            <option value="{entité code} {instance code} {type document code} - {titre document} v{version document}">{entité code} {instance code} {type document code} - {titre document} v{version document}</option>
                             <option value="{année document} - {titre document}">{année document} - {titre document}</option>
                             <option value="{séance} - {type document} - {titre document}">{séance} - {type document} - {titre document}</option>
                         </select>
@@ -3904,12 +3902,13 @@ PARTIALS.viewLabels = `
                 </div>
 
                 <div>
-                    <label for="naming-format" class="block text-sm font-medium text-gray-700 mb-1">Format</label>
-                    <div class="flex items-center gap-1">
-                        <input id="naming-format" type="text" value="{titre document} - {date document} {entité} {instance} {type document}" oninput="updateNamingExample()" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm font-mono outline-none focus:border-primary focus:ring-1 focus:ring-primary">
-                        <span class="text-sm font-mono text-gray-600 shrink-0">.extension</span>
+                    <label for="naming-format" class="block text-xs font-semibold text-gray-500 uppercase mb-1">Format</label>
+                    <div class="flex items-center border border-gray-300 rounded-md bg-white focus-within:border-primary focus-within:ring-1 focus-within:ring-primary overflow-hidden">
+                        <input id="naming-format" type="text" value="{titre document} - {entité code} {instance code} {type document code} {jour document}-{mois document}-{année document}" oninput="updateNamingExample()" class="flex-1 px-3 py-2 text-sm outline-none bg-transparent border-0">
+                        <span class="px-3 py-2 text-sm font-mono text-gray-400 bg-gray-50 shrink-0 border-l border-gray-200 select-none">.extension</span>
                     </div>
                     <p class="text-xs text-gray-400 mt-1">Exemple de résultat : <span id="naming-example-result" class="font-mono"></span></p>
+                    <p class="text-xs text-gray-400 mt-1">Symboles interdits : <span class="font-mono">\ / : * ? " &lt; &gt; |</span></p>
                 </div>
             </div>
 
@@ -5111,7 +5110,7 @@ var VIEW_TITLES = {
     'view-documents': 'Documents',
     'view-calendar': 'Calendrier',
     'view-users': 'Utilisateurs et accès',
-    'view-labels': 'Gestion des libellés',
+    'view-labels': 'Libellés et nommage',
     'view-audit': 'Historique des actions',
     'view-settings': 'Paramètres du compte'
 };
@@ -5171,6 +5170,7 @@ function toggleModal(modalId, show) {
 var USERS_DB = {
     'Marc Lemoine': {
         email: 'm.lemoine@cge.fr',
+        type: 'Permanent',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '24/08/2026 - 16:12',
@@ -5195,6 +5195,7 @@ var USERS_DB = {
     },
     'Sophie Durant': {
         email: 's.durant@audit-externe.be',
+        type: 'Permanent',
         status: 'Inactif',
         statusClass: 'badge-danger',
         lastLogin: 'Jamais connectée',
@@ -5216,6 +5217,7 @@ var USERS_DB = {
     },
     'Denis Buchet': {
         email: 'd.buchet@chimay-gestion.be',
+        type: 'Permanent',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '22/08/2026 - 14:40',
@@ -5238,6 +5240,7 @@ var USERS_DB = {
     },
     'Philippe Dumont': {
         email: 'p.dumont@chimay-gestion.be',
+        type: 'Permanent',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '24/08/2026 - 16:42',
@@ -5260,6 +5263,7 @@ var USERS_DB = {
     },
     'Julie Stavrakas': {
         email: 'j.stavrakas@chimay-gestion.be',
+        type: 'Permanent',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '21/08/2026 - 16:30',
@@ -5282,6 +5286,7 @@ var USERS_DB = {
     },
      'Laurent Petit': {
          email: 'l.petit@externe.be',
+         type: 'Permanent',
          status: 'Inactif',
          statusClass: 'badge-danger',
          lastLogin: '15/05/2026 - 10:02',
@@ -5303,6 +5308,7 @@ var USERS_DB = {
      },
      'Dom Damien Debaisieux': {
          email: 'd.damien@scourmont.be',
+         type: 'Permanent',
          status: 'Actif',
          statusClass: 'badge-success',
          lastLogin: '23/08/2026 - 09:05',
@@ -5320,11 +5326,58 @@ var USERS_DB = {
                      OA: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' }
                  }
              }
-         }
-     }
+          }
+      },
+      'Marie Lefèvre': {
+          email: 'm.lefevre@cabinet-comptable.be',
+          type: 'Temporaire',
+          status: 'Actif',
+          statusClass: 'badge-success',
+          lastLogin: '24/08/2026 - 11:20',
+          accessLines: [
+              "Accès nominatif à Rapport Annuel 2025 jusqu'au 31/12/2026",
+              "Accès nominatif à Compte Rendu CA Mars 2026 jusqu'au 31/03/2026"
+          ],
+          access: [
+              { scope: 'Accès nominatif à Rapport Annuel 2025', permissions: ['Consulter'], period: "Jusqu'au 31/12/2026" },
+              { scope: 'Accès nominatif à Compte Rendu CA Mars 2026', permissions: ['Consulter'], period: "Jusqu'au 31/03/2026" }
+          ],
+          general: [],
+          config: { allEntities: false, entities: {} }
+      },
+      'Thomas Delcroix': {
+          email: 't.delcroix@partenaire.be',
+          type: 'Temporaire',
+          status: 'Actif',
+          statusClass: 'badge-success',
+          lastLogin: '20/08/2026 - 15:05',
+          accessLines: [
+              "Accès nominatif à Procès Verbal CA Avril 2026 jusqu'au 30/06/2026"
+          ],
+          access: [
+              { scope: 'Accès nominatif à Procès Verbal CA Avril 2026', permissions: ['Télécharger'], period: "Jusqu'au 30/06/2026" }
+          ],
+          general: [],
+          config: { allEntities: false, entities: {} }
+      },
+      'Isabelle Moreau': {
+          email: 'i.moreau@audit-externe.be',
+          type: 'Temporaire',
+          status: 'Actif',
+          statusClass: 'badge-success',
+          lastLogin: '18/08/2026 - 09:45',
+          accessLines: [
+              "Accès nominatif à Rapport Annuel 2025 jusqu'au 15/01/2027"
+          ],
+          access: [
+              { scope: 'Accès nominatif à Rapport Annuel 2025', permissions: ['Consulter'], period: "Jusqu'au 15/01/2027" }
+          ],
+          general: [],
+          config: { allEntities: false, entities: {} }
+      }
  };
 
- var USER_ORDER = ['Marc Lemoine', 'Sophie Durant', 'Denis Buchet', 'Philippe Dumont', 'Dom Damien Debaisieux', 'Julie Stavrakas', 'Laurent Petit'];
+ var USER_ORDER = ['Marc Lemoine', 'Sophie Durant', 'Denis Buchet', 'Philippe Dumont', 'Dom Damien Debaisieux', 'Julie Stavrakas', 'Laurent Petit', 'Marie Lefèvre', 'Thomas Delcroix', 'Isabelle Moreau'];
 
 var INVITES_DB = [
     { name: 'Lucie Fontaine', email: 'l.fontaine@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
@@ -5352,18 +5405,20 @@ function accessLinesHTML(lines) {
     return '<div class="flex flex-col items-start gap-1">' + lines.map(function (l) { return '<span class="badge badge-neutral">' + l + '</span>'; }).join('') + '</div>';
 }
 
-function userRowHTML(name, email, status, statusClass, general, accessLines, clickable) {
+function userRowHTML(name, email, status, statusClass, general, accessLines, type, clickable) {
     var n = splitName(name);
     var search = (name + ' ' + email + ' ' + (general || []).join(' ') + ' ' + (accessLines || []).join(' ')).toLowerCase();
     var click = clickable ? ' onclick="openUserPopup(\'' + name + '\')"' : '';
     var cls = clickable ? 'clickable-row hover:bg-primary-light transition-colors' : 'hover:bg-primary-light transition-colors';
+    var typeHtml = type === 'Temporaire' ? '<span class="badge badge-warning">Temporaire</span>' : (type === 'Permanent' ? '<span class="badge badge-neutral">Permanent</span>' : '<span class="text-gray-400">—</span>');
     return '<tr class="' + cls + '" data-search="' + search + '"' + click
-        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + status.toLowerCase() + '">'
+        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + (type || '').toLowerCase() + '" data-sort6="' + status.toLowerCase() + '">'
         + '<td class="px-6 py-4 align-top font-medium text-gray-900">' + n.nom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + n.prenom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + email + '</td>'
         + '<td class="px-6 py-4 align-top">' + generalBadgesHTML(general) + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-700">' + accessLinesHTML(accessLines) + '</td>'
+        + '<td class="px-6 py-4 align-top">' + typeHtml + '</td>'
         + '<td class="px-6 py-4 align-top"><span class="badge ' + statusClass + '">' + status + '</span></td>'
         + '</tr>';
 }
@@ -5374,14 +5429,14 @@ function renderUsersTable() {
         usersTbody.innerHTML = USER_ORDER.map(function (name) {
             var u = USERS_DB[name];
             if (!u) return '';
-            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, true);
-        }).join('') + '<tr id="users-empty" class="empty-row hidden-view"><td colspan="6" class="px-6 py-10 text-center text-gray-500">Aucun utilisateur ne correspond à votre recherche.</td></tr>';
+            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, u.type, true);
+        }).join('') + '<tr id="users-empty" class="empty-row hidden-view"><td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucun utilisateur ne correspond à votre recherche.</td></tr>';
     }
     var invitesTbody = document.getElementById('invites-tbody');
     if (invitesTbody) {
         invitesTbody.innerHTML = INVITES_DB.map(function (inv) {
-            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, false);
-        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="6" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
+            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, inv.type, false);
+        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
     }
 }
 
@@ -7256,7 +7311,20 @@ function applyNamingPreset(select) {
     updateNamingExample();
 }
 
-var DEFAULT_NAMING_FORMAT = '{titre document} - {date document} {entité} {instance} {type document}';
+function insertNamingVariable(el) {
+    var input = document.getElementById('naming-format');
+    if (!input) return;
+    var token = el.textContent.trim();
+    var start = input.selectionStart;
+    var end = input.selectionEnd;
+    input.value = input.value.slice(0, start) + token + input.value.slice(end);
+    var pos = start + token.length;
+    input.focus();
+    input.setSelectionRange(pos, pos);
+    updateNamingExample();
+}
+
+var DEFAULT_NAMING_FORMAT = '{titre document} - {entité code} {instance code} {type document code} {jour document}-{mois document}-{année document}';
 
 function toggleNamingReset(value) {
     var btn = document.getElementById('naming-reset');
@@ -7275,29 +7343,25 @@ function updateNamingExample() {
     var input = document.getElementById('naming-format');
     var out = document.getElementById('naming-example-result');
     if (!input || !out) return;
-    var d = new Date();
     var sample = {
         '{titre document}': 'PV AG FCW du 23-06-2026',
-        '{version}': '3',
+        '{version document}': '3',
         '{entité}': 'Fondation Chimay-Wartoise',
         '{entité code}': 'FCW',
         '{instance}': 'Assemblée générale',
         '{instance code}': 'AG',
         '{type document}': 'Procès-verbal',
         '{type document code}': 'PV',
-        '{séance}': 'AG FCW du 23/06/2026',
-        '{date document}': '23/06/2026',
-        '{date document iso}': '2026-06-23',
-        '{date document court}': '23/06/26',
+        '{séance}': 'AG FCW du 23-06-2026',
         '{année document}': '2026',
         '{mois document}': '06',
         '{jour document}': '23',
-        '{date séance}': '23/06/2026',
-        '{date séance iso}': '2026-06-23',
         '{année séance}': '2026',
-        '{date dépôt}': '25/06/2026',
+        '{mois séance}': '06',
+        '{jour séance}': '23',
         '{année dépôt}': '2026',
-        '{date du jour}': String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear()
+        '{mois dépôt}': '06',
+        '{jour dépôt}': '25'
     };
     var s = input.value;
     Object.keys(sample).forEach(function (k) {

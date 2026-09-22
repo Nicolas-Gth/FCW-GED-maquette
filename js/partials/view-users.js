@@ -37,7 +37,8 @@ PARTIALS.viewUsers = `
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 2)">Email <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 3)">Permissions générales <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 4)">Accès <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 5)">Statut <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 5)">Type de compte <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 6)">Statut <span class="sort-indicator"></span></th>
                         </tr>
                     </thead>
                     <tbody id="users-tbody" class="labels-tbody divide-y divide-gray-200"></tbody>
