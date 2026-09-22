@@ -346,6 +346,9 @@ body.sidebar-collapsed .sidebar-toggle svg {
     height: auto;
     padding: 2.5rem 1.5rem;
 }
+#view-users .data-table td {
+    vertical-align: top;
+}
 
 /* ==========================================
    ONGLETS DES LIBELLÉS (couleurs figées en CSS)

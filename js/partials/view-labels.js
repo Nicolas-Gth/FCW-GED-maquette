@@ -496,6 +496,73 @@ PARTIALS.viewLabels = `
             </table>
         </div>
 
+        <!-- FORMAT DE NOMMAGE DES FICHIERS TÉLÉCHARGÉS -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 mt-4">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-sm font-semibold text-gray-800">Format de nommage des fichiers téléchargés</h3>
+            </div>
+
+            <div class="px-6 py-5 space-y-5">
+                <div>
+                    <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Variables disponibles</h4>
+                    <div class="grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm">
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{titre document}</code><span class="text-gray-600">Titre du document</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{version}</code><span class="text-gray-600">Numéro de version</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{entité}</code><span class="text-gray-600">Entité (libellé complet)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{entité code}</code><span class="text-gray-600">Entité (code, ex. CGE)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{instance}</code><span class="text-gray-600">Instance (libellé complet)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{instance code}</code><span class="text-gray-600">Instance (code, ex. OA / AG)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{type document}</code><span class="text-gray-600">Type de document (libellé complet)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{type document code}</code><span class="text-gray-600">Type de document (code, ex. PV)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{séance}</code><span class="text-gray-600">Nom de la séance</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document}</code><span class="text-gray-600">Date du document (JJ/MM/AAAA)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document iso}</code><span class="text-gray-600">Date du document (AAAA-MM-JJ)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date document court}</code><span class="text-gray-600">Date du document (JJ/MM/AA)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année document}</code><span class="text-gray-600">Année du document (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{mois document}</code><span class="text-gray-600">Mois du document (MM)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{jour document}</code><span class="text-gray-600">Jour du document (JJ)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date séance}</code><span class="text-gray-600">Date de la séance (JJ/MM/AAAA)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date séance iso}</code><span class="text-gray-600">Date de la séance (AAAA-MM-JJ)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année séance}</code><span class="text-gray-600">Année de la séance (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date dépôt}</code><span class="text-gray-600">Date de dépôt (JJ/MM/AAAA)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{année dépôt}</code><span class="text-gray-600">Année de dépôt (AAAA)</span></div>
+                        <div class="flex items-baseline gap-2"><code class="font-mono text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{date du jour}</code><span class="text-gray-600">Date du jour (JJ/MM/AAAA)</span></div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 items-end">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Modèle prédéfini</label>
+                        <select id="naming-preset" onchange="applyNamingPreset(this)" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm font-mono outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">
+                            <option value="">Modèle personnalisé</option>
+                            <option value="{titre document} - {date document} {entité} {instance} {type document}">{titre document} - {date document} {entité} {instance} {type document}</option>
+                            <option value="{date document iso} - {titre document}">{date document iso} - {titre document}</option>
+                            <option value="{entité code} {instance code} {type document code} - {titre document} v{version}">{entité code} {instance code} {type document code} - {titre document} v{version}</option>
+                            <option value="{année document} - {titre document}">{année document} - {titre document}</option>
+                            <option value="{séance} - {type document} - {titre document}">{séance} - {type document} - {titre document}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="naming-format" class="block text-sm font-medium text-gray-700 mb-1">Format</label>
+                    <div class="flex items-center gap-1">
+                        <input id="naming-format" type="text" value="{titre document} - {date document} {entité} {instance} {type document}" oninput="updateNamingExample()" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm font-mono outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                        <span class="text-sm font-mono text-gray-600 shrink-0">.extension</span>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">Exemple de résultat : <span id="naming-example-result" class="font-mono"></span></p>
+                </div>
+            </div>
+
+            <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
+                <button id="naming-reset" onclick="resetNamingFormat()" class="btn btn-outline-danger hidden-view">Réinitialiser</button>
+                <button onclick="alert('Format de nommage appliqué (prototype)')" class="btn btn-primary">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></svg>
+                    Appliquer
+                </button>
+            </div>
+        </div>
+
         <div id="labels-none" class="hidden-view bg-white rounded-lg border border-gray-200 p-10 text-center text-gray-500">Aucun libellé ne correspond à votre recherche.</div>
     </div>
 </section>

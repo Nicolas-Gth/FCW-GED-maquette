@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
         'partial-view-calendar': PARTIALS.viewCalendar,
         'partial-view-recent': PARTIALS.viewRecent,
         'partial-view-users': PARTIALS.viewUsers,
-        'partial-view-roles': PARTIALS.viewRoles,
         'partial-view-labels': PARTIALS.viewLabels,
         'partial-view-audit': PARTIALS.viewAudit,
         'partial-view-settings': PARTIALS.viewSettings,
@@ -18,15 +17,12 @@ document.addEventListener('DOMContentLoaded', function () {
         'partial-modal-upload': PARTIALS.modalUpload,
         'partial-modal-preview': PARTIALS.modalPreview,
         'partial-modal-user': PARTIALS.modalUser,
+        'partial-modal-user-access': PARTIALS.modalUserAccess,
         'partial-modal-label': PARTIALS.modalLabel,
         'partial-modal-label-details': PARTIALS.modalLabelDetails,
-        'partial-modal-role': PARTIALS.modalRole,
-        'partial-modal-role-details': PARTIALS.modalRoleDetails,
         'partial-modal-save-view': PARTIALS.modalSaveView,
         'partial-modal-delete-view': PARTIALS.modalDeleteView,
-        'partial-modal-access-check': PARTIALS.modalAccessCheck,
         'partial-modal-doc-history': PARTIALS.modalDocHistory,
-        'partial-modal-doc-access': PARTIALS.modalDocAccess,
         'partial-modal-share': PARTIALS.modalShare,
         'partial-modal-revoke-access': PARTIALS.modalRevokeAccess
     };
@@ -43,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     syncSavedViewSelect();
+
+    renderUsersTable();
+
+    updateNamingExample();
 
     initFlyActions();
 
@@ -69,8 +69,7 @@ var VIEW_TITLES = {
     'view-recent': 'Activité récente',
     'view-documents': 'Documents',
     'view-calendar': 'Calendrier',
-    'view-users': 'Utilisateurs',
-    'view-roles': 'Rôles et accès',
+    'view-users': 'Utilisateurs et accès',
     'view-labels': 'Gestion des libellés',
     'view-audit': 'Historique des actions',
     'view-settings': 'Paramètres du compte'
@@ -134,59 +133,220 @@ var USERS_DB = {
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '24/08/2026 - 16:12',
-        roles: [
-            { name: 'Membre de la direction CGE', period: 'Depuis le 12/01/2025' },
-            { name: 'Secrétaire de séance', period: '10/08/2026 → 30/09/2026' }
-        ]
+        accessLines: [
+            'Consulter procès-verbaux, convocations, notes de CA CGE',
+            'Télécharger tous les documents de AG CGE',
+        ],
+        access: [
+            { scope: 'Chimay-Gestion (CGE) · OA + AG', permissions: ['Consulter', 'Déposer'], period: 'Depuis le 12/01/2025' },
+            { scope: 'Chimay-Gestion (CGE) · OA', permissions: ['Consulter'], period: '10/08/2026 → 30/09/2026' }
+        ],
+        general: [],
+        config: {
+            allEntities: false,
+            entities: {
+                'CGE': {
+                    OA: { from: '2026-08-10', to: '2026-09-30', types: [], allTypes: false, privilege: 'Consulter', periodMode: 'all', periodFrom: '', periodTo: '' },
+                    AG: { from: '', to: '', types: [], allTypes: false, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' }
+                }
+            }
+        }
     },
     'Sophie Durant': {
         email: 's.durant@audit-externe.be',
         status: 'Inactif',
         statusClass: 'badge-danger',
         lastLogin: 'Jamais connectée',
-        roles: [
-            { name: 'Auditeur externe', period: 'Rôle planifié - débute le 10/09/2026' }
-        ]
+        accessLines: [
+            'Consulter comptes, budget, rapports annuels de AG CGE',
+        ],
+        access: [
+            { scope: 'Assemblée générale (AG)', permissions: ['Consulter'], period: 'Accès planifié - débute le 10/09/2026' }
+        ],
+        general: [],
+        config: {
+            allEntities: false,
+            entities: {
+                'CGE': {
+                    AG: { from: '2026-09-10', to: '', types: [], allTypes: false, privilege: 'Consulter', periodMode: 'all', periodFrom: '', periodTo: '' }
+                }
+            }
+        }
     },
     'Denis Buchet': {
         email: 'd.buchet@chimay-gestion.be',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '22/08/2026 - 14:40',
-        roles: [
-            { name: 'Partenaire externe CGE', period: 'Jusqu au 31/12/2026' }
-        ]
+        accessLines: [
+            'Télécharger tous les documents de toutes les instances de toutes les entités',
+        ],
+        access: [
+            { scope: 'Toutes les entités · toutes les instances', permissions: ['Télécharger'], period: 'Depuis le 01/01/2026' }
+        ],
+        general: ['Créer des invitations', 'Gérer les utilisateurs', 'Créer des accès nominatifs', 'Gérer les libellés', "Consulter l'historique", 'Gérer les documents'],
+        config: {
+            allEntities: true,
+            entities: {
+                'CGE': {
+                    OA: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' },
+                    AG: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' }
+                }
+            }
+        }
     },
     'Philippe Dumont': {
         email: 'p.dumont@chimay-gestion.be',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '24/08/2026 - 16:42',
-        roles: [
-            { name: 'Administrateur système', period: 'Depuis le 01/02/2024' }
-        ]
+        accessLines: [
+            'Télécharger tous les documents de toutes les instances de toutes les entités',
+        ],
+        access: [
+            { scope: 'Toutes les entités · toutes les instances', permissions: ['Télécharger'], period: 'Depuis le 01/02/2024' }
+        ],
+        general: ['Créer des invitations', 'Gérer les utilisateurs', 'Créer des accès nominatifs', 'Gérer les libellés', "Consulter l'historique", 'Gérer les documents'],
+        config: {
+            allEntities: true,
+            entities: {
+                'CGE': {
+                    OA: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' },
+                    AG: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' }
+                }
+            }
+        }
     },
     'Julie Stavrakas': {
         email: 'j.stavrakas@chimay-gestion.be',
         status: 'Actif',
         statusClass: 'badge-success',
         lastLogin: '21/08/2026 - 16:30',
-        roles: [
-            { name: 'Assistant de direction', period: 'Depuis le 03/03/2026' }
-        ]
+        accessLines: [
+            'Télécharger tous les documents de toutes les instances de toutes les entités',
+        ],
+        access: [
+            { scope: 'Toutes les entités · toutes les instances', permissions: ['Télécharger'], period: 'Depuis le 03/03/2026' }
+        ],
+        general: ['Créer des invitations', 'Gérer les utilisateurs', 'Créer des accès nominatifs', "Consulter l'historique", 'Gérer les documents'],
+        config: {
+            allEntities: true,
+            entities: {
+                'CGE': {
+                    OA: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' },
+                    AG: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' }
+                }
+            }
+        }
     },
-    'Laurent Petit': {
-        email: 'l.petit@externe.be',
-        status: 'Inactif',
-        statusClass: 'badge-danger',
-        lastLogin: '15/05/2026 - 10:02',
-        roles: [
-            { name: 'Auditeur externe', period: 'Révoqué le 16/05/2026' }
-        ]
+     'Laurent Petit': {
+         email: 'l.petit@externe.be',
+         status: 'Inactif',
+         statusClass: 'badge-danger',
+         lastLogin: '15/05/2026 - 10:02',
+         accessLines: [
+             'Consulter rapports annuels de AG CGE',
+         ],
+         access: [
+             { scope: 'Assemblée générale (AG)', permissions: ['Consulter'], period: 'Révoqué le 16/05/2026' }
+         ],
+         general: [],
+         config: {
+             allEntities: false,
+             entities: {
+                 'CGE': {
+                     AG: { from: '', to: '2026-05-16', types: [], allTypes: false, privilege: 'Consulter', periodMode: 'all', periodFrom: '', periodTo: '' }
+                 }
+             }
+         }
+     },
+     'Dom Damien Debaisieux': {
+         email: 'd.damien@scourmont.be',
+         status: 'Actif',
+         statusClass: 'badge-success',
+         lastLogin: '23/08/2026 - 09:05',
+         accessLines: [
+             'Télécharger tous les documents de CA ADS',
+         ],
+         access: [
+             { scope: 'Abbaye Notre-Dame de Scourmont (ADS) · OA', permissions: ['Télécharger'], period: 'Depuis le 02/03/2025' }
+         ],
+         general: ["Consulter l'historique"],
+         config: {
+             allEntities: false,
+             entities: {
+                 'ADS': {
+                     OA: { from: '', to: '', types: [], allTypes: true, privilege: 'Télécharger', periodMode: 'all', periodFrom: '', periodTo: '' }
+                 }
+             }
+         }
+     }
+ };
+
+ var USER_ORDER = ['Marc Lemoine', 'Sophie Durant', 'Denis Buchet', 'Philippe Dumont', 'Dom Damien Debaisieux', 'Julie Stavrakas', 'Laurent Petit'];
+
+var INVITES_DB = [
+    { name: 'Lucie Fontaine', email: 'l.fontaine@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
+    { name: 'Antoine Girard', email: 'a.girard@chimay-gestion.be', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
+    { name: 'Claire Dubois', email: 'c.dubois@partenaire.be', status: 'Expirée', statusClass: 'badge-danger', general: [], accessLines: [] },
+    { name: 'Thomas Renard', email: 't.renard@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
+    { name: 'Nadia Benali', email: 'n.benali@cge.fr', status: 'Acceptée', statusClass: 'badge-success', general: [], accessLines: [] }
+];
+
+function splitName(name) {
+    var parts = name.trim().split(/\s+/);
+    if (parts.length >= 2 && parts[0] === 'Dom') {
+        return { prenom: parts[0] + ' ' + parts[1], nom: parts.slice(2).join(' ') || '' };
     }
-};
+    return { prenom: parts[0] || '', nom: parts.slice(1).join(' ') || '' };
+}
+
+function generalBadgesHTML(general) {
+    if (!general || !general.length) return '<span class="text-gray-400">—</span>';
+    return '<div class="flex flex-col items-start gap-1">' + general.map(function (g) { return '<span class="badge badge-neutral">' + g + '</span>'; }).join('') + '</div>';
+}
+
+function accessLinesHTML(lines) {
+    if (!lines || !lines.length) return '<span class="text-gray-400">—</span>';
+    return '<div class="flex flex-col items-start gap-1">' + lines.map(function (l) { return '<span class="badge badge-neutral">' + l + '</span>'; }).join('') + '</div>';
+}
+
+function userRowHTML(name, email, status, statusClass, general, accessLines, clickable) {
+    var n = splitName(name);
+    var search = (name + ' ' + email + ' ' + (general || []).join(' ') + ' ' + (accessLines || []).join(' ')).toLowerCase();
+    var click = clickable ? ' onclick="openUserPopup(\'' + name + '\')"' : '';
+    var cls = clickable ? 'clickable-row hover:bg-primary-light transition-colors' : 'hover:bg-primary-light transition-colors';
+    return '<tr class="' + cls + '" data-search="' + search + '"' + click
+        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + status.toLowerCase() + '">'
+        + '<td class="px-6 py-4 align-top font-medium text-gray-900">' + n.nom + '</td>'
+        + '<td class="px-6 py-4 align-top text-gray-500">' + n.prenom + '</td>'
+        + '<td class="px-6 py-4 align-top text-gray-500">' + email + '</td>'
+        + '<td class="px-6 py-4 align-top">' + generalBadgesHTML(general) + '</td>'
+        + '<td class="px-6 py-4 align-top text-gray-700">' + accessLinesHTML(accessLines) + '</td>'
+        + '<td class="px-6 py-4 align-top"><span class="badge ' + statusClass + '">' + status + '</span></td>'
+        + '</tr>';
+}
+
+function renderUsersTable() {
+    var usersTbody = document.getElementById('users-tbody');
+    if (usersTbody) {
+        usersTbody.innerHTML = USER_ORDER.map(function (name) {
+            var u = USERS_DB[name];
+            if (!u) return '';
+            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, true);
+        }).join('') + '<tr id="users-empty" class="empty-row hidden-view"><td colspan="6" class="px-6 py-10 text-center text-gray-500">Aucun utilisateur ne correspond à votre recherche.</td></tr>';
+    }
+    var invitesTbody = document.getElementById('invites-tbody');
+    if (invitesTbody) {
+        invitesTbody.innerHTML = INVITES_DB.map(function (inv) {
+            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, false);
+        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="6" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
+    }
+}
 
 var AVATAR_COLORS = ['avatar-blue', 'avatar-teal', 'avatar-green', 'avatar-magenta', 'avatar-purple', 'avatar-orange', 'avatar-red'];
+
+var OPEN_USER = null;
 
 function avatarColorFor(name) {
     var sum = 0;
@@ -197,6 +357,7 @@ function avatarColorFor(name) {
 function openUserPopup(name) {
     var user = USERS_DB[name];
     if (!user) return;
+    OPEN_USER = name;
 
     var parts = name.split(' ');
     var initials = parts[0].charAt(0) + (parts.length > 1 ? parts[parts.length - 1].charAt(0) : '');
@@ -212,16 +373,286 @@ function openUserPopup(name) {
     statusEl.className = 'badge mt-1 ' + user.statusClass;
     statusEl.textContent = user.status;
 
-    var rolesList = document.getElementById('user-popup-roles');
-    rolesList.innerHTML = '';
-    user.roles.forEach(function (role) {
+    var accessList = document.getElementById('user-popup-access');
+    accessList.innerHTML = '';
+    user.access.forEach(function (acc) {
         var li = document.createElement('li');
-        li.className = 'flex items-center justify-between bg-gray-50 rounded-md px-4 py-2.5';
-        li.innerHTML = '<span class="font-medium text-gray-800 text-sm">' + role.name + '</span><span class="text-xs text-gray-500">' + role.period + '</span>';
-        rolesList.appendChild(li);
+        li.className = 'bg-gray-50 rounded-md px-4 py-3';
+        var permBadges = acc.permissions.map(function (p) {
+            return '<span class="badge badge-neutral me-1">' + p + '</span>';
+        }).join('');
+        li.innerHTML = '<div class="flex items-center justify-between gap-3">'
+            + '<span class="font-medium text-gray-800 text-sm">' + acc.scope + '</span>'
+            + '<span class="text-xs text-gray-500 shrink-0">' + acc.period + '</span>'
+            + '</div>'
+            + '<div class="mt-1.5">' + permBadges + '</div>';
+        accessList.appendChild(li);
     });
 
     toggleModal('modal-user', true);
+}
+
+// ==========================================
+// GESTION DES ACCÈS D'UN UTILISATEUR (Popup)
+// ==========================================
+var DOC_PRIVILEGES = [
+    ['Lister', "Voir l'existence/métadonnées du document mais pas son contenu."],
+    ['Consulter', 'Afficher le contenu du document (inclut le droit de lister).'],
+    ['Télécharger', 'Enregistrer une copie du document (inclut les droits de consultation et de listage).']
+];
+
+var UA_STATE = { entities: {} };
+
+function uaEmptyInstance() {
+    return { from: '', to: '', types: [], allTypes: false, privilege: 'Consulter', periodMode: 'all', periodFrom: '', periodTo: '' };
+}
+
+function uaEntityDefs() {
+    var def = DOC_LABEL_DEFS.find(function (c) { return c.name === 'Entité'; });
+    return def ? def.labels : [];
+}
+
+function uaTypeDefs() {
+    var def = DOC_LABEL_DEFS.find(function (c) { return c.name === 'Type de document'; });
+    return def ? def.labels : [];
+}
+
+function uaEntityLabel(code) {
+    var l = uaEntityDefs().find(function (l) { return l[0] === code; });
+    return l ? l[1] : code;
+}
+
+function uaInstanceLabel(inst) {
+    return inst === 'OA' ? "Organe d'administration (OA)" : 'Assemblée générale (AG)';
+}
+
+function uaEntityOptionsHTML() {
+    return uaEntityDefs().map(function (e) {
+        return '<label class="ms-option"><input type="checkbox" value="' + e[0] + '" onchange="msUpdate(this); uaEntityToggle(this)"> ' + e[1] + '</label>';
+    }).join('');
+}
+
+function uaTypesOptionsHTML(selected) {
+    return uaTypeDefs().map(function (t) {
+        var checked = selected && selected.indexOf(t[0]) !== -1 ? ' checked' : '';
+        return '<label class="ms-option"><input type="checkbox" value="' + t[0] + '"' + checked + ' onchange="msUpdate(this)"> ' + t[1] + '</label>';
+    }).join('');
+}
+
+function uaPrivOptionsHTML(selected) {
+    return DOC_PRIVILEGES.map(function (p) {
+        return '<option value="' + p[0] + '"' + (p[0] === selected ? ' selected' : '') + '>' + p[0] + '</option>';
+    }).join('');
+}
+
+function uaPrivDesc(v) {
+    var found = DOC_PRIVILEGES.find(function (p) { return p[0] === v; });
+    return found ? found[1] : '';
+}
+
+function uaPeriodOptionsHTML(mode) {
+    var opts = [
+        ['all', 'Toutes périodes confondues'],
+        ['before', 'Uniquement les documents antérieurs à…'],
+        ['after', 'Uniquement les documents postérieurs à…'],
+        ['between', 'Uniquement dans un intervalle précis']
+    ];
+    return opts.map(function (o) {
+        return '<option value="' + o[0] + '"' + (o[0] === mode ? ' selected' : '') + '>' + o[1] + '</option>';
+    }).join('');
+}
+
+function uaInstancePanelHTML(code, inst, cfg) {
+    cfg = cfg || uaEmptyInstance();
+    var periodHidden = cfg.periodMode === 'all' ? ' hidden-view' : '';
+    var fromHidden = cfg.periodMode === 'before' ? ' hidden-view' : '';
+    var toHidden = cfg.periodMode === 'after' ? ' hidden-view' : '';
+    var allTypesChecked = cfg.allTypes ? ' checked' : '';
+    return '<div class="ua-instance bg-gray-50 rounded-md p-3" data-instance="' + inst + '">'
+        + '<div class="text-xs font-semibold uppercase text-gray-500 mb-3">' + uaInstanceLabel(inst) + '</div>'
+        + '<div class="flex gap-3 mb-3">'
+        + '<div class="flex-1"><label class="block text-xs font-medium text-gray-700 mb-1">À partir du</label><input type="date" value="' + (cfg.from || '') + '" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white"></div>'
+        + '<div class="flex-1"><label class="block text-xs font-medium text-gray-700 mb-1">Jusqu\'au</label><input type="date" value="' + (cfg.to || '') + '" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white"></div>'
+        + '</div>'
+        + '<div class="mb-3">'
+        + '<label class="block text-sm font-medium text-gray-700 mb-1">Typologie documentaire</label>'
+        + '<div class="multi-select" data-placeholder="Sélectionner…">'
+        + '<div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0"><span class="ms-value">Sélectionner…</span><svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg></div>'
+        + '<div class="multi-select-panel hidden-view">' + uaTypesOptionsHTML(cfg.types) + '</div>'
+        + '</div>'
+        + '<label class="flex items-center gap-2 text-sm text-gray-700 mt-2"><input type="checkbox" class="toggle-switch"' + allTypesChecked + ' onchange="uaAllTypesToggle(this)"> Tous les libellés (actuels et futurs)</label>'
+        + '</div>'
+        + '<div class="mb-3">'
+        + '<label class="block text-sm font-medium text-gray-700 mb-1">Privilèges</label>'
+        + '<select onchange="uaPrivHint(this)" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">' + uaPrivOptionsHTML(cfg.privilege) + '</select>'
+        + '<p class="ua-priv-hint text-xs text-gray-500 mt-1">' + uaPrivDesc(cfg.privilege) + '</p>'
+        + '</div>'
+        + '<div>'
+        + '<label class="block text-sm font-medium text-gray-700 mb-1">Période d\'éligibilité temporelle</label>'
+        + '<select onchange="uaPeriodModeChange(this)" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">' + uaPeriodOptionsHTML(cfg.periodMode) + '</select>'
+        + '<div class="ua-period-dates flex gap-3 mt-3' + periodHidden + '">'
+        + '<div class="flex-1 ua-period-from-wrap' + fromHidden + '"><label class="block text-xs font-medium text-gray-700 mb-1">Après le</label><input type="date" value="' + (cfg.periodFrom || '') + '" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white"></div>'
+        + '<div class="flex-1 ua-period-to-wrap' + toHidden + '"><label class="block text-xs font-medium text-gray-700 mb-1">Avant le</label><input type="date" value="' + (cfg.periodTo || '') + '" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white"></div>'
+        + '</div>'
+        + '</div>'
+        + '</div>';
+}
+
+function uaEntityCardHTML(code, cfg) {
+    var oaChecked = cfg && cfg.OA ? ' checked' : '';
+    var agChecked = cfg && cfg.AG ? ' checked' : '';
+    var html = '<div class="ua-entity border border-gray-200 rounded-md p-3" data-entity="' + code + '">'
+        + '<div class="flex items-center justify-between mb-2">'
+        + '<span class="font-semibold text-gray-800">' + uaEntityLabel(code) + '</span>'
+        + '<button type="button" onclick="uaRemoveEntity(this)" title="Retirer l\'entité" class="p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors shrink-0"><svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 6h18" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><line x1="10" x2="10" y1="11" y2="17" /><line x1="14" x2="14" y1="11" y2="17" /></svg></button>'
+        + '</div>'
+        + '<div class="flex gap-6 mb-3">'
+        + '<label class="flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" class="toggle-switch"' + oaChecked + ' onchange="uaInstanceToggle(\'' + code + '\',\'OA\',this)"> Organe d\'administration (OA)</label>'
+        + '<label class="flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" class="toggle-switch"' + agChecked + ' onchange="uaInstanceToggle(\'' + code + '\',\'AG\',this)"> Assemblée générale (AG)</label>'
+        + '</div>'
+        + '<div class="ua-instances space-y-3">';
+    if (cfg && cfg.OA) html += uaInstancePanelHTML(code, 'OA', cfg.OA);
+    if (cfg && cfg.AG) html += uaInstancePanelHTML(code, 'AG', cfg.AG);
+    html += '</div>'
+        + '</div>';
+    return html;
+}
+
+function renderUaFunnel() {
+    var funnel = document.getElementById('ua-funnel');
+    if (!funnel) return;
+    funnel.innerHTML = '';
+    Object.keys(UA_STATE.entities).forEach(function (code) {
+        var div = document.createElement('div');
+        div.innerHTML = uaEntityCardHTML(code, UA_STATE.entities[code]);
+        funnel.appendChild(div.firstElementChild);
+    });
+    funnel.querySelectorAll('.multi-select input[type="checkbox"]:checked').forEach(function (c) {
+        msUpdate(c);
+    });
+}
+
+function syncUaEntityChecks() {
+    var ms = document.getElementById('ua-entities');
+    if (!ms) return;
+    ms.querySelectorAll('input[type="checkbox"]').forEach(function (c) {
+        c.checked = !!UA_STATE.entities[c.value];
+        msUpdate(c);
+    });
+}
+
+function openUserAccess(name) {
+    var user = USERS_DB[name];
+    var cfg = user ? (user.config || {}) : {};
+
+    UA_STATE = { entities: {} };
+    if (cfg.entities) {
+        Object.keys(cfg.entities).forEach(function (code) {
+            var e = cfg.entities[code] || {};
+            UA_STATE.entities[code] = { OA: e.OA || null, AG: e.AG || null };
+        });
+    }
+
+    var nameEl = document.getElementById('ua-name');
+    if (nameEl) nameEl.textContent = name;
+    var emailEl = document.getElementById('ua-email');
+    if (emailEl) emailEl.textContent = user ? user.email : '';
+
+    var gp = document.getElementById('ua-general');
+    if (gp) {
+        gp.querySelectorAll('input[type="checkbox"]').forEach(function (c) {
+            c.checked = (user && (user.general || []).indexOf(c.value) !== -1);
+            msUpdate(c);
+        });
+    }
+
+    var entPanel = document.querySelector('#ua-entities .multi-select-panel');
+    if (entPanel) entPanel.innerHTML = uaEntityOptionsHTML();
+    syncUaEntityChecks();
+
+    var allEnt = document.getElementById('ua-all-entities');
+    if (allEnt) allEnt.checked = !!cfg.allEntities;
+    uaAllEntitiesToggle(allEnt);
+
+    renderUaFunnel();
+
+    toggleModal('modal-user-access', true);
+}
+
+function uaEntityToggle(cb) {
+    var funnel = document.getElementById('ua-funnel');
+    if (!funnel) return;
+    if (cb.checked) {
+        if (!document.querySelector('.ua-entity[data-entity="' + cb.value + '"]')) {
+            var div = document.createElement('div');
+            div.innerHTML = uaEntityCardHTML(cb.value, null);
+            funnel.appendChild(div.firstElementChild);
+        }
+    } else {
+        var card = document.querySelector('.ua-entity[data-entity="' + cb.value + '"]');
+        if (card) card.remove();
+    }
+}
+
+function uaRemoveEntity(btn) {
+    var card = btn.closest('.ua-entity');
+    var code = card ? card.getAttribute('data-entity') : null;
+    if (card) card.remove();
+    if (code) {
+        var cb = document.querySelector('#ua-entities input[type="checkbox"][value="' + code + '"]');
+        if (cb) { cb.checked = false; msUpdate(cb); }
+    }
+}
+
+function uaInstanceToggle(code, inst, cb) {
+    var card = document.querySelector('.ua-entity[data-entity="' + code + '"]');
+    if (!card) return;
+    var container = card.querySelector('.ua-instances');
+    var existing = card.querySelector('.ua-instance[data-instance="' + inst + '"]');
+    if (cb.checked) {
+        if (!existing) {
+            var div = document.createElement('div');
+            div.innerHTML = uaInstancePanelHTML(code, inst, uaEmptyInstance());
+            container.appendChild(div.firstElementChild);
+        }
+    } else {
+        if (existing) existing.remove();
+    }
+}
+
+function uaAllEntitiesToggle(cb) {
+    var ms = document.getElementById('ua-entities');
+    if (ms) ms.classList.toggle('opacity-50', !!cb && cb.checked);
+    var t = ms ? ms.querySelector('.multi-select-toggle') : null;
+    if (t) t.style.pointerEvents = (cb && cb.checked) ? 'none' : '';
+}
+
+function uaAllTypesToggle(cb) {
+    var panel = cb.closest('.ua-instance');
+    if (!panel) return;
+    var ms = panel.querySelector('.multi-select');
+    if (ms) ms.classList.toggle('opacity-50', cb.checked);
+    var t = ms ? ms.querySelector('.multi-select-toggle') : null;
+    if (t) t.style.pointerEvents = cb.checked ? 'none' : '';
+}
+
+function uaPrivHint(sel) {
+    var panel = sel.closest('.ua-instance');
+    if (!panel) return;
+    var hint = panel.querySelector('.ua-priv-hint');
+    if (hint) hint.textContent = uaPrivDesc(sel.value);
+}
+
+function uaPeriodModeChange(sel) {
+    var panel = sel.closest('.ua-instance');
+    if (!panel) return;
+    var v = sel.value;
+    var dates = panel.querySelector('.ua-period-dates');
+    if (dates) dates.classList.toggle('hidden-view', v === 'all');
+    var from = panel.querySelector('.ua-period-from-wrap');
+    var to = panel.querySelector('.ua-period-to-wrap');
+    if (from) from.classList.toggle('hidden-view', v === 'before');
+    if (to) to.classList.toggle('hidden-view', v === 'after');
 }
 
 // ==========================================
@@ -455,73 +886,83 @@ function openDocHistory(title, btn) {
 }
 
 // ==========================================
-// ACCÈS NOMINATIFS SUR UN DOCUMENT (Popup)
-// ==========================================
-function daToggleInvite() {
-    var sel = document.getElementById('da-user');
-    document.getElementById('da-invite-wrap').classList.toggle('hidden-view', sel.value !== '__invite');
-}
-
-function openDocAccess(title, btn) {
-    var sel = document.getElementById('da-user');
-    if (sel) sel.value = '__invite';
-    var email = document.getElementById('da-invite-email');
-    if (email) email.value = '';
-    var wrap = document.getElementById('da-invite-wrap');
-    if (wrap) {
-        wrap.classList.toggle('hidden-view', sel.value !== '__invite');
-    }
-    var priv = document.getElementById('da-privileges');
-    if (priv) {
-        priv.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
-            c.checked = false;
-            msUpdate(c);
-        });
-    }
-    var from = document.getElementById('da-from');
-    if (from) from.value = '';
-    var to = document.getElementById('da-to');
-    if (to) to.value = '';
-    var titleEl = document.getElementById('da-title');
-    if (titleEl) titleEl.textContent = title.replace(/\.[a-z0-9]+$/i, '');
-    toggleModal('modal-doc-access', true);
-}
-
-// ==========================================
 // URL DE PARTAGE D'UN DOCUMENT (Popup)
 // ==========================================
-function shareLinkWithToken(on) {
-    var f = currentDocumentFilters();
-    var parts = [];
-    if ((f.search || '').trim()) parts.push('search=' + encodeURIComponent(f.search.trim()));
-    if (f.entity.length) parts.push('entity=' + f.entity.map(encodeURIComponent).join(','));
-    if (f.organ.length) parts.push('organ=' + f.organ.map(encodeURIComponent).join(','));
-    if (f.type.length) parts.push('type=' + f.type.map(encodeURIComponent).join(','));
-    if (f.from) parts.push('from=' + encodeURIComponent(f.from));
-    if (f.to) parts.push('to=' + encodeURIComponent(f.to));
-    if (f.grouping && f.grouping.length) parts.push('grouping=' + f.grouping.map(encodeURIComponent).join(','));
-    if (on) parts.push('token=x7f2k9');
-    var qs = parts.length ? '?' + parts.join('&') : '';
-    return 'https://ged.chimaywartoise.be/share/documents' + qs;
+function newShareToken() {
+    var hex = '0123456789abcdef';
+    var token = '';
+    for (var i = 0; i < 8; i++) token += hex.charAt(Math.floor(Math.random() * 16));
+    return token;
+}
+
+function buildShareLink() {
+    return 'https://ged.chimaywartoise.be/documents/view/' + newShareToken();
 }
 
 function openShareLink(title, btn) {
     var nameEl = document.getElementById('share-doc-name');
     if (nameEl) nameEl.textContent = title.replace(/\.[a-z0-9]+$/i, '');
     var input = document.getElementById('share-link-input');
-    var toggle = document.getElementById('share-link-toggle');
-    var warn = document.getElementById('share-anonymous-warning');
-    if (toggle) toggle.checked = false;
-    if (input) input.value = shareLinkWithToken(false);
-    if (warn) warn.classList.add('hidden-view');
+    if (input) input.value = buildShareLink();
+    resetShareForm();
     toggleModal('modal-share', true);
 }
 
-function onShareToggle(cb) {
-    var input = document.getElementById('share-link-input');
-    var warn = document.getElementById('share-anonymous-warning');
-    if (input) input.value = shareLinkWithToken(cb.checked);
-    if (warn) warn.classList.toggle('hidden-view', !cb.checked);
+function resetShareForm() {
+    var users = document.getElementById('share-users');
+    if (users) {
+        users.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+            c.checked = false;
+            msUpdate(c);
+        });
+    }
+    var priv = document.getElementById('share-privileges');
+    if (priv) {
+        priv.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+            c.checked = false;
+            msUpdate(c);
+        });
+    }
+    ['share-users-from', 'share-users-to', 'share-invite-from', 'share-invite-to'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    var inviteInput = document.getElementById('share-invite-input');
+    if (inviteInput) inviteInput.value = '';
+    var inviteList = document.getElementById('share-invite-list');
+    if (inviteList) inviteList.innerHTML = '';
+}
+
+function addShareGuests() {
+    var input = document.getElementById('share-invite-input');
+    if (!input) return;
+    var emails = input.value.split(/[,;\s]+/).filter(function (s) {
+        return /\S+@\S+\.\S+/.test(s);
+    });
+    input.value = '';
+    emails.forEach(addShareGuestChip);
+}
+
+function addShareGuestChip(email) {
+    var list = document.getElementById('share-invite-list');
+    if (!list) return;
+    var exists = Array.prototype.some.call(list.children, function (c) {
+        return c.getAttribute('data-email') === email;
+    });
+    if (exists) return;
+    var chip = document.createElement('span');
+    chip.setAttribute('data-email', email);
+    chip.className = 'inline-flex items-center gap-1.5 bg-primary-light text-primary text-xs font-medium rounded-full px-3 py-1';
+    var label = document.createElement('span');
+    label.textContent = email;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'text-primary/60 hover:text-primary';
+    btn.textContent = '×';
+    btn.onclick = function () { chip.remove(); };
+    chip.appendChild(label);
+    chip.appendChild(btn);
+    list.appendChild(chip);
 }
 
 function copyShareLink() {
@@ -543,21 +984,6 @@ function copyShareLink() {
 // ==========================================
 // ACCÈS NOMINATIFS (écran de gestion)
 // ==========================================
-function switchRolesTab(tabEl, idx) {
-    document.querySelectorAll('#view-roles .label-tab').forEach(function (t, i) {
-        t.classList.remove('label-tab-inactive', 'label-tab-active');
-        if (i === idx) {
-            t.classList.add('label-tab-active');
-        } else {
-            t.classList.add('label-tab-inactive');
-        }
-    });
-    var roles = document.getElementById('roles-tab-panel');
-    var accesses = document.getElementById('accesses-tab-panel');
-    if (roles) roles.classList.toggle('hidden-view', idx !== 0);
-    if (accesses) accesses.classList.toggle('hidden-view', idx !== 1);
-}
-
 function filterNominativeAccesses() {
     var q = (document.getElementById('na-search').value || '').toLowerCase();
     var statuses = multiCheckedValues('na-status-filter');
@@ -795,254 +1221,6 @@ function applySavedView(select) {
 }
 
 // ==========================================
-// RÈGLES D'ACCÈS (modal création de rôle)
-// ==========================================
-var ROLE_RULE_CATEGORIES = [
-    { name: 'Entité', labels: [['FCW', 'Fondation Chimay-Wartoise (FCW)'], ['CGE', 'Chimay-Gestion (CGE)'], ['CPA', 'Chimay-Patrimoine (CPA)'], ['ADS', 'Abbaye Notre-Dame de Scourmont (ADS)'], ['SOL', 'Solidarité Cistercienne (SOL)'], ['AUB', 'Auberge de Poteaupré (AUB)'], ['ESP', 'Espace Chimay (ESP)'], ['BSM', 'Boissons Sambre et Meuse (BSM)'], ['BDC', 'Bières de Chimay (BDC)'], ['FRO', 'Chimay Fromages (FRO)'], ['PPB', 'Les Petits Pas de la Botte (PPB)'], ['MDC', 'La Maison De Casimir (MDC)'], ['AP', 'Albatros Poteaupré (AP)']] },
-    { name: 'Instance', labels: [['OA', "Organe d'administration (OA)"], ['AG', 'Assemblée générale (AG)']] },
-    { name: 'Type de document', labels: [['CPT', 'Comptes (CPT)'], ['BDGT', 'Budget (BDGT)'], ['PV', 'Procès-verbal (PV)'], ['CNVC', 'Convocation (CNVC)'], ['PROC', 'Procuration (PROC)'], ['NOT', 'Notes (NOT)'], ['PRES', 'Présentation (PRES)'], ['RA', 'Rapport annuel (RA)'], ['BETU', "Bourse d'étude (BETU)"], ['ANX', 'Annexe (ANX)'], ['EXTR', 'Extrait (EXTR)']] },
-    { name: 'Année', labels: [['2026', '2026'], ['2025', '2025'], ['2024', '2024']] }
-];
-
-var ROLE_DOC_PRIVILEGES = [
-    ['Consulter', 'Rechercher et lire des documents.'],
-    ['Télécharger', 'Enregistrer une copie des documents sur son ordinateur.'],
-    ['Déposer', 'Ajouter de nouveaux documents sur la plateforme.'],
-    ['Modifier', "Mettre à jour les étiquettes d'un document existant ou publier une nouvelle version."]
-];
-
-var ROLE_GENERAL_PRIVILEGES = [
-    { group: 'Actions sur les utilisateurs', items: [
-        ['Créer des invitations', "Envoyer un mail contenant un lien d'invitation à rejoindre la plateforme."],
-        ['Gérer les comptes', "Supprimer le compte d'un utilisateur existant."],
-        ['Gérer les rôles', 'Définir de nouveaux profils métiers (ex : « Membre Chimay Gestion », « Comptable »), choisir leurs privilèges et définir les libellés auxquels ils ont accès.']
-    ] },
-    { group: 'Paramétrage et suivi', items: [
-        ['Gérer les libellés', 'Créer, modifier ou supprimer des libellés.'],
-        ["Consulter l'historique", "Avoir accès à l'historique recensant toutes les actions effectuées par les utilisateurs sur l'ensemble de la plateforme."],
-        ['Gérer les accès nominatifs', 'Rendre un document strictement confidentiel en limitant sa lecture à des personnes nommées explicitement (accès nominatif).']
-    ] }
-];
-
-function rolePrivilegePanelHTML(groups, preset) {
-    return groups.map(function (g) {
-        var opts = g.items.map(function (it) {
-            var checked = preset && preset.privileges && preset.privileges.indexOf(it[0]) !== -1 ? ' checked' : '';
-            return '<label class="ms-option"><input type="checkbox" value="' + it[0] + '"' + checked + ' onchange="msUpdate(this)"><span class="ms-name">' + it[0] + '</span><span class="ms-desc">' + it[1] + '</span></label>';
-        }).join('');
-        return (g.group ? '<div class="ms-group">' + g.group + '</div>' : '') + opts;
-    }).join('');
-}
-
-function roleRuleCategoryHTML(cat, preset) {
-    var opts = cat.labels.map(function (l) {
-        var checked = preset && preset[cat.name] && preset[cat.name].indexOf(l[0]) !== -1 ? ' checked' : '';
-        return '<label class="ms-option"><input type="checkbox" value="' + l[0] + '"' + checked + ' onchange="msUpdate(this)"> ' + l[1] + '</label>';
-    }).join('');
-    return '                        <div>\n'
-        + '                            <label class="block text-sm font-medium text-gray-700 mb-1">' + cat.name + '</label>\n'
-        + '                            <div class="multi-select" data-placeholder="Tous les libellés">\n'
-        + '                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">\n'
-        + '                                    <span class="ms-value">Tous les libellés</span>\n'
-        + '                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>\n'
-        + '                                </div>\n'
-        + '                                <div class="multi-select-panel hidden-view">\n' + opts + '\n'
-        + '                                </div>\n'
-        + '                            </div>\n'
-        + '                        </div>';
-}
-
-function roleRuleHTML(n, preset) {
-    var cats = ROLE_RULE_CATEGORIES.map(function (cat) { return roleRuleCategoryHTML(cat, preset); }).join('\n');
-    return '                    <div class="role-rule border border-gray-200 rounded-md p-3">\n'
-        + '                        <div class="flex items-center justify-between mb-2">\n'
-        + '                            <span class="rule-num text-xs font-semibold text-gray-500 uppercase">Règle n°' + n + '</span>\n'
-        + '                            <button type="button" onclick="removeRoleRule(this)" title="Supprimer la règle" class="p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors shrink-0"><svg class="w-5 h-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 6h18" />\n  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />\n  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />\n  <line x1="10" x2="10" y1="11" y2="17" />\n  <line x1="14" x2="14" y1="11" y2="17" /></svg></button>\n'
-        + '                        </div>\n'
-        + '                        <div class="mb-2">\n'
-        + '                            <label class="block text-sm font-medium text-gray-700 mb-1">Privilège(s)</label>\n'
-        + '                            <div class="multi-select">\n'
-        + '                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">\n'
-        + '                                    <span class="ms-value">Sélectionner…</span>\n'
-        + '                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>\n'
-        + '                                </div>\n'
-        + '                                <div class="multi-select-panel hidden-view">' + rolePrivilegePanelHTML([{ group: '', items: ROLE_DOC_PRIVILEGES }], preset) + '</div>\n'
-        + '                            </div>\n'
-        + '                        </div>\n'
-        + '                        <div class="space-y-3">\n' + cats + '\n'
-        + '                        </div>\n'
-        + '                    </div>';
-}
-
-function renumberRoleRules() {
-    var i = 1;
-    document.querySelectorAll('#role-rules .role-rule').forEach(function (r) {
-        var num = r.querySelector('.rule-num');
-        if (num) num.textContent = 'Règle n°' + i++;
-    });
-}
-
-function addRoleRule() {
-    var wrap = document.getElementById('role-rules');
-    if (!wrap) return;
-    var count = wrap.querySelectorAll('.role-rule').length + 1;
-    var div = document.createElement('div');
-    div.innerHTML = roleRuleHTML(count);
-    wrap.appendChild(div.firstElementChild);
-}
-
-function removeRoleRule(btn) {
-    var row = btn.closest('.role-rule');
-    if (row) row.remove();
-    renumberRoleRules();
-}
-
-// ==========================================
-// DUPLICATION D'UN RÔLE
-// ==========================================
-var ROLES_DB = {
-    'Administrateur système': {
-        general: ['Créer des invitations', 'Gérer les comptes', 'Gérer les rôles', 'Gérer les libellés', "Consulter l'historique", 'Gérer les accès nominatifs'],
-        rules: [{ privileges: ['Consulter', 'Télécharger', 'Déposer', 'Modifier'] }]
-    },
-    'Membre de la direction CGE': {
-        general: ['Créer des invitations', 'Gérer les comptes'],
-        rules: [
-            { privileges: ['Consulter'], Entité: ['CGE'] },
-            { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Instance: ['AG'] }
-        ]
-    },
-    'Secrétaire de séance': {
-        general: ['Créer des invitations'],
-        rules: [
-            { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Entité: ['CGE'], Instance: ['OA'] }
-        ]
-    },
-    'Assistant de direction': {
-        general: ['Créer des invitations'],
-        rules: [
-            { privileges: ['Déposer'], Entité: ['CGE'] },
-            { privileges: ['Consulter'], Entité: ['CGE'], Instance: ['OA'] }
-        ]
-    },
-    'Auditeur externe': {
-        general: [],
-        rules: [{ privileges: ['Consulter'], Instance: ['AG'] }]
-    },
-    'Partenaire externe CGE': {
-        general: [],
-        rules: [{ privileges: ['Consulter'], Entité: ['CGE'] }]
-    }
-};
-
-function buildRoleRules(container, rules) {
-    if (!container) return;
-    container.innerHTML = '';
-    rules.forEach(function (preset, i) {
-        var div = document.createElement('div');
-        div.innerHTML = roleRuleHTML(i + 1, preset);
-        container.appendChild(div.firstElementChild);
-    });
-    container.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
-        msUpdate(c);
-    });
-}
-
-function setRoleGeneralPrivileges(values) {
-    var gp = document.getElementById('role-general-privileges');
-    if (!gp) return;
-    gp.querySelectorAll('input[type="checkbox"]').forEach(function (c) {
-        c.checked = (values || []).indexOf(c.value) !== -1;
-        msUpdate(c);
-    });
-}
-
-function duplicateRole(name) {
-    var def = ROLES_DB[name];
-    if (!def) return;
-    document.getElementById('role-modal-title').textContent = 'Dupliquer un rôle';
-    document.getElementById('role-name-input').value = name + ' (copie)';
-    setRoleGeneralPrivileges(def.general);
-    buildRoleRules(document.getElementById('role-rules'), def.rules.length ? def.rules : [{}]);
-    toggleModal('modal-role', true);
-}
-
-function openRoleCreate() {
-    document.getElementById('role-modal-title').textContent = 'Créer un rôle';
-    document.getElementById('role-name-input').value = '';
-    setRoleGeneralPrivileges([]);
-    buildRoleRules(document.getElementById('role-rules'), [{}]);
-    toggleModal('modal-role', true);
-}
-
-function roleDetailsMultiWrap(panelHTML) {
-    return '<div class="multi-select">'
-        + '<div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">'
-        + '<span class="ms-value">Sélectionner…</span>'
-        + '<svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>'
-        + '</div>'
-        + '<div class="multi-select-panel hidden-view">' + panelHTML + '</div>'
-        + '</div>';
-}
-
-function openRoleDetails(name) {
-    var def = ROLES_DB[name];
-    if (!def) return;
-
-    var nameInput = document.getElementById('role-details-name');
-    if (nameInput) nameInput.value = name;
-
-    var usersEl = document.getElementById('role-details-users');
-    if (usersEl) {
-        var row = Array.prototype.filter.call(document.querySelectorAll('#roles-tab-panel tbody tr'), function (r) {
-            return (r.getAttribute('data-sort0') || '') === normName(name);
-        })[0] || null;
-        usersEl.textContent = row && row.children[1] ? row.children[1].textContent.trim() : '—';
-    }
-
-    var genEl = document.getElementById('role-details-general');
-    if (genEl) {
-        genEl.innerHTML = roleDetailsMultiWrap(rolePrivilegePanelHTML(ROLE_GENERAL_PRIVILEGES, { privileges: def.general }));
-    }
-
-    var rulesEl = document.getElementById('role-details-rules');
-    if (rulesEl) {
-        rulesEl.innerHTML = (def.rules.length ? def.rules : [{}]).map(function (preset, i) {
-            var priv = rolePrivilegePanelHTML([{ group: '', items: ROLE_DOC_PRIVILEGES }], preset);
-            var cats = ROLE_RULE_CATEGORIES.map(function (cat) { return roleRuleCategoryHTML(cat, preset); }).join('\n');
-            return '<div class="role-rule border border-gray-200 rounded-md p-3">'
-                + '<div class="mb-2"><span class="rule-num text-xs font-semibold text-gray-500 uppercase">Règle n°' + (i + 1) + '</span></div>'
-                + '<div class="mb-2">'
-                + '<label class="block text-sm font-medium text-gray-700 mb-1">Privilège(s)</label>'
-                + roleDetailsMultiWrap(priv)
-                + '</div>'
-                + '<div class="space-y-3">' + cats + '</div>'
-                + '</div>';
-        }).join('');
-    }
-
-    var modal = document.getElementById('modal-role-details');
-    if (!modal) return;
-    modal.querySelectorAll('input[type="checkbox"]').forEach(function (c) { c.disabled = true; });
-    modal.querySelectorAll('.multi-select').forEach(function (ms) {
-        var first = ms.querySelector('input');
-        if (first) msUpdate(first);
-    });
-
-    toggleModal('modal-role-details', true);
-}
-
-document.addEventListener('click', function (e) {
-    if (e.target.closest && e.target.closest('button')) return;
-    if (e.target.closest && e.target.closest('#roles-tab-panel tbody tr[data-sort0]')) {
-        var row = e.target.closest('#roles-tab-panel tbody tr[data-sort0]');
-        openRoleDetails(row.children[0].textContent.trim());
-    }
-});
-
-// ==========================================
 // LISTE À COCHER (multi-select des règles)
 // ==========================================
 function toggleMultiSelect(btn) {
@@ -1100,67 +1278,6 @@ document.addEventListener('change', function (e) {
 function msModeChange(sel) {
     var ms = sel.parentNode.querySelector('.multi-select');
     if (ms) ms.classList.toggle('hidden-view', sel.value === 'Tous');
-}
-
-// ==========================================
-// VÉRIFIER LES ACCÈS (rôles → documents visibles)
-// ==========================================
-var ROLE_ACCESS_RULES = {
-    'Administrateur système': function () { return true; },
-    'Membre de la direction CGE': function (r) { return r.ent === 'CGE' || r.org === 'AG'; },
-    'Secrétaire de séance': function (r) { return r.ent === 'CGE' && r.org === 'OA'; },
-    'Assistant de direction': function (r) { return r.ent === 'CGE' && r.org === 'OA'; },
-    'Auditeur externe': function (r) { return r.org === 'AG'; },
-    'Partenaire externe CGE': function (r) { return r.ent === 'CGE' && r.org !== 'OA'; }
-};
-
-function openAccessCheck() {
-    toggleModal('modal-access-check', true);
-    updateAccessCheck();
-}
-
-function updateAccessCheck() {
-    var tbody = document.getElementById('ac-tbody');
-    if (!tbody) return;
-    var roles = multiCheckedValues('ac-roles');
-    var docs = document.querySelectorAll('#docs-tbody tr:not(.empty-row)');
-    var rows = [];
-    docs.forEach(function (r) {
-        var d = {
-            ent: r.getAttribute('data-entity') || '',
-            org: r.getAttribute('data-organ') || ''
-        };
-        if (roles.some(function (name) {
-            var fn = ROLE_ACCESS_RULES[name];
-            return fn ? fn(d) : false;
-        })) rows.push(r);
-    });
-    var count = document.getElementById('ac-count');
-    if (count) {
-        count.textContent = roles.length
-            ? (rows.length + (rows.length > 1 ? ' documents visibles' : ' document visible'))
-            : 'Aucun document visible pour la sélection.';
-    }
-    tbody.innerHTML = '';
-    if (!rows.length) {
-        var msg = roles.length
-            ? 'Aucun document ne correspond à la sélection de rôles.'
-            : 'Sélectionnez un ou plusieurs rôles pour afficher les documents visibles.';
-        tbody.innerHTML = '<tr><td colspan="3" class="px-6 py-8 text-center text-gray-500">' + msg + '</td></tr>';
-        return;
-    }
-    rows.forEach(function (r) {
-        var titleEl = r.querySelector('td:first-child .font-medium');
-        var title = titleEl ? titleEl.textContent.trim() : r.querySelector('td:first-child').textContent.trim();
-        var date = r.querySelectorAll('td')[1].textContent.trim();
-        var labels = r.querySelectorAll('td')[2].innerHTML;
-        var tr = document.createElement('tr');
-        tr.className = 'hover:bg-primary-light transition-colors';
-        tr.innerHTML = '<td class="px-6 py-3 font-medium text-gray-900">' + title + '</td>'
-            + '<td class="px-6 py-3 text-gray-500">' + date + '</td>'
-            + '<td class="px-6 py-3">' + labels + '</td>';
-        tbody.appendChild(tr);
-    });
 }
 
 // ==========================================
@@ -1555,6 +1672,13 @@ var DOC_GROUPING_CATEGORIES = [
     { key: 'event', name: 'Séance' }
 ];
 
+var DOC_LABEL_DEFS = [
+    { name: 'Entité', labels: [['FCW', 'Fondation Chimay-Wartoise (FCW)'], ['CGE', 'Chimay-Gestion (CGE)'], ['CPA', 'Chimay-Patrimoine (CPA)'], ['ADS', 'Abbaye Notre-Dame de Scourmont (ADS)'], ['SOL', 'Solidarité Cistercienne (SOL)'], ['AUB', 'Auberge de Poteaupré (AUB)'], ['ESP', 'Espace Chimay (ESP)'], ['BSM', 'Boissons Sambre et Meuse (BSM)'], ['BDC', 'Bières de Chimay (BDC)'], ['FRO', 'Chimay Fromages (FRO)'], ['PPB', 'Les Petits Pas de la Botte (PPB)'], ['MDC', 'La Maison De Casimir (MDC)'], ['AP', 'Albatros Poteaupré (AP)']] },
+    { name: 'Instance', labels: [['OA', "Organe d'administration (OA)"], ['AG', 'Assemblée générale (AG)']] },
+    { name: 'Type de document', labels: [['CPT', 'Comptes (CPT)'], ['BDGT', 'Budget (BDGT)'], ['PV', 'Procès-verbal (PV)'], ['CNVC', 'Convocation (CNVC)'], ['PROC', 'Procuration (PROC)'], ['NOT', 'Notes (NOT)'], ['PRES', 'Présentation (PRES)'], ['RA', 'Rapport annuel (RA)'], ['BETU', "Bourse d'étude (BETU)"], ['ANX', 'Annexe (ANX)'], ['EXTR', 'Extrait (EXTR)']] },
+    { name: 'Année', labels: [['2026', '2026'], ['2025', '2025'], ['2024', '2024']] }
+];
+
 var GROUPING = [];
 var TREE_PATH = [];
 
@@ -1638,7 +1762,7 @@ function docLabelName(key, value) {
         return ev ? eventDisplayName(ev) : value;
     }
     var cat = DOC_GROUPING_CATEGORIES.find(function (c) { return c.key === key; });
-    var def = ROLE_RULE_CATEGORIES.find(function (c) { return c.name === cat.name; });
+    var def = DOC_LABEL_DEFS.find(function (c) { return c.name === cat.name; });
     var l = def ? def.labels.find(function (l) { return l[0] === value; }) : null;
     return l ? l[1] : value;
 }
@@ -1648,7 +1772,7 @@ function docLabelOrder(key) {
         return EVENTS.slice().sort(function (a, b) { return b.date.localeCompare(a.date); }).map(function (e) { return e.id; });
     }
     var cat = DOC_GROUPING_CATEGORIES.find(function (c) { return c.key === key; });
-    var def = ROLE_RULE_CATEGORIES.find(function (c) { return c.name === cat.name; });
+    var def = DOC_LABEL_DEFS.find(function (c) { return c.name === cat.name; });
     return def ? def.labels.map(function (l) { return l[0]; }) : [];
 }
 
@@ -2051,9 +2175,17 @@ function switchUsersTab(tabEl, idx) {
             t.classList.add('label-tab-inactive');
         }
     });
-    document.querySelectorAll('#view-users tbody.labels-tbody').forEach(function (tb, i) {
-        tb.classList.toggle('hidden-view', i !== idx);
-    });
+    var topbar = document.getElementById('users-topbar');
+    if (topbar) topbar.classList.toggle('hidden-view', idx === 2);
+    var usersPanel = document.getElementById('users-tab-panel');
+    var accessesPanel = document.getElementById('accesses-tab-panel');
+    if (usersPanel) usersPanel.classList.toggle('hidden-view', idx === 2);
+    if (accessesPanel) accessesPanel.classList.toggle('hidden-view', idx !== 2);
+    if (idx === 0 || idx === 1) {
+        document.querySelectorAll('#users-tab-panel tbody.labels-tbody').forEach(function (tb, i) {
+            tb.classList.toggle('hidden-view', i !== idx);
+        });
+    }
 }
 
 // ==========================================
@@ -2075,6 +2207,63 @@ function filterLabels() {
         if (visible > 0) anyVisible = true;
     });
     document.getElementById('labels-none').classList.toggle('hidden-view', anyVisible);
+}
+
+function applyNamingPreset(select) {
+    var input = document.getElementById('naming-format');
+    if (input && select.value) input.value = select.value;
+    updateNamingExample();
+}
+
+var DEFAULT_NAMING_FORMAT = '{titre document} - {date document} {entité} {instance} {type document}';
+
+function toggleNamingReset(value) {
+    var btn = document.getElementById('naming-reset');
+    if (btn) btn.classList.toggle('hidden-view', value === DEFAULT_NAMING_FORMAT);
+}
+
+function resetNamingFormat() {
+    var input = document.getElementById('naming-format');
+    if (input) input.value = DEFAULT_NAMING_FORMAT;
+    var preset = document.getElementById('naming-preset');
+    if (preset) preset.value = '';
+    updateNamingExample();
+}
+
+function updateNamingExample() {
+    var input = document.getElementById('naming-format');
+    var out = document.getElementById('naming-example-result');
+    if (!input || !out) return;
+    var d = new Date();
+    var sample = {
+        '{titre document}': 'PV AG FCW du 23-06-2026',
+        '{version}': '3',
+        '{entité}': 'Fondation Chimay-Wartoise',
+        '{entité code}': 'FCW',
+        '{instance}': 'Assemblée générale',
+        '{instance code}': 'AG',
+        '{type document}': 'Procès-verbal',
+        '{type document code}': 'PV',
+        '{séance}': 'AG FCW du 23/06/2026',
+        '{date document}': '23/06/2026',
+        '{date document iso}': '2026-06-23',
+        '{date document court}': '23/06/26',
+        '{année document}': '2026',
+        '{mois document}': '06',
+        '{jour document}': '23',
+        '{date séance}': '23/06/2026',
+        '{date séance iso}': '2026-06-23',
+        '{année séance}': '2026',
+        '{date dépôt}': '25/06/2026',
+        '{année dépôt}': '2026',
+        '{date du jour}': String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear()
+    };
+    var s = input.value;
+    Object.keys(sample).forEach(function (k) {
+        s = s.split(k).join(sample[k]);
+    });
+    out.textContent = s + '.pdf';
+    toggleNamingReset(input.value);
 }
 
 // ==========================================

@@ -22,8 +22,8 @@ PARTIALS.modalUser = `
             </div>
 
             <div>
-                <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Rôles</h4>
-                <ul id="user-popup-roles" class="space-y-2"></ul>
+                <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Accès</h4>
+                <ul id="user-popup-access" class="space-y-2"></ul>
             </div>
 
             <div class="bg-gray-50 rounded-md px-4 py-3 text-sm text-gray-600 flex items-center gap-2">
@@ -36,7 +36,7 @@ PARTIALS.modalUser = `
             <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
                 <button onclick="alert('Liste des documents accessibles pour cet utilisateur (simulation)')" class="text-sm text-primary hover:underline font-medium">Voir les accès documents</button>
                 <div class="flex gap-3">
-                    <button onclick="alert('Gestion des rôles (simulation)')" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm">Gérer les rôles</button>
+                    <button onclick="openUserAccess(OPEN_USER)" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm">Gérer les accès</button>
                     <button onclick="toggleModal('modal-user', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Fermer</button>
                 </div>
             </div>
