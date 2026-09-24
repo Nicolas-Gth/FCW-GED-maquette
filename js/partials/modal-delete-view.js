@@ -16,8 +16,8 @@ PARTIALS.modalDeleteView = `
             <p class="text-xs text-gray-500">Cette action est irréversible.</p>
 
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                <button type="button" onclick="toggleModal('modal-delete-view', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
-                <button type="button" onclick="confirmDeleteView()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm font-medium shadow-sm flex items-center gap-2">
+                <button type="button" onclick="toggleModal('modal-delete-view', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Annuler</button>
+                <button type="button" onclick="confirmDeleteView()" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium shadow-sm flex items-center gap-2">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
   <path d="m14.5 9.5-5 5" />
   <path d="m9.5 9.5 5 5" /></svg>

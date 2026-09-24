@@ -36,8 +36,8 @@ PARTIALS.modalUser = `
             <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
                 <button onclick="alert('Liste des documents accessibles pour cet utilisateur (simulation)')" class="text-sm text-primary hover:underline font-medium">Voir les accès documents</button>
                 <div class="flex gap-3">
-                    <button onclick="openUserAccess(OPEN_USER)" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm">Gérer les accès</button>
-                    <button onclick="toggleModal('modal-user', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Fermer</button>
+                    <button onclick="openUserAccess(OPEN_USER)" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm">Gérer les accès</button>
+                    <button onclick="toggleModal('modal-user', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Fermer</button>
                 </div>
             </div>
         </div>

@@ -340,11 +340,11 @@ var USERS_DB = {
  var USER_ORDER = ['Marc Lemoine', 'Sophie Durant', 'Denis Buchet', 'Philippe Dumont', 'Dom Damien Debaisieux', 'Julie Stavrakas', 'Laurent Petit', 'Marie Lefèvre', 'Thomas Delcroix', 'Isabelle Moreau'];
 
 var INVITES_DB = [
-    { name: 'Lucie Fontaine', email: 'l.fontaine@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
-    { name: 'Antoine Girard', email: 'a.girard@chimay-gestion.be', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
-    { name: 'Claire Dubois', email: 'c.dubois@partenaire.be', status: 'Expirée', statusClass: 'badge-danger', general: [], accessLines: [] },
-    { name: 'Thomas Renard', email: 't.renard@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
-    { name: 'Nadia Benali', email: 'n.benali@cge.fr', status: 'Acceptée', statusClass: 'badge-success', general: [], accessLines: [] }
+    { name: 'Lucie Fontaine', email: 'l.fontaine@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [], inviteDate: '20/08/2026' },
+    { name: 'Antoine Girard', email: 'a.girard@chimay-gestion.be', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [], inviteDate: '18/08/2026' },
+    { name: 'Claire Dubois', email: 'c.dubois@partenaire.be', status: 'Expirée', statusClass: 'badge-danger', general: [], accessLines: [], inviteDate: '10/07/2026' },
+    { name: 'Thomas Renard', email: 't.renard@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [], inviteDate: '22/08/2026' },
+    { name: 'Nadia Benali', email: 'n.benali@cge.fr', status: 'Acceptée', statusClass: 'badge-success', general: [], accessLines: [], inviteDate: '15/08/2026' }
 ];
 
 function splitName(name) {
@@ -365,20 +365,22 @@ function accessLinesHTML(lines) {
     return '<div class="flex flex-col items-start gap-1">' + lines.map(function (l) { return '<span class="badge badge-neutral">' + l + '</span>'; }).join('') + '</div>';
 }
 
-function userRowHTML(name, email, status, statusClass, general, accessLines, type, clickable) {
+function userRowHTML(name, email, status, statusClass, general, accessLines, type, inviteDate, clickable) {
     var n = splitName(name);
     var search = (name + ' ' + email + ' ' + (general || []).join(' ') + ' ' + (accessLines || []).join(' ')).toLowerCase();
     var click = clickable ? ' onclick="openUserPopup(\'' + name + '\')"' : '';
     var cls = clickable ? 'clickable-row hover:bg-primary-light transition-colors' : 'hover:bg-primary-light transition-colors';
     var typeHtml = type === 'Temporaire' ? '<span class="badge badge-warning">Temporaire</span>' : (type === 'Permanent' ? '<span class="badge badge-neutral">Permanent</span>' : '<span class="text-gray-400">—</span>');
+    var dateHtml = inviteDate || '<span class="text-gray-400">—</span>';
     return '<tr class="' + cls + '" data-search="' + search + '"' + click
-        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + (type || '').toLowerCase() + '" data-sort6="' + status.toLowerCase() + '">'
+        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + (type || '').toLowerCase() + '" data-sort6="' + (inviteDate || '') + '" data-sort7="' + status.toLowerCase() + '">'
         + '<td class="px-6 py-4 align-top font-medium text-gray-900">' + n.nom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + n.prenom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + email + '</td>'
-        + '<td class="px-6 py-4 align-top">' + generalBadgesHTML(general) + '</td>'
-        + '<td class="px-6 py-4 align-top text-gray-700">' + accessLinesHTML(accessLines) + '</td>'
-        + '<td class="px-6 py-4 align-top">' + typeHtml + '</td>'
+        + '<td class="px-6 py-4 align-top col-users-perm">' + generalBadgesHTML(general) + '</td>'
+        + '<td class="px-6 py-4 align-top text-gray-700 col-users-access">' + accessLinesHTML(accessLines) + '</td>'
+        + '<td class="px-6 py-4 align-top col-users-type">' + typeHtml + '</td>'
+        + '<td class="px-6 py-4 align-top text-gray-500 col-invites-date hidden-view">' + dateHtml + '</td>'
         + '<td class="px-6 py-4 align-top"><span class="badge ' + statusClass + '">' + status + '</span></td>'
         + '</tr>';
 }
@@ -389,14 +391,14 @@ function renderUsersTable() {
         usersTbody.innerHTML = USER_ORDER.map(function (name) {
             var u = USERS_DB[name];
             if (!u) return '';
-            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, u.type, true);
+            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, u.type, null, true);
         }).join('') + '<tr id="users-empty" class="empty-row hidden-view"><td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucun utilisateur ne correspond à votre recherche.</td></tr>';
     }
     var invitesTbody = document.getElementById('invites-tbody');
     if (invitesTbody) {
         invitesTbody.innerHTML = INVITES_DB.map(function (inv) {
-            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, inv.type, false);
-        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
+            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, inv.type, inv.inviteDate, false);
+        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="5" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
     }
 }
 
@@ -1054,8 +1056,6 @@ function filterNominativeAccesses() {
     });
     var empty = document.getElementById('na-empty');
     if (empty) empty.classList.toggle('hidden-view', visible > 0);
-    var count = document.getElementById('na-count');
-    if (count) count.textContent = visible + (visible > 1 ? ' accès nominatifs' : ' accès nominatif');
 }
 
 function resetNominativeAccessFilters() {
@@ -1490,7 +1490,8 @@ function filterDocuments() {
         if (ok) visible++;
     });
     document.getElementById('docs-empty').classList.toggle('hidden-view', visible > 0);
-    document.getElementById('docs-count').textContent = visible + (visible > 1 ? ' documents' : ' document');
+    var dc = document.getElementById('docs-count');
+    if (dc) dc.textContent = visible + (visible > 1 ? ' documents' : ' document');
     updateDocView();
     syncSavedViewSelect();
 }
@@ -2171,18 +2172,22 @@ function hideFiltersPanel() {
     var coll = document.getElementById('filters-collapsible');
     var dates = document.getElementById('filters-dates');
     var showBtn = document.getElementById('btn-show-filters');
+    var uploadTop = document.getElementById('btn-upload-top');
     if (coll) coll.classList.add('hidden-view');
     if (dates) dates.classList.add('hidden-view');
     if (showBtn) showBtn.classList.remove('hidden-view');
+    if (uploadTop) uploadTop.classList.remove('hidden-view');
 }
 
 function showFiltersPanel() {
     var coll = document.getElementById('filters-collapsible');
     var dates = document.getElementById('filters-dates');
     var showBtn = document.getElementById('btn-show-filters');
+    var uploadTop = document.getElementById('btn-upload-top');
     if (coll) coll.classList.remove('hidden-view');
     if (dates) dates.classList.remove('hidden-view');
     if (showBtn) showBtn.classList.add('hidden-view');
+    if (uploadTop) uploadTop.classList.add('hidden-view');
 }
 
 function resetDocumentFilters() {
@@ -2231,8 +2236,8 @@ function switchUsersTab(tabEl, idx) {
             t.classList.add('label-tab-inactive');
         }
     });
-    var topbar = document.getElementById('users-topbar');
-    if (topbar) topbar.classList.toggle('hidden-view', idx === 2);
+    var search = document.getElementById('user-search');
+    if (search) search.placeholder = idx === 1 ? 'Nom, prénom, email...' : 'Nom, prénom, email, permissions...';
     var usersPanel = document.getElementById('users-tab-panel');
     var accessesPanel = document.getElementById('accesses-tab-panel');
     if (usersPanel) usersPanel.classList.toggle('hidden-view', idx === 2);
@@ -2242,6 +2247,12 @@ function switchUsersTab(tabEl, idx) {
             tb.classList.toggle('hidden-view', i !== idx);
         });
     }
+    document.querySelectorAll('#users-tab-panel .col-users-perm, #users-tab-panel .col-users-access, #users-tab-panel .col-users-type').forEach(function (el) {
+        el.classList.toggle('hidden-view', idx === 1);
+    });
+    document.querySelectorAll('#users-tab-panel .col-invites-date').forEach(function (el) {
+        el.classList.toggle('hidden-view', idx !== 1);
+    });
 }
 
 // ==========================================
@@ -2354,11 +2365,28 @@ function switchTabGroup(scopeId, tabEl, idx) {
         thead.classList.remove('thead-tab-0', 'thead-tab-1', 'thead-tab-2', 'thead-tab-3', 'thead-tab-4');
         thead.classList.add(activeColor ? activeColor.replace('label-tab-', 'thead-tab-') : 'thead-tab-' + idx);
     }
+    var filterBar = document.querySelector(scopeId + ' .label-filter-bar');
+    if (filterBar) {
+        filterBar.classList.remove('fb-tab-0', 'fb-tab-1', 'fb-tab-2', 'fb-tab-3', 'fb-tab-4');
+        filterBar.classList.add(activeColor ? activeColor.replace('label-tab-', 'fb-tab-') : 'fb-tab-' + idx);
+    }
 }
 
 function switchLabelCategory(tabEl, idx) {
     switchTabGroup('#view-labels', tabEl, idx);
     filterLabels();
+}
+
+function openLabelModal() {
+    var catEl = document.getElementById('modal-label-category');
+    if (catEl) {
+        var activeTab = null;
+        document.querySelectorAll('#view-labels .label-tab').forEach(function (t) {
+            if (!t.classList.contains('label-tab-inactive')) activeTab = t;
+        });
+        catEl.textContent = activeTab ? activeTab.textContent.trim() : 'Entités';
+    }
+    toggleModal('modal-label', true);
 }
 
 function switchRecentCategory(tabEl, idx) {
@@ -2480,7 +2508,6 @@ function applyAuditFilters() {
         if (ok) visible++;
     });
     document.getElementById('audit-empty').classList.toggle('hidden-view', visible > 0);
-    document.getElementById('audit-count').textContent = visible + (visible > 1 ? ' actions' : ' action');
 }
 
 function resetAuditFilters() {

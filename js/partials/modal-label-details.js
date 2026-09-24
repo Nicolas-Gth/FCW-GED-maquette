@@ -40,8 +40,7 @@ PARTIALS.modalLabelDetails = `
             </div>
 
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                <button onclick="alert('Modification du libellé (simulation)')" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Modifier</button>
-                <button onclick="toggleModal('modal-label-details', false)" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm">Fermer</button>
+                <button onclick="alert('Modification du libellé (simulation)')" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm">Modifier</button>
             </div>
         </div>
     </div>

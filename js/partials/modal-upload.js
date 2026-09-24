@@ -14,7 +14,7 @@ PARTIALS.modalUpload = `
         <form id="upload-form" class="flex-1 overflow-y-auto min-h-0 p-6 space-y-5" onsubmit="event.preventDefault(); alert('Document envoyé vers SharePoint !'); toggleModal('modal-upload', false);">
             
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Fichier <span class="text-red-500">*</span></label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Fichier <span class="text-red-500">*</span></label>
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer">
                     <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
@@ -26,17 +26,17 @@ PARTIALS.modalUpload = `
 
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Titre du document <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre du document <span class="text-red-500">*</span></label>
                     <input type="text" required placeholder="Ex: Compte Rendu Annuel..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date du document <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date du document <span class="text-red-500">*</span></label>
                     <input type="date" id="upload-doc-date" onchange="refreshUploadEvents()" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Description</label>
                 <textarea rows="2" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
             </div>
 
@@ -186,12 +186,12 @@ PARTIALS.modalUpload = `
         </form>
 
         <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 shrink-0 bg-white rounded-b-lg">
-            <button type="button" onclick="toggleModal('modal-upload', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
-            <button type="submit" form="upload-form" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
+            <button type="button" onclick="toggleModal('modal-upload', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Annuler</button>
+            <button type="submit" form="upload-form" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
   <path d="m8 17 4-4 4 4" /></svg>
-                Uploader le document
+                Déposer le document
             </button>
         </div>
     </div>

@@ -315,7 +315,7 @@ th.sortable:hover { color: var(--primary); }
     height: 38px;
     padding: 0 1rem;
     border: 1px solid transparent;
-    border-radius: 0.25rem;
+    border-radius: 0.375rem;
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.25;
@@ -330,10 +330,10 @@ th.sortable:hover { color: var(--primary); }
 .btn-light-primary { background-color: var(--primary-light); border-color: var(--primary-light); color: var(--primary); }
 .btn-light-primary:hover { background-color: #dbe4f6; border-color: #dbe4f6; }
 
-.btn-outline { background-color: #ffffff; border-color: #d1d5db; color: #374151; }
+.btn-outline { background-color: rgba(255, 255, 255, 0.6); border-color: #d1d5db; color: #374151; }
 .btn-outline:hover { background-color: #f3f4f6; }
 
-.btn-outline-danger { background-color: #ffffff; border-color: var(--danger); color: var(--danger); }
+.btn-outline-danger { background-color: rgba(255, 255, 255, 0.6); border-color: var(--danger); color: var(--danger); }
 .btn-outline-danger:hover { background-color: #fdecef; }
 
 .btn-block {
@@ -357,6 +357,19 @@ th.sortable:hover { color: var(--primary); }
 .input:focus, .select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(44, 67, 144, 0.15);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+select,
+textarea {
+    background-color: rgba(255, 255, 255, 0.6) !important;
 }
 
 /* Champ de recherche avec loupe */
@@ -547,6 +560,13 @@ body.sidebar-collapsed .sidebar-toggle svg {
 .data-table thead.thead-tab-2 .sort-indicator { color: #92400e !important; }
 .data-table thead.thead-tab-3 .sort-indicator { color: #5b21b6 !important; }
 .data-table thead.thead-tab-4 .sort-indicator { color: #9d174d !important; }
+
+.label-filter-bar.fb-tab-0 { background-color: var(--primary-light); }
+.label-filter-bar.fb-tab-1 { background-color: #d1fae5; }
+.label-filter-bar.fb-tab-2 { background-color: #fef3c7; }
+.label-filter-bar.fb-tab-3 { background-color: #ede9fe; }
+.label-filter-bar.fb-tab-4 { background-color: #fce7f3; }
+.label-filter-bar .input { background-color: rgba(255, 255, 255, 0.6); }
 
 /* ==========================================
    LISTE À COCHER (multi-select des règles d'accès)
@@ -925,9 +945,10 @@ PARTIALS.viewDocuments = `
 <section id="view-documents" class="app-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
-        <!-- ZONE DE FILTRES -->
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
-            <div class="flex flex-wrap gap-3 items-end">
+        <!-- TABLEAU DES DOCUMENTS (filtres intégrés) -->
+        <div id="docs-table-card" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <div class="flex flex-wrap gap-3 items-end">
                 <div class="flex-1 min-w-[220px]">
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
                     <div class="search-box">
@@ -975,6 +996,12 @@ PARTIALS.viewDocuments = `
                 <button id="btn-show-filters" onclick="showFiltersPanel()" class="btn btn-outline hidden-view">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                     Afficher les filtres
+                </button>
+                <button id="btn-upload-top" onclick="toggleModal('modal-upload', true)" class="btn btn-primary hidden-view">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
+  <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+  <path d="m8 17 4-4 4 4" /></svg>
+                    Déposer un document
                 </button>
             </div>
 
@@ -1085,25 +1112,16 @@ PARTIALS.viewDocuments = `
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
                     Masquer les filtres
                 </button>
+                <button onclick="toggleModal('modal-upload', true)" class="btn btn-primary">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
+  <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+  <path d="m8 17 4-4 4 4" /></svg>
+                    Déposer un document
+                </button>
             </div>
             </div>
         </div>
 
-        <!-- BARRE D'OUTILS -->
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-3">
-                <p id="docs-count" class="text-sm text-gray-600">22 documents</p>
-            </div>
-            <button onclick="toggleModal('modal-upload', true)" class="btn btn-primary">
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3v12" />
-  <path d="m17 8-5-5-5 5" />
-  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /></svg>
-                Déposer un document
-            </button>
-        </div>
-
-        <!-- TABLEAU DES DOCUMENTS -->
-        <div id="docs-table-card" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
             <div class="flex-1 overflow-y-auto min-h-0">
             <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
                 <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
@@ -3164,21 +3182,6 @@ PARTIALS.viewUsers = `
 <section id="view-users" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
-        <div id="users-topbar" class="flex items-center justify-between mb-4">
-            <div class="search-box w-72">
-                <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
-  <circle cx="11" cy="11" r="8" /></svg>
-                <input id="user-search" type="text" oninput="filterUsers()" placeholder="Rechercher un utilisateur ou une invitation..." class="input input-search w-full">
-            </div>
-            <button onclick="toggleModal('modal-invite', true)" class="btn btn-primary">
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-  <circle cx="9" cy="7" r="4" />
-  <line x1="19" x2="19" y1="8" y2="14" />
-  <line x1="22" x2="16" y1="11" y2="11" /></svg>
-                Inviter un utilisateur
-            </button>
-        </div>
-
         <!-- Onglets -->
         <div class="flex gap-2">
             <button type="button" onclick="switchUsersTab(this, 0)" class="label-tab label-tab-active">Utilisateurs</button>
@@ -3189,6 +3192,25 @@ PARTIALS.viewUsers = `
         <!-- ONGLET UTILISATEURS / INVITATIONS -->
         <div id="users-tab-panel" class="flex-1 flex flex-col min-h-0">
             <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+                <div id="users-topbar" class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <div class="flex items-end gap-3">
+                        <div class="flex-1 min-w-[220px]">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
+                            <div class="search-box">
+                                <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
+  <circle cx="11" cy="11" r="8" /></svg>
+                                <input id="user-search" type="text" oninput="filterUsers()" placeholder="Nom, prénom, email, permissions..." class="input input-search w-full">
+                            </div>
+                        </div>
+                        <button onclick="toggleModal('modal-invite', true)" class="btn btn-primary">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <circle cx="9" cy="7" r="4" />
+  <line x1="19" x2="19" y1="8" y2="14" />
+  <line x1="22" x2="16" y1="11" y2="11" /></svg>
+                            Ajouter un utilisateur
+                        </button>
+                    </div>
+                </div>
                 <div class="flex-1 overflow-y-auto min-h-0">
                 <table class="data-table w-full text-left text-sm whitespace-nowrap">
                     <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
@@ -3196,10 +3218,11 @@ PARTIALS.viewUsers = `
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 0)">Nom <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 1)">Prénom <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 2)">Email <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 3)">Permissions générales <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 4)">Accès <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 5)">Type de compte <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 6)">Statut <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4 col-users-perm" onclick="sortTabTable(this, 3)">Permissions générales <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4 col-users-access" onclick="sortTabTable(this, 4)">Accès <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4 col-users-type" onclick="sortTabTable(this, 5)">Type de compte <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4 col-invites-date hidden-view" onclick="sortTabTable(this, 6)">Date d'invitation <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 7)">Statut <span class="sort-indicator"></span></th>
                         </tr>
                     </thead>
                     <tbody id="users-tbody" class="labels-tbody divide-y divide-gray-200"></tbody>
@@ -3212,9 +3235,7 @@ PARTIALS.viewUsers = `
         <!-- ONGLET ACCÈS NOMINATIFS -->
         <div id="accesses-tab-panel" class="hidden-view flex-1 flex flex-col min-h-0">
             <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
-
-                <!-- FILTRES -->
-                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <div id="na-filters-top" class="px-6 py-4 bg-gray-50 border-b border-gray-200">
                     <div class="flex flex-wrap gap-3 items-end">
                         <div class="flex-1 min-w-[220px]">
                             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
@@ -3246,9 +3267,7 @@ PARTIALS.viewUsers = `
                             Réinitialiser les filtres
                         </button>
                     </div>
-                    <p id="na-count" class="text-sm text-gray-600 mt-3">5 accès nominatifs</p>
                 </div>
-
                 <div class="flex-1 overflow-y-auto min-h-0">
                 <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
                     <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
@@ -3363,21 +3382,6 @@ PARTIALS.viewLabels = `
 <section id="view-labels" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 overflow-auto px-8 py-4">
 
-        <div class="flex items-center justify-between mb-6">
-            <div class="search-box w-72">
-                <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
-  <circle cx="11" cy="11" r="8" /></svg>
-                <input id="label-search" type="text" oninput="filterLabels()" placeholder="Rechercher un libellé..." class="input input-search w-full">
-            </div>
-            <button onclick="toggleModal('modal-label', true)" class="btn btn-primary">
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 13h6" />
-  <path d="m16.5 6.5-3.914-3.914A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l1.79-1.79" />
-  <path d="M19 10v6" />
-  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></svg>
-                Créer un libellé
-            </button>
-        </div>
-
         <!-- Onglets de catégories -->
         <div class="flex gap-2">
                 <button type="button" onclick="switchLabelCategory(this, 0)" data-tab-color="label-tab-0" class="label-tab label-tab-0">Entités</button>
@@ -3385,7 +3389,27 @@ PARTIALS.viewLabels = `
                 <button type="button" onclick="switchLabelCategory(this, 2)" data-tab-color="label-tab-3" class="label-tab label-tab-inactive">Type de document</button>
         </div>
 
-        <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 h-[50vh] overflow-y-auto">
+        <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 h-[50vh] flex flex-col">
+            <div class="label-filter-bar fb-tab-0 px-6 py-4 border-b border-gray-200">
+                <div class="flex items-end gap-3">
+                    <div class="flex-1 min-w-[220px]">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
+                        <div class="search-box">
+                            <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
+  <circle cx="11" cy="11" r="8" /></svg>
+                            <input id="label-search" type="text" oninput="filterLabels()" placeholder="Nom, code unique..." class="input input-search w-full">
+                        </div>
+                    </div>
+                    <button onclick="openLabelModal()" class="btn btn-primary">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 13h6" />
+  <path d="m16.5 6.5-3.914-3.914A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l1.79-1.79" />
+  <path d="M19 10v6" />
+  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></svg>
+                        Créer un libellé
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto min-h-0">
             <table class="data-table w-full text-left text-sm whitespace-nowrap">
                 <thead class="thead-tab-0 sticky top-0 z-10 border-b border-gray-200 uppercase text-xs font-semibold">
                     <tr>
@@ -3854,6 +3878,7 @@ PARTIALS.viewLabels = `
                         </tr>
                     </tbody>
             </table>
+            </div>
         </div>
 
         <!-- FORMAT DE NOMMAGE DES FICHIERS TÉLÉCHARGÉS -->
@@ -3933,70 +3958,66 @@ PARTIALS.viewAudit = `
 <section id="view-audit" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
-        <!-- FILTRES -->
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
-            <div class="flex flex-wrap gap-3 items-end">
-                <div class="flex-1 min-w-[220px]">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
-                    <div class="search-box">
-                        <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <div class="flex flex-wrap gap-3 items-end">
+                    <div class="flex-1 min-w-[220px]">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
+                        <div class="search-box">
+                            <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
   <circle cx="11" cy="11" r="8" /></svg>
-                        <input id="audit-search" type="text" oninput="applyAuditFilters()" placeholder="Utilisateur, action, description..." class="input input-search w-full">
-                    </div>
-                </div>
-                <div class="w-44">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Action</label>
-                                        <div id="audit-filter-action" class="multi-select" data-placeholder="Toutes">
-                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
-                            <span class="ms-value">Toutes</span>
-                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                        </div>
-                        <div class="multi-select-panel hidden-view">
-                            <label class="ms-option"><input type="checkbox" value="VIEW" onchange="msUpdate(this); applyAuditFilters()"> Consultation</label>
-                            <label class="ms-option"><input type="checkbox" value="CREATE" onchange="msUpdate(this); applyAuditFilters()"> Création</label>
-                            <label class="ms-option"><input type="checkbox" value="UPDATE" onchange="msUpdate(this); applyAuditFilters()"> Mise à jour</label>
-                            <label class="ms-option"><input type="checkbox" value="DELETE" onchange="msUpdate(this); applyAuditFilters()"> Suppression</label>
-                            <label class="ms-option"><input type="checkbox" value="DOWNLOAD" onchange="msUpdate(this); applyAuditFilters()"> Téléchargement</label>
-                            <label class="ms-option"><input type="checkbox" value="LOGIN" onchange="msUpdate(this); applyAuditFilters()"> Connexion</label>
+                            <input id="audit-search" type="text" oninput="applyAuditFilters()" placeholder="Utilisateur, action, description..." class="input input-search w-full">
                         </div>
                     </div>
-                </div>
-                <div class="w-44">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Cible</label>
-                                        <div id="audit-filter-type" class="multi-select" data-placeholder="Toutes">
-                        <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
-                            <span class="ms-value">Toutes</span>
-                            <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
-                        </div>
-                        <div class="multi-select-panel hidden-view">
-                            <label class="ms-option"><input type="checkbox" value="DOCUMENT" onchange="msUpdate(this); applyAuditFilters()"> Document</label>
-                            <label class="ms-option"><input type="checkbox" value="ACCOUNT" onchange="msUpdate(this); applyAuditFilters()"> Compte</label>
-                            <label class="ms-option"><input type="checkbox" value="ROLE" onchange="msUpdate(this); applyAuditFilters()"> Rôle</label>
-                            <label class="ms-option"><input type="checkbox" value="LABEL" onchange="msUpdate(this); applyAuditFilters()"> Libellé</label>
+                    <div class="w-44">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Action</label>
+                        <div id="audit-filter-action" class="multi-select" data-placeholder="Toutes">
+                            <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                                <span class="ms-value">Toutes</span>
+                                <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                            </div>
+                            <div class="multi-select-panel hidden-view">
+                                <label class="ms-option"><input type="checkbox" value="VIEW" onchange="msUpdate(this); applyAuditFilters()"> Consultation</label>
+                                <label class="ms-option"><input type="checkbox" value="CREATE" onchange="msUpdate(this); applyAuditFilters()"> Création</label>
+                                <label class="ms-option"><input type="checkbox" value="UPDATE" onchange="msUpdate(this); applyAuditFilters()"> Mise à jour</label>
+                                <label class="ms-option"><input type="checkbox" value="DELETE" onchange="msUpdate(this); applyAuditFilters()"> Suppression</label>
+                                <label class="ms-option"><input type="checkbox" value="DOWNLOAD" onchange="msUpdate(this); applyAuditFilters()"> Téléchargement</label>
+                                <label class="ms-option"><input type="checkbox" value="LOGIN" onchange="msUpdate(this); applyAuditFilters()"> Connexion</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="w-40">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">À partir du</label>
-                    <input id="audit-date-from" type="date" onchange="applyAuditFilters()" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none bg-white">
-                </div>
-                <div class="w-40">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Jusqu'au</label>
-                    <input id="audit-date-to" type="date" onchange="applyAuditFilters()" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none bg-white">
-                </div>
-                <button onclick="resetAuditFilters()" class="btn btn-outline-danger">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12.531 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14v6a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341l.427-.473" />
+                    <div class="w-44">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Cible</label>
+                        <div id="audit-filter-type" class="multi-select" data-placeholder="Toutes">
+                            <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                                <span class="ms-value">Toutes</span>
+                                <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                            </div>
+                            <div class="multi-select-panel hidden-view">
+                                <label class="ms-option"><input type="checkbox" value="DOCUMENT" onchange="msUpdate(this); applyAuditFilters()"> Document</label>
+                                <label class="ms-option"><input type="checkbox" value="ACCOUNT" onchange="msUpdate(this); applyAuditFilters()"> Compte</label>
+                                <label class="ms-option"><input type="checkbox" value="ROLE" onchange="msUpdate(this); applyAuditFilters()"> Rôle</label>
+                                <label class="ms-option"><input type="checkbox" value="LABEL" onchange="msUpdate(this); applyAuditFilters()"> Libellé</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-40">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">À partir du</label>
+                        <input id="audit-date-from" type="date" onchange="applyAuditFilters()" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none bg-white">
+                    </div>
+                    <div class="w-40">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Jusqu'au</label>
+                        <input id="audit-date-to" type="date" onchange="applyAuditFilters()" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none bg-white">
+                    </div>
+                    <button onclick="resetAuditFilters()" class="btn btn-outline-danger">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12.531 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14v6a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341l.427-.473" />
   <path d="m16.5 3.5 5 5" />
   <path d="m21.5 3.5-5 5" /></svg>
-                    Réinitialiser les filtres
-                </button>
+                        Réinitialiser les filtres
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <p id="audit-count" class="text-sm text-gray-600 mb-4">8 actions</p>
-
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
-            
             <div class="flex-1 overflow-y-auto min-h-0">
             <table class="data-table w-full text-left text-sm whitespace-nowrap">
                 <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
@@ -4139,7 +4160,7 @@ PARTIALS.modalInvite = `
     <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl overflow-hidden">
         
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-            <h3 class="text-lg font-bold text-gray-800">Envoyer une invitation</h3>
+            <h3 class="text-lg font-bold text-gray-800">Ajouter un utilisateur</h3>
             <button onclick="toggleModal('modal-invite', false)" class="text-gray-400 hover:text-gray-600">
                 <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
   <path d="m6 6 12 12" /></svg>
@@ -4149,38 +4170,31 @@ PARTIALS.modalInvite = `
         <!-- FORMULAIRE (Lié à table account et account_role) -->
         <form class="px-6 py-4 space-y-4" onsubmit="event.preventDefault(); alert('Formulaire soumis ! (Factice)'); toggleModal('modal-invite', false);">
             
+            <div class="flex gap-3">
+                <div class="flex-1">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Prénom <span class="text-red-500">*</span></label>
+                    <input type="text" placeholder="Prénom de l'utilisateur" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none">
+                </div>
+                <div class="flex-1">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nom <span class="text-red-500">*</span></label>
+                    <input type="text" placeholder="Nom de l'utilisateur" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none">
+                </div>
+            </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Adresse email</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Adresse email <span class="text-red-500">*</span></label>
                 <input type="email" required placeholder="nom@entreprise.com" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none">
             </div>
 
             <div>
-                <div class="flex gap-3 items-end mb-1">
-                    <label class="flex-1 min-w-0 block text-sm font-medium text-gray-700">Rôle(s) assigné(s)</label>
-                    <label class="w-40 block text-sm font-medium text-gray-700">À partir du</label>
-                    <label class="w-40 block text-sm font-medium text-gray-700">Jusqu'au</label>
-                </div>
-                <div class="flex gap-3">
-                    <select class="flex-1 min-w-0 border border-gray-300 rounded-md px-3 py-2 text-sm bg-white focus:ring-primary outline-none">
-                        <option>Membre de la direction CGE</option>
-                        <option>Assistant de direction</option>
-                        <option>Secrétaire de séance</option>
-                        <option>Auditeur externe</option>
-                    </select>
-                    <input type="date" class="w-40 border border-gray-300 rounded-md px-3 py-2 text-sm bg-white outline-none">
-                    <input type="date" class="w-40 border border-gray-300 rounded-md px-3 py-2 text-sm bg-white outline-none">
-                </div>
-                <button type="button" onclick="alert('Ajout d un rôle (prototype)')" class="mt-3 btn btn-outline">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14" />
-  <path d="M12 5v14" /></svg>
-                    Ajouter un rôle
-                </button>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Message personnalisé</label>
+                <textarea rows="4" placeholder="Message facultatif ajouté à l'email d'invitation..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-primary focus:border-primary outline-none resize-none"></textarea>
             </div>
 
             <!-- Boutons d'action du formulaire -->
             <div class="pt-4 mt-6 border-t border-gray-100 flex justify-end gap-3">
-                <button type="button" onclick="toggleModal('modal-invite', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
-                <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
+                <button type="button" onclick="toggleModal('modal-invite', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Annuler</button>
+                <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
   <path d="m21.854 2.147-10.94 10.939" /></svg>
                     Envoyer l'invitation
@@ -4209,7 +4223,7 @@ PARTIALS.modalUpload = `
         <form id="upload-form" class="flex-1 overflow-y-auto min-h-0 p-6 space-y-5" onsubmit="event.preventDefault(); alert('Document envoyé vers SharePoint !'); toggleModal('modal-upload', false);">
             
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Fichier <span class="text-red-500">*</span></label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Fichier <span class="text-red-500">*</span></label>
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer">
                     <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
@@ -4221,17 +4235,17 @@ PARTIALS.modalUpload = `
 
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Titre du document <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre du document <span class="text-red-500">*</span></label>
                     <input type="text" required placeholder="Ex: Compte Rendu Annuel..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date du document <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date du document <span class="text-red-500">*</span></label>
                     <input type="date" id="upload-doc-date" onchange="refreshUploadEvents()" required class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Description</label>
                 <textarea rows="2" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
             </div>
 
@@ -4381,12 +4395,12 @@ PARTIALS.modalUpload = `
         </form>
 
         <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 shrink-0 bg-white rounded-b-lg">
-            <button type="button" onclick="toggleModal('modal-upload', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
-            <button type="submit" form="upload-form" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
+            <button type="button" onclick="toggleModal('modal-upload', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Annuler</button>
+            <button type="submit" form="upload-form" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
   <path d="m8 17 4-4 4 4" /></svg>
-                Uploader le document
+                Déposer le document
             </button>
         </div>
     </div>
@@ -4550,8 +4564,8 @@ PARTIALS.modalUser = `
             <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
                 <button onclick="alert('Liste des documents accessibles pour cet utilisateur (simulation)')" class="text-sm text-primary hover:underline font-medium">Voir les accès documents</button>
                 <div class="flex gap-3">
-                    <button onclick="openUserAccess(OPEN_USER)" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm">Gérer les accès</button>
-                    <button onclick="toggleModal('modal-user', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Fermer</button>
+                    <button onclick="openUserAccess(OPEN_USER)" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm">Gérer les accès</button>
+                    <button onclick="toggleModal('modal-user', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Fermer</button>
                 </div>
             </div>
         </div>
@@ -4647,7 +4661,7 @@ PARTIALS.modalLabel = `
     <div class="bg-white rounded-lg shadow-xl w-full max-w-lg overflow-hidden">
         
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-            <h3 class="text-lg font-bold text-gray-800">Créer un libellé</h3>
+            <h3 class="text-lg font-bold text-gray-800">Créer un libellé — <span id="modal-label-category">Entités</span></h3>
             <button onclick="toggleModal('modal-label', false)" class="text-gray-400 hover:text-gray-600">
                 <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
   <path d="m6 6 12 12" /></svg>
@@ -4656,30 +4670,24 @@ PARTIALS.modalLabel = `
         
         <form class="px-6 py-5 space-y-4" onsubmit="event.preventDefault(); alert('Libellé créé !'); toggleModal('modal-label', false);">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nom affiché</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nom affiché <span class="text-red-500">*</span></label>
                 <input type="text" required placeholder="Ex: Notes internes" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Code unique</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Code unique <span class="text-red-500">*</span></label>
                 <input type="text" required placeholder="Ex: NOT" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm font-mono uppercase outline-none focus:border-primary focus:ring-1 focus:ring-primary">
-                <p class="text-xs text-gray-500 mt-1">Obligatoire et unique. Sert au nommage automatique des fichiers.</p>
             </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
-                <select class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white outline-none focus:border-primary">
-                    <option>Entité</option>
-                    <option>Instance</option>
-                    <option>Type de document</option>
-                    <option>Année</option>
-                </select>
-            </div>
-
 
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                <button type="button" onclick="toggleModal('modal-label', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
-                <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm">Créer le libellé</button>
+                <button type="button" onclick="toggleModal('modal-label', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Annuler</button>
+                <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 13h6" />
+  <path d="m16.5 6.5-3.914-3.914A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l1.79-1.79" />
+  <path d="M19 10v6" />
+  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></svg>
+                    Créer le libellé
+                </button>
             </div>
         </form>
     </div>
@@ -4730,8 +4738,7 @@ PARTIALS.modalLabelDetails = `
             </div>
 
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                <button onclick="alert('Modification du libellé (simulation)')" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Modifier</button>
-                <button onclick="toggleModal('modal-label-details', false)" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm">Fermer</button>
+                <button onclick="alert('Modification du libellé (simulation)')" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm">Modifier</button>
             </div>
         </div>
     </div>
@@ -4761,8 +4768,8 @@ PARTIALS.modalSaveView = `
             </div>
 
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                <button type="button" onclick="toggleModal('modal-save-view', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
-                <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
+                <button type="button" onclick="toggleModal('modal-save-view', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Annuler</button>
+                <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm flex items-center gap-2">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z" /></svg>
                     Enregistrer
                 </button>
@@ -4792,8 +4799,8 @@ PARTIALS.modalDeleteView = `
             <p class="text-xs text-gray-500">Cette action est irréversible.</p>
 
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                <button type="button" onclick="toggleModal('modal-delete-view', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
-                <button type="button" onclick="confirmDeleteView()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm font-medium shadow-sm flex items-center gap-2">
+                <button type="button" onclick="toggleModal('modal-delete-view', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Annuler</button>
+                <button type="button" onclick="confirmDeleteView()" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium shadow-sm flex items-center gap-2">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
   <path d="m14.5 9.5-5 5" />
   <path d="m9.5 9.5 5 5" /></svg>
@@ -5022,8 +5029,8 @@ PARTIALS.modalRevokeAccess = `
             <p class="text-xs text-gray-500">L'utilisateur ne pourra plus consulter ce document. Cette action sera consignée dans l'historique.</p>
 
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                <button type="button" onclick="toggleModal('modal-revoke-access', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 text-sm font-medium">Annuler</button>
-                <button type="button" onclick="confirmRevokeAccess()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm font-medium shadow-sm flex items-center gap-2">
+                <button type="button" onclick="toggleModal('modal-revoke-access', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Annuler</button>
+                <button type="button" onclick="confirmRevokeAccess()" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium shadow-sm flex items-center gap-2">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
   <circle cx="9" cy="7" r="4" />
   <line x1="17" x2="22" y1="8" y2="13" />
@@ -5380,11 +5387,11 @@ var USERS_DB = {
  var USER_ORDER = ['Marc Lemoine', 'Sophie Durant', 'Denis Buchet', 'Philippe Dumont', 'Dom Damien Debaisieux', 'Julie Stavrakas', 'Laurent Petit', 'Marie Lefèvre', 'Thomas Delcroix', 'Isabelle Moreau'];
 
 var INVITES_DB = [
-    { name: 'Lucie Fontaine', email: 'l.fontaine@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
-    { name: 'Antoine Girard', email: 'a.girard@chimay-gestion.be', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
-    { name: 'Claire Dubois', email: 'c.dubois@partenaire.be', status: 'Expirée', statusClass: 'badge-danger', general: [], accessLines: [] },
-    { name: 'Thomas Renard', email: 't.renard@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [] },
-    { name: 'Nadia Benali', email: 'n.benali@cge.fr', status: 'Acceptée', statusClass: 'badge-success', general: [], accessLines: [] }
+    { name: 'Lucie Fontaine', email: 'l.fontaine@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [], inviteDate: '20/08/2026' },
+    { name: 'Antoine Girard', email: 'a.girard@chimay-gestion.be', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [], inviteDate: '18/08/2026' },
+    { name: 'Claire Dubois', email: 'c.dubois@partenaire.be', status: 'Expirée', statusClass: 'badge-danger', general: [], accessLines: [], inviteDate: '10/07/2026' },
+    { name: 'Thomas Renard', email: 't.renard@cge.fr', status: 'En attente', statusClass: 'badge-warning', general: [], accessLines: [], inviteDate: '22/08/2026' },
+    { name: 'Nadia Benali', email: 'n.benali@cge.fr', status: 'Acceptée', statusClass: 'badge-success', general: [], accessLines: [], inviteDate: '15/08/2026' }
 ];
 
 function splitName(name) {
@@ -5405,20 +5412,22 @@ function accessLinesHTML(lines) {
     return '<div class="flex flex-col items-start gap-1">' + lines.map(function (l) { return '<span class="badge badge-neutral">' + l + '</span>'; }).join('') + '</div>';
 }
 
-function userRowHTML(name, email, status, statusClass, general, accessLines, type, clickable) {
+function userRowHTML(name, email, status, statusClass, general, accessLines, type, inviteDate, clickable) {
     var n = splitName(name);
     var search = (name + ' ' + email + ' ' + (general || []).join(' ') + ' ' + (accessLines || []).join(' ')).toLowerCase();
     var click = clickable ? ' onclick="openUserPopup(\'' + name + '\')"' : '';
     var cls = clickable ? 'clickable-row hover:bg-primary-light transition-colors' : 'hover:bg-primary-light transition-colors';
     var typeHtml = type === 'Temporaire' ? '<span class="badge badge-warning">Temporaire</span>' : (type === 'Permanent' ? '<span class="badge badge-neutral">Permanent</span>' : '<span class="text-gray-400">—</span>');
+    var dateHtml = inviteDate || '<span class="text-gray-400">—</span>';
     return '<tr class="' + cls + '" data-search="' + search + '"' + click
-        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + (type || '').toLowerCase() + '" data-sort6="' + status.toLowerCase() + '">'
+        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + (type || '').toLowerCase() + '" data-sort6="' + (inviteDate || '') + '" data-sort7="' + status.toLowerCase() + '">'
         + '<td class="px-6 py-4 align-top font-medium text-gray-900">' + n.nom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + n.prenom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + email + '</td>'
-        + '<td class="px-6 py-4 align-top">' + generalBadgesHTML(general) + '</td>'
-        + '<td class="px-6 py-4 align-top text-gray-700">' + accessLinesHTML(accessLines) + '</td>'
-        + '<td class="px-6 py-4 align-top">' + typeHtml + '</td>'
+        + '<td class="px-6 py-4 align-top col-users-perm">' + generalBadgesHTML(general) + '</td>'
+        + '<td class="px-6 py-4 align-top text-gray-700 col-users-access">' + accessLinesHTML(accessLines) + '</td>'
+        + '<td class="px-6 py-4 align-top col-users-type">' + typeHtml + '</td>'
+        + '<td class="px-6 py-4 align-top text-gray-500 col-invites-date hidden-view">' + dateHtml + '</td>'
         + '<td class="px-6 py-4 align-top"><span class="badge ' + statusClass + '">' + status + '</span></td>'
         + '</tr>';
 }
@@ -5429,14 +5438,14 @@ function renderUsersTable() {
         usersTbody.innerHTML = USER_ORDER.map(function (name) {
             var u = USERS_DB[name];
             if (!u) return '';
-            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, u.type, true);
+            return userRowHTML(name, u.email, u.status, u.statusClass, u.general, u.accessLines, u.type, null, true);
         }).join('') + '<tr id="users-empty" class="empty-row hidden-view"><td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucun utilisateur ne correspond à votre recherche.</td></tr>';
     }
     var invitesTbody = document.getElementById('invites-tbody');
     if (invitesTbody) {
         invitesTbody.innerHTML = INVITES_DB.map(function (inv) {
-            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, inv.type, false);
-        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="7" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
+            return userRowHTML(inv.name, inv.email, inv.status, inv.statusClass, inv.general, inv.accessLines, inv.type, inv.inviteDate, false);
+        }).join('') + '<tr id="invites-empty" class="empty-row hidden-view"><td colspan="5" class="px-6 py-10 text-center text-gray-500">Aucune invitation ne correspond à votre recherche.</td></tr>';
     }
 }
 
@@ -6094,8 +6103,6 @@ function filterNominativeAccesses() {
     });
     var empty = document.getElementById('na-empty');
     if (empty) empty.classList.toggle('hidden-view', visible > 0);
-    var count = document.getElementById('na-count');
-    if (count) count.textContent = visible + (visible > 1 ? ' accès nominatifs' : ' accès nominatif');
 }
 
 function resetNominativeAccessFilters() {
@@ -6530,7 +6537,8 @@ function filterDocuments() {
         if (ok) visible++;
     });
     document.getElementById('docs-empty').classList.toggle('hidden-view', visible > 0);
-    document.getElementById('docs-count').textContent = visible + (visible > 1 ? ' documents' : ' document');
+    var dc = document.getElementById('docs-count');
+    if (dc) dc.textContent = visible + (visible > 1 ? ' documents' : ' document');
     updateDocView();
     syncSavedViewSelect();
 }
@@ -7211,18 +7219,22 @@ function hideFiltersPanel() {
     var coll = document.getElementById('filters-collapsible');
     var dates = document.getElementById('filters-dates');
     var showBtn = document.getElementById('btn-show-filters');
+    var uploadTop = document.getElementById('btn-upload-top');
     if (coll) coll.classList.add('hidden-view');
     if (dates) dates.classList.add('hidden-view');
     if (showBtn) showBtn.classList.remove('hidden-view');
+    if (uploadTop) uploadTop.classList.remove('hidden-view');
 }
 
 function showFiltersPanel() {
     var coll = document.getElementById('filters-collapsible');
     var dates = document.getElementById('filters-dates');
     var showBtn = document.getElementById('btn-show-filters');
+    var uploadTop = document.getElementById('btn-upload-top');
     if (coll) coll.classList.remove('hidden-view');
     if (dates) dates.classList.remove('hidden-view');
     if (showBtn) showBtn.classList.add('hidden-view');
+    if (uploadTop) uploadTop.classList.add('hidden-view');
 }
 
 function resetDocumentFilters() {
@@ -7271,8 +7283,8 @@ function switchUsersTab(tabEl, idx) {
             t.classList.add('label-tab-inactive');
         }
     });
-    var topbar = document.getElementById('users-topbar');
-    if (topbar) topbar.classList.toggle('hidden-view', idx === 2);
+    var search = document.getElementById('user-search');
+    if (search) search.placeholder = idx === 1 ? 'Nom, prénom, email...' : 'Nom, prénom, email, permissions...';
     var usersPanel = document.getElementById('users-tab-panel');
     var accessesPanel = document.getElementById('accesses-tab-panel');
     if (usersPanel) usersPanel.classList.toggle('hidden-view', idx === 2);
@@ -7282,6 +7294,12 @@ function switchUsersTab(tabEl, idx) {
             tb.classList.toggle('hidden-view', i !== idx);
         });
     }
+    document.querySelectorAll('#users-tab-panel .col-users-perm, #users-tab-panel .col-users-access, #users-tab-panel .col-users-type').forEach(function (el) {
+        el.classList.toggle('hidden-view', idx === 1);
+    });
+    document.querySelectorAll('#users-tab-panel .col-invites-date').forEach(function (el) {
+        el.classList.toggle('hidden-view', idx !== 1);
+    });
 }
 
 // ==========================================
@@ -7394,11 +7412,28 @@ function switchTabGroup(scopeId, tabEl, idx) {
         thead.classList.remove('thead-tab-0', 'thead-tab-1', 'thead-tab-2', 'thead-tab-3', 'thead-tab-4');
         thead.classList.add(activeColor ? activeColor.replace('label-tab-', 'thead-tab-') : 'thead-tab-' + idx);
     }
+    var filterBar = document.querySelector(scopeId + ' .label-filter-bar');
+    if (filterBar) {
+        filterBar.classList.remove('fb-tab-0', 'fb-tab-1', 'fb-tab-2', 'fb-tab-3', 'fb-tab-4');
+        filterBar.classList.add(activeColor ? activeColor.replace('label-tab-', 'fb-tab-') : 'fb-tab-' + idx);
+    }
 }
 
 function switchLabelCategory(tabEl, idx) {
     switchTabGroup('#view-labels', tabEl, idx);
     filterLabels();
+}
+
+function openLabelModal() {
+    var catEl = document.getElementById('modal-label-category');
+    if (catEl) {
+        var activeTab = null;
+        document.querySelectorAll('#view-labels .label-tab').forEach(function (t) {
+            if (!t.classList.contains('label-tab-inactive')) activeTab = t;
+        });
+        catEl.textContent = activeTab ? activeTab.textContent.trim() : 'Entités';
+    }
+    toggleModal('modal-label', true);
 }
 
 function switchRecentCategory(tabEl, idx) {
@@ -7520,7 +7555,6 @@ function applyAuditFilters() {
         if (ok) visible++;
     });
     document.getElementById('audit-empty').classList.toggle('hidden-view', visible > 0);
-    document.getElementById('audit-count').textContent = visible + (visible > 1 ? ' actions' : ' action');
 }
 
 function resetAuditFilters() {

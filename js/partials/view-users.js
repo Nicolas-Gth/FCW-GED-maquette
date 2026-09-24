@@ -3,21 +3,6 @@ PARTIALS.viewUsers = `
 <section id="view-users" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
-        <div id="users-topbar" class="flex items-center justify-between mb-4">
-            <div class="search-box w-72">
-                <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
-  <circle cx="11" cy="11" r="8" /></svg>
-                <input id="user-search" type="text" oninput="filterUsers()" placeholder="Rechercher un utilisateur ou une invitation..." class="input input-search w-full">
-            </div>
-            <button onclick="toggleModal('modal-invite', true)" class="btn btn-primary">
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-  <circle cx="9" cy="7" r="4" />
-  <line x1="19" x2="19" y1="8" y2="14" />
-  <line x1="22" x2="16" y1="11" y2="11" /></svg>
-                Inviter un utilisateur
-            </button>
-        </div>
-
         <!-- Onglets -->
         <div class="flex gap-2">
             <button type="button" onclick="switchUsersTab(this, 0)" class="label-tab label-tab-active">Utilisateurs</button>
@@ -28,6 +13,25 @@ PARTIALS.viewUsers = `
         <!-- ONGLET UTILISATEURS / INVITATIONS -->
         <div id="users-tab-panel" class="flex-1 flex flex-col min-h-0">
             <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+                <div id="users-topbar" class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <div class="flex items-end gap-3">
+                        <div class="flex-1 min-w-[220px]">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
+                            <div class="search-box">
+                                <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
+  <circle cx="11" cy="11" r="8" /></svg>
+                                <input id="user-search" type="text" oninput="filterUsers()" placeholder="Nom, prénom, email, permissions..." class="input input-search w-full">
+                            </div>
+                        </div>
+                        <button onclick="toggleModal('modal-invite', true)" class="btn btn-primary">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <circle cx="9" cy="7" r="4" />
+  <line x1="19" x2="19" y1="8" y2="14" />
+  <line x1="22" x2="16" y1="11" y2="11" /></svg>
+                            Ajouter un utilisateur
+                        </button>
+                    </div>
+                </div>
                 <div class="flex-1 overflow-y-auto min-h-0">
                 <table class="data-table w-full text-left text-sm whitespace-nowrap">
                     <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
@@ -35,10 +39,11 @@ PARTIALS.viewUsers = `
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 0)">Nom <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 1)">Prénom <span class="sort-indicator"></span></th>
                             <th class="sortable px-6 py-4" onclick="sortTabTable(this, 2)">Email <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 3)">Permissions générales <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 4)">Accès <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 5)">Type de compte <span class="sort-indicator"></span></th>
-                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 6)">Statut <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4 col-users-perm" onclick="sortTabTable(this, 3)">Permissions générales <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4 col-users-access" onclick="sortTabTable(this, 4)">Accès <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4 col-users-type" onclick="sortTabTable(this, 5)">Type de compte <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4 col-invites-date hidden-view" onclick="sortTabTable(this, 6)">Date d'invitation <span class="sort-indicator"></span></th>
+                            <th class="sortable px-6 py-4" onclick="sortTabTable(this, 7)">Statut <span class="sort-indicator"></span></th>
                         </tr>
                     </thead>
                     <tbody id="users-tbody" class="labels-tbody divide-y divide-gray-200"></tbody>
@@ -51,9 +56,7 @@ PARTIALS.viewUsers = `
         <!-- ONGLET ACCÈS NOMINATIFS -->
         <div id="accesses-tab-panel" class="hidden-view flex-1 flex flex-col min-h-0">
             <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
-
-                <!-- FILTRES -->
-                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <div id="na-filters-top" class="px-6 py-4 bg-gray-50 border-b border-gray-200">
                     <div class="flex flex-wrap gap-3 items-end">
                         <div class="flex-1 min-w-[220px]">
                             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
@@ -85,9 +88,7 @@ PARTIALS.viewUsers = `
                             Réinitialiser les filtres
                         </button>
                     </div>
-                    <p id="na-count" class="text-sm text-gray-600 mt-3">5 accès nominatifs</p>
                 </div>
-
                 <div class="flex-1 overflow-y-auto min-h-0">
                 <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
                     <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">

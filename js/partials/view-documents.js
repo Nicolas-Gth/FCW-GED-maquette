@@ -3,9 +3,10 @@ PARTIALS.viewDocuments = `
 <section id="view-documents" class="app-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
-        <!-- ZONE DE FILTRES -->
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
-            <div class="flex flex-wrap gap-3 items-end">
+        <!-- TABLEAU DES DOCUMENTS (filtres intégrés) -->
+        <div id="docs-table-card" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <div class="flex flex-wrap gap-3 items-end">
                 <div class="flex-1 min-w-[220px]">
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
                     <div class="search-box">
@@ -53,6 +54,12 @@ PARTIALS.viewDocuments = `
                 <button id="btn-show-filters" onclick="showFiltersPanel()" class="btn btn-outline hidden-view">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                     Afficher les filtres
+                </button>
+                <button id="btn-upload-top" onclick="toggleModal('modal-upload', true)" class="btn btn-primary hidden-view">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
+  <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+  <path d="m8 17 4-4 4 4" /></svg>
+                    Déposer un document
                 </button>
             </div>
 
@@ -163,25 +170,16 @@ PARTIALS.viewDocuments = `
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></svg>
                     Masquer les filtres
                 </button>
+                <button onclick="toggleModal('modal-upload', true)" class="btn btn-primary">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 13v8" />
+  <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+  <path d="m8 17 4-4 4 4" /></svg>
+                    Déposer un document
+                </button>
             </div>
             </div>
         </div>
 
-        <!-- BARRE D'OUTILS -->
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-3">
-                <p id="docs-count" class="text-sm text-gray-600">22 documents</p>
-            </div>
-            <button onclick="toggleModal('modal-upload', true)" class="btn btn-primary">
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3v12" />
-  <path d="m17 8-5-5-5 5" />
-  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /></svg>
-                Déposer un document
-            </button>
-        </div>
-
-        <!-- TABLEAU DES DOCUMENTS -->
-        <div id="docs-table-card" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
             <div class="flex-1 overflow-y-auto min-h-0">
             <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
                 <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">

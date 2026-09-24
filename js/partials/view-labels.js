@@ -3,21 +3,6 @@ PARTIALS.viewLabels = `
 <section id="view-labels" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 overflow-auto px-8 py-4">
 
-        <div class="flex items-center justify-between mb-6">
-            <div class="search-box w-72">
-                <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
-  <circle cx="11" cy="11" r="8" /></svg>
-                <input id="label-search" type="text" oninput="filterLabels()" placeholder="Rechercher un libellé..." class="input input-search w-full">
-            </div>
-            <button onclick="toggleModal('modal-label', true)" class="btn btn-primary">
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 13h6" />
-  <path d="m16.5 6.5-3.914-3.914A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l1.79-1.79" />
-  <path d="M19 10v6" />
-  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></svg>
-                Créer un libellé
-            </button>
-        </div>
-
         <!-- Onglets de catégories -->
         <div class="flex gap-2">
                 <button type="button" onclick="switchLabelCategory(this, 0)" data-tab-color="label-tab-0" class="label-tab label-tab-0">Entités</button>
@@ -25,7 +10,27 @@ PARTIALS.viewLabels = `
                 <button type="button" onclick="switchLabelCategory(this, 2)" data-tab-color="label-tab-3" class="label-tab label-tab-inactive">Type de document</button>
         </div>
 
-        <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 h-[50vh] overflow-y-auto">
+        <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 h-[50vh] flex flex-col">
+            <div class="label-filter-bar fb-tab-0 px-6 py-4 border-b border-gray-200">
+                <div class="flex items-end gap-3">
+                    <div class="flex-1 min-w-[220px]">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
+                        <div class="search-box">
+                            <svg class="search-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" />
+  <circle cx="11" cy="11" r="8" /></svg>
+                            <input id="label-search" type="text" oninput="filterLabels()" placeholder="Nom, code unique..." class="input input-search w-full">
+                        </div>
+                    </div>
+                    <button onclick="openLabelModal()" class="btn btn-primary">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 13h6" />
+  <path d="m16.5 6.5-3.914-3.914A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l1.79-1.79" />
+  <path d="M19 10v6" />
+  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></svg>
+                        Créer un libellé
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto min-h-0">
             <table class="data-table w-full text-left text-sm whitespace-nowrap">
                 <thead class="thead-tab-0 sticky top-0 z-10 border-b border-gray-200 uppercase text-xs font-semibold">
                     <tr>
@@ -494,6 +499,7 @@ PARTIALS.viewLabels = `
                         </tr>
                     </tbody>
             </table>
+            </div>
         </div>
 
         <!-- FORMAT DE NOMMAGE DES FICHIERS TÉLÉCHARGÉS -->
