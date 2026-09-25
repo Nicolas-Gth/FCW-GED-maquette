@@ -23,6 +23,26 @@ PARTIALS.viewUsers = `
                                 <input id="user-search" type="text" oninput="filterUsers()" placeholder="Nom, prénom, email, permissions..." class="input input-search w-full">
                             </div>
                         </div>
+                        <div id="invites-status-filter-wrap" class="w-44 hidden-view">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Statut</label>
+                            <div id="invites-status-filter" class="multi-select" data-placeholder="Tous">
+                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                                    <span class="ms-value">Tous</span>
+                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                </div>
+                                <div class="multi-select-panel hidden-view">
+                                    <label class="ms-option"><input type="checkbox" value="En attente" onchange="msUpdate(this); filterUsers()"> En attente</label>
+                                    <label class="ms-option"><input type="checkbox" value="Acceptée" onchange="msUpdate(this); filterUsers()"> Acceptée</label>
+                                    <label class="ms-option"><input type="checkbox" value="Expirée" onchange="msUpdate(this); filterUsers()"> Expirée</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="invites-reset-btn" onclick="resetInvitesFilters()" class="btn btn-outline-danger hidden-view">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12.531 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14v6a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341l.427-.473" />
+  <path d="m16.5 3.5 5 5" />
+  <path d="m21.5 3.5-5 5" /></svg>
+                            Réinitialiser les filtres
+                        </button>
                         <button onclick="toggleModal('modal-invite', true)" class="btn btn-primary">
                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
   <circle cx="9" cy="7" r="4" />

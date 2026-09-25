@@ -499,6 +499,10 @@ body.sidebar-collapsed .sidebar-toggle svg {
 #view-users .data-table td {
     vertical-align: top;
 }
+.data-table thead {
+    border-bottom-width: 0;
+    box-shadow: inset 0 -1px 0 #e5e7eb;
+}
 
 /* ==========================================
    ONGLETS DES LIBELLÉS (couleurs figées en CSS)
@@ -567,6 +571,11 @@ body.sidebar-collapsed .sidebar-toggle svg {
 .label-filter-bar.fb-tab-3 { background-color: #ede9fe; }
 .label-filter-bar.fb-tab-4 { background-color: #fce7f3; }
 .label-filter-bar .input { background-color: rgba(255, 255, 255, 0.6); }
+
+/* ==========================================
+   FICHE UTILISATEUR (popup)
+   ========================================== */
+.sheet-check { accent-color: var(--primary); width: 1rem; height: 1rem; margin-top: 0.125rem; flex-shrink: 0; }
 
 /* ==========================================
    LISTE À COCHER (multi-select des règles d'accès)
@@ -912,19 +921,14 @@ PARTIALS.sidebar = `
     <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgd2lkdGg9IjY4LjAwMTk5OSIKICAgaGVpZ2h0PSIzMC41NzI2ODUiCiAgIHZlcnNpb249IjEuMSIKICAgaWQ9InN2ZzMiCiAgIHNvZGlwb2RpOmRvY25hbWU9InNlcGFyYXRldXItYmxhc29uLnN2ZyIKICAgaW5rc2NhcGU6dmVyc2lvbj0iMS40LjQgKGRjYWYzZTdkOWUsIDIwMjYtMDUtMDUpIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxzb2RpcG9kaTpuYW1lZHZpZXcKICAgICBpZD0ibmFtZWR2aWV3MSIKICAgICBwYWdlY29sb3I9IiNmZmZmZmYiCiAgICAgYm9yZGVyY29sb3I9IiMwMDAwMDAiCiAgICAgYm9yZGVyb3BhY2l0eT0iMC4yNSIKICAgICBpbmtzY2FwZTpzaG93cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIgogICAgIGlua3NjYXBlOnBhZ2VjaGVja2VyYm9hcmQ9IjAiCiAgICAgaW5rc2NhcGU6ZGVza2NvbG9yPSIjZDFkMWQxIgogICAgIGlua3NjYXBlOnpvb209IjguMTA1MjYzMiIKICAgICBpbmtzY2FwZTpjeD0iNjMuMTY4ODMxIgogICAgIGlua3NjYXBlOmN5PSIyMC4xMTAzOSIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjE1MzYiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iODI3IgogICAgIGlua3NjYXBlOndpbmRvdy14PSIwIgogICAgIGlua3NjYXBlOndpbmRvdy15PSIwIgogICAgIGlua3NjYXBlOndpbmRvdy1tYXhpbWl6ZWQ9IjEiCiAgICAgaW5rc2NhcGU6Y3VycmVudC1sYXllcj0iZzMiPgogICAgPGlua3NjYXBlOnBhZ2UKICAgICAgIHg9IjAiCiAgICAgICB5PSIwIgogICAgICAgd2lkdGg9IjY4LjAwMTk5OSIKICAgICAgIGhlaWdodD0iMzAuNTcyNjg1IgogICAgICAgaWQ9InBhZ2UyIgogICAgICAgbWFyZ2luPSIwIgogICAgICAgYmxlZWQ9IjAiIC8+CiAgPC9zb2RpcG9kaTpuYW1lZHZpZXc+CiAgPGRlZnMKICAgICBpZD0iZGVmczMiIC8+CiAgPGcKICAgICBmaWxsPSJub25lIgogICAgIGZpbGwtcnVsZT0iZXZlbm9kZCIKICAgICBpZD0iZzMiCiAgICAgdHJhbnNmb3JtPSJyb3RhdGUoOTAsMzQuMDE1NDk5LDM0LjAxNTQ5OSkiPgogICAgPHJlY3QKICAgICAgIHN0eWxlPSJmaWxsOiM4Nzg3ODc7c3Ryb2tlOm5vbmU7c3Ryb2tlLXdpZHRoOjAuODQyOTYzO3N0cm9rZS1vcGFjaXR5OjEiCiAgICAgICBpZD0icmVjdDEiCiAgICAgICB3aWR0aD0iNjguMDAxOTk5IgogICAgICAgaGVpZ2h0PSIzMC41NzI2ODUiCiAgICAgICB4PSItNjguMDMwOTk4IgogICAgICAgeT0iMCIKICAgICAgIHRyYW5zZm9ybT0icm90YXRlKC05MCkiCiAgICAgICBpbmtzY2FwZTpleHBvcnQtZmlsZW5hbWU9InNlcGFyYXRldXItYmxhc29uLnN2ZyIKICAgICAgIGlua3NjYXBlOmV4cG9ydC14ZHBpPSI5NiIKICAgICAgIGlua3NjYXBlOmV4cG9ydC15ZHBpPSI5NiIgLz4KICAgIDxwYXRoCiAgICAgICBkPSJNIDMuNDU2LDAuMDI5IDMuMjU0LDAgYyAzLjE4LDAuNDAzIDYuNDg1LDMuMzEgNy4yMzMsNi40NjYgMy4yNTYsOS45OTEgNC44NDgsMjEuOTAzIDE1LjQ0MSwyNy42NDggQyAxNS4wNiwzOS45NTUgMTMuNDIxLDUyLjIzNSA5Ljc2Miw2Mi4zNzYgOC40Miw2NS42NDEgNS4yMDcsNjcuNzYyIDEuNzQ1LDY4LjAzMSBMIDAsNjguMDMgViAwLjAyOSBaIgogICAgICAgZmlsbD0iIzg3ODc4NiIKICAgICAgIGlkPSJwYXRoMiIKICAgICAgIHN0eWxlPSJmaWxsOiMyYzQzOTA7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlOiNmZmZmZmY7c3Ryb2tlLXdpZHRoOjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1vcGFjaXR5OjE7cGFpbnQtb3JkZXI6c3Ryb2tlIGZpbGwgbWFya2VycyIgLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Blason Fondation Chimay-Wartoise" class="w-full block shrink-0">
 
     <div class="p-4 space-y-1 bg-secondary">
-        <div class="flex items-center gap-3 mb-2">
+        <button onclick="switchView('view-settings')" title="Paramètres du compte" class="w-full flex items-center gap-3 mb-2 text-left rounded-md px-1 py-1 hover:bg-white/10 transition-colors">
             <div class="avatar w-8 h-8 text-sm avatar-red">PD</div>
             <div class="text-sm flex-1 min-w-0">
                 <p class="font-medium text-white truncate">Philippe Dumont</p>
                 <p class="text-xs text-white/60 truncate">p.dumont@chimay-gestion.be</p>
             </div>
-        </div>
-        <button onclick="switchView('view-settings')" title="Paramètres du compte" class="w-full flex items-center gap-2 text-white/60 hover:text-white text-sm px-1 py-1 transition-colors">
-            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
-  <circle cx="12" cy="12" r="3" /></svg>
-            Paramètres compte
         </button>
-        <button onclick="alert('Déconnexion (prototype)')" class="w-full flex items-center gap-2 text-white/60 hover:text-white text-sm px-1 py-1 transition-colors">
+        <button onclick="alert('Déconnexion (prototype)')" class="w-full flex items-center gap-2 text-white/60 hover:text-white hover:bg-white/15 text-sm px-12 py-1 rounded-md transition-colors">
             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5" />
   <path d="M21 12H9" />
   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg>
@@ -3202,6 +3206,26 @@ PARTIALS.viewUsers = `
                                 <input id="user-search" type="text" oninput="filterUsers()" placeholder="Nom, prénom, email, permissions..." class="input input-search w-full">
                             </div>
                         </div>
+                        <div id="invites-status-filter-wrap" class="w-44 hidden-view">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Statut</label>
+                            <div id="invites-status-filter" class="multi-select" data-placeholder="Tous">
+                                <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                                    <span class="ms-value">Tous</span>
+                                    <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                                </div>
+                                <div class="multi-select-panel hidden-view">
+                                    <label class="ms-option"><input type="checkbox" value="En attente" onchange="msUpdate(this); filterUsers()"> En attente</label>
+                                    <label class="ms-option"><input type="checkbox" value="Acceptée" onchange="msUpdate(this); filterUsers()"> Acceptée</label>
+                                    <label class="ms-option"><input type="checkbox" value="Expirée" onchange="msUpdate(this); filterUsers()"> Expirée</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="invites-reset-btn" onclick="resetInvitesFilters()" class="btn btn-outline-danger hidden-view">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12.531 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14v6a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341l.427-.473" />
+  <path d="m16.5 3.5 5 5" />
+  <path d="m21.5 3.5-5 5" /></svg>
+                            Réinitialiser les filtres
+                        </button>
                         <button onclick="toggleModal('modal-invite', true)" class="btn btn-primary">
                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
   <circle cx="9" cy="7" r="4" />
@@ -3938,7 +3962,11 @@ PARTIALS.viewLabels = `
             </div>
 
             <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
-                <button id="naming-reset" onclick="resetNamingFormat()" class="btn btn-outline-danger hidden-view">Réinitialiser</button>
+                <button id="naming-reset" onclick="resetNamingFormat()" class="btn btn-outline-danger hidden-view">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+  <path d="M3 3v5h5" /></svg>
+                    Réinitialiser
+                </button>
                 <button onclick="alert('Format de nommage appliqué (prototype)')" class="btn btn-primary">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></svg>
                     Appliquer
@@ -3983,6 +4011,7 @@ PARTIALS.viewAudit = `
                                 <label class="ms-option"><input type="checkbox" value="DELETE" onchange="msUpdate(this); applyAuditFilters()"> Suppression</label>
                                 <label class="ms-option"><input type="checkbox" value="DOWNLOAD" onchange="msUpdate(this); applyAuditFilters()"> Téléchargement</label>
                                 <label class="ms-option"><input type="checkbox" value="LOGIN" onchange="msUpdate(this); applyAuditFilters()"> Connexion</label>
+                                <label class="ms-option"><input type="checkbox" value="REVOKE" onchange="msUpdate(this); applyAuditFilters()"> Révocation</label>
                             </div>
                         </div>
                     </div>
@@ -3996,7 +4025,9 @@ PARTIALS.viewAudit = `
                             <div class="multi-select-panel hidden-view">
                                 <label class="ms-option"><input type="checkbox" value="DOCUMENT" onchange="msUpdate(this); applyAuditFilters()"> Document</label>
                                 <label class="ms-option"><input type="checkbox" value="ACCOUNT" onchange="msUpdate(this); applyAuditFilters()"> Compte</label>
-                                <label class="ms-option"><input type="checkbox" value="ROLE" onchange="msUpdate(this); applyAuditFilters()"> Rôle</label>
+                                <label class="ms-option"><input type="checkbox" value="ACCESS_POLICY" onchange="msUpdate(this); applyAuditFilters()"> Politique d'accès</label>
+                                <label class="ms-option"><input type="checkbox" value="NOMINATIVE_ACCESS" onchange="msUpdate(this); applyAuditFilters()"> Accès nominatif</label>
+                                <label class="ms-option"><input type="checkbox" value="INVITATION" onchange="msUpdate(this); applyAuditFilters()"> Invitation</label>
                                 <label class="ms-option"><input type="checkbox" value="LABEL" onchange="msUpdate(this); applyAuditFilters()"> Libellé</label>
                             </div>
                         </div>
@@ -4029,67 +4060,7 @@ PARTIALS.viewAudit = `
                         <th class="sortable px-6 py-4" onclick="sortTable(this, 4)">Description <span class="sort-indicator"></span></th>
                     </tr>
                 </thead>
-                <tbody id="audit-tbody" class="divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260824164212" data-sort1="philippe dumont" data-sort2="consultation" data-sort3="document" data-sort4="a consulté compte rendu ca mars 2026" data-action="VIEW" data-type="DOCUMENT" data-date="20260824" data-text="24/08/2026 16:42:12 philippe dumont consultation document a consulté compte rendu ca mars 2026">
-                        <td class="px-6 py-4 text-gray-500">24/08/2026 - 16:42:12</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Philippe Dumont');" class="font-medium text-primary hover:underline">Philippe Dumont</button></td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Consultation</span></td>
-                        <td class="px-6 py-4 text-gray-500">Document</td>
-                        <td class="px-6 py-4 text-gray-600">A consulté « Compte Rendu CA Mars 2026 »</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260824151005" data-sort1="marc lemoine" data-sort2="création" data-sort3="account" data-sort4="a invité sophie durant avec le rôle auditeur externe" data-action="CREATE" data-type="ACCOUNT" data-date="20260824" data-text="24/08/2026 15:10:05 marc lemoine création account a invité sophie durant avec le rôle auditeur externe">
-                        <td class="px-6 py-4 text-gray-500">24/08/2026 - 15:10:05</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Marc Lemoine');" class="font-medium text-primary hover:underline">Marc Lemoine</button></td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Création</span></td>
-                        <td class="px-6 py-4 text-gray-500">Compte</td>
-                        <td class="px-6 py-4 text-gray-600">A invité « Sophie Durant » avec le rôle Auditeur externe</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260824090347" data-sort1="sophie durant" data-sort2="téléchargement" data-sort3="document" data-sort4="a téléchargé bilan financier annuel 2025" data-action="DOWNLOAD" data-type="DOCUMENT" data-date="20260824" data-text="24/08/2026 09:03:47 sophie durant téléchargement document a téléchargé bilan financier annuel 2025">
-                        <td class="px-6 py-4 text-gray-500">24/08/2026 - 09:03:47</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Sophie Durant');" class="font-medium text-primary hover:underline">Sophie Durant</button></td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Téléchargement</span></td>
-                        <td class="px-6 py-4 text-gray-500">Document</td>
-                        <td class="px-6 py-4 text-gray-600">A téléchargé « Bilan Financier Annuel 2025 »</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260823172533" data-sort1="philippe dumont" data-sort2="mise à jour" data-sort3="label" data-sort4="a modifié le libellé pv ordre d affichage 20 vers 30" data-action="UPDATE" data-type="LABEL" data-date="20260823" data-text="23/08/2026 17:25:33 philippe dumont mise à jour label a modifié le libellé pv ordre d affichage 20 vers 30">
-                        <td class="px-6 py-4 text-gray-500">23/08/2026 - 17:25:33</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Philippe Dumont');" class="font-medium text-primary hover:underline">Philippe Dumont</button></td>
-                        <td class="px-6 py-4"><span class="badge badge-orange">Mise à jour</span></td>
-                        <td class="px-6 py-4 text-gray-500">Libellé</td>
-                        <td class="px-6 py-4 text-gray-600">A modifié le libellé « PV » (ordre d'affichage: 20 → 30)</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260823091200" data-sort1="système sso" data-sort2="connexion" data-sort3="account" data-sort4="connexion réussie via microsoft entra id ip 192 168 1 10" data-action="LOGIN" data-type="ACCOUNT" data-date="20260823" data-text="23/08/2026 09:12:00 système sso connexion account connexion réussie via microsoft entra id ip 192 168 1 10">
-                        <td class="px-6 py-4 text-gray-500">23/08/2026 - 09:12:00</td>
-                        <td class="px-6 py-4 font-medium text-gray-900">Système (SSO)</td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Connexion</span></td>
-                        <td class="px-6 py-4 text-gray-500">Compte</td>
-                        <td class="px-6 py-4 text-gray-600">Connexion réussie via Microsoft Entra ID (IP: 192.168.1.10)</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260822144011" data-sort1="denis buchet" data-sort2="consultation" data-sort3="document" data-sort4="a consulté rapport annuel 2025" data-action="VIEW" data-type="DOCUMENT" data-date="20260822" data-text="22/08/2026 14:40:11 denis buchet consultation document a consulté rapport annuel 2025">
-                        <td class="px-6 py-4 text-gray-500">22/08/2026 - 14:40:11</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Denis Buchet');" class="font-medium text-primary hover:underline">Denis Buchet</button></td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Consultation</span></td>
-                        <td class="px-6 py-4 text-gray-500">Document</td>
-                        <td class="px-6 py-4 text-gray-600">A consulté « Rapport Annuel 2025 »</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260822110552" data-sort1="philippe dumont" data-sort2="création" data-sort3="role" data-sort4="a créé le rôle partenaire externe cge" data-action="CREATE" data-type="ROLE" data-date="20260822" data-text="22/08/2026 11:05:52 philippe dumont création role a créé le rôle partenaire externe cge">
-                        <td class="px-6 py-4 text-gray-500">22/08/2026 - 11:05:52</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Philippe Dumont');" class="font-medium text-primary hover:underline">Philippe Dumont</button></td>
-                        <td class="px-6 py-4"><span class="badge badge-success">Création</span></td>
-                        <td class="px-6 py-4 text-gray-500">Rôle</td>
-                        <td class="px-6 py-4 text-gray-600">A créé le rôle « Partenaire externe CGE »</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors" data-sort0="20260821163308" data-sort1="julie stavrakas" data-sort2="suppression" data-sort3="document" data-sort4="a supprimé note interne v1 soft delete" data-action="DELETE" data-type="DOCUMENT" data-date="20260821" data-text="21/08/2026 16:33:08 julie stavrakas suppression document a supprimé note interne v1 soft delete">
-                        <td class="px-6 py-4 text-gray-500">21/08/2026 - 16:33:08</td>
-                        <td class="px-6 py-4"><button onclick="navigateTo('view-users'); openUserPopup('Julie Stavrakas');" class="font-medium text-primary hover:underline">Julie Stavrakas</button></td>
-                        <td class="px-6 py-4"><span class="badge badge-danger">Suppression</span></td>
-                        <td class="px-6 py-4 text-gray-500">Document</td>
-                        <td class="px-6 py-4 text-gray-600">A supprimé « Note interne v1 » (soft delete)</td>
-                    </tr>
-                    <tr id="audit-empty" class="empty-row hidden-view">
-                        <td colspan="5" class="px-6 py-10 text-center text-gray-500">Aucune action ne correspond à vos filtres.</td>
-                    </tr>
-                </tbody>
+                <tbody id="audit-tbody" class="divide-y divide-gray-200"></tbody>
             </table>
             </div>
         </div>
@@ -4103,47 +4074,59 @@ window.PARTIALS = window.PARTIALS || {};
 PARTIALS.viewSettings = `
 <section id="view-settings" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
-        <div class="flex-1 overflow-y-auto min-h-0">
-        <div class="max-w-3xl mx-auto w-full">
+        <div class="w-full flex-1 flex flex-col min-h-0">
 
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold text-gray-800">Paramètres du compte</h2>
+            <div class="flex gap-2 shrink-0">
+                <button type="button" onclick="switchSettingsTab(this, 0)" class="label-tab label-tab-active whitespace-nowrap">Profil</button>
+                <button type="button" onclick="switchSettingsTab(this, 1)" class="label-tab label-tab-inactive whitespace-nowrap">Permissions générales</button>
+                <button type="button" onclick="switchSettingsTab(this, 2)" class="label-tab label-tab-inactive whitespace-nowrap">Règles d'accès</button>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-                <h3 class="text-sm font-semibold text-gray-700 uppercase mb-4">Profil</h3>
-                <div class="flex items-start gap-4">
-                    <div class="avatar w-16 h-16 text-xl avatar-red">PD</div>
-                    <div class="flex-1 grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Prénom</label>
-                            <input type="text" value="Philippe" disabled class="w-full border border-gray-200 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500 outline-none">
+            <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center gap-3 bg-gray-50 shrink-0">
+                    <div class="avatar w-11 h-11 text-base avatar-red">PD</div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg font-bold text-gray-800 leading-tight truncate">Philippe Dumont</h3>
+                        <p class="text-xs text-gray-500 truncate">p.dumont@chimay-gestion.be</p>
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto min-h-0">
+                    <div class="settings-panel p-6">
+                        <div class="border-t border-gray-100 divide-y divide-gray-100">
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Prénom</span>
+                                <span class="text-sm font-medium text-gray-900">Philippe</span>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Nom</span>
+                                <span class="text-sm font-medium text-gray-900">Dumont</span>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Adresse e-mail</span>
+                                <span class="text-sm font-medium text-gray-900">p.dumont@chimay-gestion.be</span>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Type de compte</span>
+                                <span id="settings-type" class="badge badge-neutral"></span>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Date d'ajout</span>
+                                <span id="settings-added" class="text-sm font-medium text-gray-900"></span>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nom</label>
-                            <input type="text" value="Dumont" disabled class="w-full border border-gray-200 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500 outline-none">
-                        </div>
-                        <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Email</label>
-                            <input type="email" value="p.dumont@chimay-gestion.be" disabled class="w-full border border-gray-200 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500 outline-none">
-                            <p class="text-xs text-gray-500 mt-1">Identité (prénom, nom, email) gérée par Microsoft Entra ID (B2B) - non modifiable</p>
-                        </div>
+                    </div>
+
+                    <div class="settings-panel p-6 hidden-view">
+                        <div id="settings-perms"></div>
+                    </div>
+
+                    <div class="settings-panel p-6 hidden-view">
+                        <div id="settings-access" class="space-y-3"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h3 class="text-sm font-semibold text-gray-700 uppercase mb-4">Rôles</h3>
-                <ul class="space-y-2">
-                    <li class="flex items-center justify-between bg-gray-50 rounded-md px-4 py-2.5">
-                        <span class="font-medium text-gray-800 text-sm">Administrateur système</span>
-                        <span class="text-xs text-gray-500">Depuis le 01/02/2024</span>
-                    </li>
-                </ul>
-                <p class="text-xs text-gray-500 mt-3">Les rôles et privilèges sont attribués par un administrateur de la plateforme.</p>
-            </div>
-
-        </div>
         </div>
     </div>
 </section>
@@ -4210,7 +4193,7 @@ PARTIALS.modalInvite = `
 window.PARTIALS = window.PARTIALS || {};
 PARTIALS.modalUpload = `
 <div id="modal-upload" class="hidden-view fixed inset-0 bg-slate-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh] overflow-hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl flex flex-col max-h-[90vh] overflow-hidden">
         
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 shrink-0">
             <h3 class="text-lg font-bold text-gray-800">Déposer un nouveau document</h3>
@@ -4229,14 +4212,14 @@ PARTIALS.modalUpload = `
   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
   <path d="m8 17 4-4 4 4" /></svg>
                     <p class="mt-1 text-sm text-gray-600">Cliquez pour parcourir ou glissez un fichier ici</p>
-                    <p class="text-xs text-gray-500 mt-1">PDF, DOCX, XLSX (Max 50MB)</p>
+                    <p class="text-xs text-gray-500 mt-1">PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPEG, PNG, TXT, ZIP, RAR (Max 50MB)</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre du document <span class="text-red-500">*</span></label>
-                    <input type="text" required placeholder="Ex: Compte Rendu Annuel..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <input type="text" required placeholder="Ex: compte rendu annuel..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date du document <span class="text-red-500">*</span></label>
@@ -4376,7 +4359,7 @@ PARTIALS.modalUpload = `
                     <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14" />
   <path d="M5 12h14" /></svg>
                     <p class="mt-1 text-sm text-gray-600">Ajouter des annexes</p>
-                    <p class="text-xs text-gray-500">PDF, DOCX, XLSX (Max 50MB)</p>
+                    <p class="text-xs text-gray-500">PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPEG, PNG, TXT, ZIP, RAR (Max 50MB)</p>
                 </div>
                 <input id="annexes-input" type="file" multiple class="hidden-view" onchange="addUploadFiles(this, 'annexes-list')">
                 <ul id="annexes-list" class="mt-2 space-y-1"></ul>
@@ -4529,46 +4512,174 @@ PARTIALS.modalPreview = `
 window.PARTIALS = window.PARTIALS || {};
 PARTIALS.modalUser = `
 <div id="modal-user" class="hidden-view fixed inset-0 bg-slate-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-lg overflow-hidden">
-        
-        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-            <h3 class="text-lg font-bold text-gray-800">Fiche utilisateur</h3>
-            <button onclick="toggleModal('modal-user', false)" class="text-gray-400 hover:text-gray-600">
+    <div class="w-full max-w-5xl flex flex-col">
+
+        <div class="flex gap-2 self-start">
+            <button id="sheet-tab-0" type="button" onclick="switchUserSheetTab(this, 0)" class="label-tab label-tab-active whitespace-nowrap">Informations</button>
+            <button id="sheet-tab-1" type="button" onclick="switchUserSheetTab(this, 1)" class="label-tab label-tab-inactive whitespace-nowrap">Permissions générales</button>
+            <button id="sheet-tab-2" type="button" onclick="switchUserSheetTab(this, 2)" class="label-tab label-tab-inactive whitespace-nowrap">Règles d'accès</button>
+            <button id="sheet-tab-3" type="button" onclick="switchUserSheetTab(this, 3)" class="label-tab label-tab-inactive whitespace-nowrap">Documents accessibles</button>
+        </div>
+
+        <div class="bg-white rounded-lg rounded-tl-none shadow-xl flex flex-col h-[85vh] overflow-hidden border-t border-gray-200">
+
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 shrink-0">
+            <div class="flex items-center gap-3 min-w-0">
+                <div id="user-sheet-avatar" class="avatar w-11 h-11 text-base avatar-blue shrink-0"></div>
+                <div class="min-w-0">
+                    <h3 id="user-sheet-name" class="text-lg font-bold text-gray-800 leading-tight truncate">Fiche utilisateur</h3>
+                    <p id="user-sheet-email" class="text-xs text-gray-500 truncate"></p>
+                </div>
+            </div>
+            <button onclick="toggleModal('modal-user', false)" class="text-gray-400 hover:text-gray-600 shrink-0 ms-4">
                 <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" />
   <path d="m6 6 12 12" /></svg>
             </button>
         </div>
-        
-        <div class="px-6 py-5 space-y-5">
-            <div class="flex items-center gap-4">
-                <div id="user-popup-avatar" class="avatar w-16 h-16 text-xl avatar-red">PD</div>
-                <div class="min-w-0">
-                    <p id="user-popup-name" class="text-lg font-bold text-gray-900">Philippe Dumont</p>
-                    <p id="user-popup-email" class="text-sm text-gray-500 truncate">p.dumont@chimay-gestion.be</p>
-                    <span id="user-popup-status" class="badge badge-success mt-1">Actif</span>
+
+        <div class="flex-1 overflow-y-auto min-h-0">
+
+            <!-- Onglet 1 : Informations -->
+            <div id="sheet-panel-0" class="sheet-panel p-6">
+                <div class="border-t border-gray-100 divide-y divide-gray-100">
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-gray-500">Prénom</span>
+                        <span id="user-sheet-prenom" class="text-sm font-medium text-gray-900"></span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-gray-500">Nom</span>
+                        <span id="user-sheet-nom" class="text-sm font-medium text-gray-900"></span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-gray-500">Adresse e-mail</span>
+                        <span id="user-sheet-email-field" class="text-sm font-medium text-gray-900"></span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-gray-500">Type de compte</span>
+                        <span id="user-sheet-type-field" class="badge badge-neutral"></span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-gray-500">Statut</span>
+                        <span id="user-sheet-status-field" class="badge badge-success"></span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-gray-500">Date d'ajout</span>
+                        <span id="user-sheet-added" class="text-sm font-medium text-gray-900"></span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-gray-500">Dernière connexion</span>
+                        <span id="user-sheet-lastlogin" class="text-sm font-medium text-gray-900"></span>
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Accès</h4>
-                <ul id="user-popup-access" class="space-y-2"></ul>
-            </div>
+            <!-- Onglet 2 : Permissions générales -->
+            <div id="sheet-panel-1" class="sheet-panel hidden-view p-6">
+                <div id="usheet-general">
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Actions sur les utilisateurs</div>
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" value="Créer des invitations" class="sheet-check">
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">Créer des invitations</span>
+                                <span class="block text-xs text-gray-500">Envoyer un mail contenant un lien d'invitation à rejoindre la plateforme.</span>
+                            </span>
+                        </label>
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" value="Gérer les utilisateurs" class="sheet-check">
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">Gérer les utilisateurs</span>
+                                <span class="block text-xs text-gray-500">Choisir les attributs et permissions d'un utilisateur. On ne peut attribuer que les permissions et accès qu'on possède soi-même.</span>
+                            </span>
+                        </label>
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" value="Créer des accès nominatifs" class="sheet-check">
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">Créer des accès nominatifs</span>
+                                <span class="block text-xs text-gray-500">Octroyer un accès exceptionnel vers un document à un utilisateur via un lien.</span>
+                            </span>
+                        </label>
+                    </div>
 
-            <div class="bg-gray-50 rounded-md px-4 py-3 text-sm text-gray-600 flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-  <path d="M3 3v5h5" />
-  <path d="M12 7v5l4 2" /></svg>
-                Dernière connexion : <span id="user-popup-lastlogin" class="font-medium">24/08/2026 - 16:42</span>
-            </div>
-
-            <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
-                <button onclick="alert('Liste des documents accessibles pour cet utilisateur (simulation)')" class="text-sm text-primary hover:underline font-medium">Voir les accès documents</button>
-                <div class="flex gap-3">
-                    <button onclick="openUserAccess(OPEN_USER)" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm font-medium shadow-sm">Gérer les accès</button>
-                    <button onclick="toggleModal('modal-user', false)" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm font-medium">Fermer</button>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 mt-6">Paramétrage et suivi</div>
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" value="Gérer les libellés" class="sheet-check">
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">Gérer les libellés</span>
+                                <span class="block text-xs text-gray-500">Créer, modifier ou supprimer des libellés par catégorie.</span>
+                            </span>
+                        </label>
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" value="Consulter l'historique" class="sheet-check">
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">Consulter l'historique</span>
+                                <span class="block text-xs text-gray-500">Accéder à l'historique recensant les actions effectuées par les utilisateurs sur l'ensemble de la plateforme.</span>
+                            </span>
+                        </label>
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" value="Gérer les documents" class="sheet-check">
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">Gérer les documents</span>
+                                <span class="block text-xs text-gray-500">Ajouter, modifier des métadonnées/libellés, téléverser des nouvelles versions et supprimer des documents.</span>
+                            </span>
+                        </label>
+                    </div>
                 </div>
             </div>
+
+            <!-- Onglet 3 : Règles d'accès -->
+            <div id="sheet-panel-2" class="sheet-panel hidden-view p-6">
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Sélection des entités</label>
+                <div id="usheet-entities" class="multi-select" data-placeholder="Sélectionner…">
+                    <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
+                        <span class="ms-value">Sélectionner…</span>
+                        <svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                    </div>
+                    <div class="multi-select-panel hidden-view"></div>
+                </div>
+
+                <div id="usheet-funnel" class="mt-4 space-y-3"></div>
+            </div>
+
+            <!-- Onglet 4 : Documents accessibles -->
+            <div id="sheet-panel-3" class="sheet-panel hidden-view">
+                <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
+                    <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
+                        <tr>
+                            <th class="px-6 py-3">Titre du document</th>
+                            <th class="px-6 py-3">Date du document</th>
+                            <th class="px-6 py-3">Libellés</th>
+                            <th class="px-6 py-3">Déposé par</th>
+                            <th class="px-6 py-3">Date du dépôt</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usheet-docs-tbody" class="divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+
         </div>
+
+        <div id="usheet-footer" class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 shrink-0 bg-white hidden-view">
+            <button id="usheet-reset" type="button" onclick="usheetReset()" class="btn btn-outline-danger hidden-view">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+  <path d="M3 3v5h5" /></svg>
+                Réinitialiser
+            </button>
+            <button id="usheet-save" type="button" onclick="usheetSave()" class="btn btn-primary hidden-view">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+  <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
+  <path d="M7 3v4a1 1 0 0 0 1 1h7" /></svg>
+                Enregistrer les modifications
+            </button>
+            <button id="usheet-convert" type="button" onclick="convertUserToPermanent()" class="btn btn-primary hidden-view">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <circle cx="9" cy="7" r="4" />
+  <path d="m16 11 2 2 4-4" /></svg>
+                Transformer en compte permanent
+            </button>
+        </div>
+    </div>
     </div>
 </div>
 `;
@@ -5089,6 +5200,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     renderUsersTable();
 
+    sortInvitesByDefault();
+    sortNominativeByDefault();
+
+    renderAuditTable();
+
+    renderSettings();
+
     updateNamingExample();
 
     initFlyActions();
@@ -5384,6 +5502,19 @@ var USERS_DB = {
       }
  };
 
+ var USER_ADDED = {
+     'Marc Lemoine': '12/01/2025 - 09:15',
+     'Sophie Durant': '04/02/2025 - 14:40',
+     'Denis Buchet': '03/03/2026 - 08:05',
+     'Philippe Dumont': '01/02/2024 - 10:30',
+     'Julie Stavrakas': '03/03/2026 - 11:50',
+     'Laurent Petit': '15/05/2026 - 16:20',
+     'Dom Damien Debaisieux': '02/03/2025 - 07:45',
+     'Marie Lefèvre': '20/08/2026 - 09:00',
+     'Thomas Delcroix': '18/08/2026 - 13:25',
+     'Isabelle Moreau': '16/08/2026 - 15:10'
+ };
+
  var USER_ORDER = ['Marc Lemoine', 'Sophie Durant', 'Denis Buchet', 'Philippe Dumont', 'Dom Damien Debaisieux', 'Julie Stavrakas', 'Laurent Petit', 'Marie Lefèvre', 'Thomas Delcroix', 'Isabelle Moreau'];
 
 var INVITES_DB = [
@@ -5412,6 +5543,13 @@ function accessLinesHTML(lines) {
     return '<div class="flex flex-col items-start gap-1">' + lines.map(function (l) { return '<span class="badge badge-neutral">' + l + '</span>'; }).join('') + '</div>';
 }
 
+function sortableDate(ddmmYYYY) {
+    if (!ddmmYYYY) return '';
+    var parts = ddmmYYYY.split('/');
+    if (parts.length !== 3) return ddmmYYYY;
+    return parts[2] + parts[1] + parts[0];
+}
+
 function userRowHTML(name, email, status, statusClass, general, accessLines, type, inviteDate, clickable) {
     var n = splitName(name);
     var search = (name + ' ' + email + ' ' + (general || []).join(' ') + ' ' + (accessLines || []).join(' ')).toLowerCase();
@@ -5419,8 +5557,8 @@ function userRowHTML(name, email, status, statusClass, general, accessLines, typ
     var cls = clickable ? 'clickable-row hover:bg-primary-light transition-colors' : 'hover:bg-primary-light transition-colors';
     var typeHtml = type === 'Temporaire' ? '<span class="badge badge-warning">Temporaire</span>' : (type === 'Permanent' ? '<span class="badge badge-neutral">Permanent</span>' : '<span class="text-gray-400">—</span>');
     var dateHtml = inviteDate || '<span class="text-gray-400">—</span>';
-    return '<tr class="' + cls + '" data-search="' + search + '"' + click
-        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + (type || '').toLowerCase() + '" data-sort6="' + (inviteDate || '') + '" data-sort7="' + status.toLowerCase() + '">'
+    return '<tr class="' + cls + '" data-search="' + search + '" data-status="' + status + '"' + click
+        + ' data-sort0="' + n.nom.toLowerCase() + '" data-sort1="' + n.prenom.toLowerCase() + '" data-sort2="' + email.toLowerCase() + '" data-sort3="' + (general || []).join(' ').toLowerCase() + '" data-sort4="' + (accessLines || []).join(' ').toLowerCase() + '" data-sort5="' + (type || '').toLowerCase() + '" data-sort6="' + sortableDate(inviteDate) + '" data-sort7="' + status.toLowerCase() + '">'
         + '<td class="px-6 py-4 align-top font-medium text-gray-900">' + n.nom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + n.prenom + '</td>'
         + '<td class="px-6 py-4 align-top text-gray-500">' + email + '</td>'
@@ -5449,6 +5587,44 @@ function renderUsersTable() {
     }
 }
 
+function sortInvitesByDefault() {
+    var tbody = document.getElementById('invites-tbody');
+    var table = tbody ? tbody.closest('table') : null;
+    if (!tbody || !table) return;
+    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr:not(.empty-row)'));
+    rows.sort(function (a, b) {
+        return (b.getAttribute('data-sort6') || '').trim().localeCompare((a.getAttribute('data-sort6') || '').trim());
+    });
+    rows.forEach(function (r) { tbody.appendChild(r); });
+    var emptyRow = tbody.querySelector('.empty-row');
+    if (emptyRow) tbody.appendChild(emptyRow);
+    table._sortCol = 6;
+    table._sortDir = -1;
+    table.querySelectorAll('th.sortable').forEach(function (th, i) {
+        var ind = th.querySelector('.sort-indicator');
+        if (ind) ind.textContent = i === 6 ? '▼' : '';
+    });
+}
+
+function sortNominativeByDefault() {
+    var tbody = document.getElementById('na-tbody');
+    var table = tbody ? tbody.closest('table') : null;
+    if (!tbody || !table) return;
+    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr:not(.empty-row)'));
+    rows.sort(function (a, b) {
+        return (b.getAttribute('data-sort6') || '').trim().localeCompare((a.getAttribute('data-sort6') || '').trim());
+    });
+    rows.forEach(function (r) { tbody.appendChild(r); });
+    var emptyRow = tbody.querySelector('.empty-row');
+    if (emptyRow) tbody.appendChild(emptyRow);
+    table._sortCol = 6;
+    table._sortDir = -1;
+    table.querySelectorAll('th.sortable').forEach(function (th, i) {
+        var ind = th.querySelector('.sort-indicator');
+        if (ind) ind.textContent = i === 6 ? '▼' : '';
+    });
+}
+
 var AVATAR_COLORS = ['avatar-blue', 'avatar-teal', 'avatar-green', 'avatar-magenta', 'avatar-purple', 'avatar-orange', 'avatar-red'];
 
 var OPEN_USER = null;
@@ -5459,43 +5635,539 @@ function avatarColorFor(name) {
     return AVATAR_COLORS[sum % AVATAR_COLORS.length];
 }
 
-function openUserPopup(name) {
+function switchUserSheetTab(el, idx) {
+    document.querySelectorAll('#modal-user .label-tab').forEach(function (t, i) {
+        t.classList.remove('label-tab-inactive', 'label-tab-active');
+        if (i === idx) t.classList.add('label-tab-active');
+        else t.classList.add('label-tab-inactive');
+    });
+    document.querySelectorAll('#modal-user .sheet-panel').forEach(function (p, i) {
+        p.classList.toggle('hidden-view', i !== idx);
+    });
+}
+
+var USHEET_STATE = { entities: {} };
+
+function usheetEntityDefs() {
+    var def = DOC_LABEL_DEFS.find(function (c) { return c.name === 'Entité'; });
+    return def ? def.labels : [];
+}
+function usheetInstanceDefs() {
+    var def = DOC_LABEL_DEFS.find(function (c) { return c.name === 'Instance'; });
+    return def ? def.labels : [];
+}
+function usheetTypeDefs() {
+    var def = DOC_LABEL_DEFS.find(function (c) { return c.name === 'Type de document'; });
+    return def ? def.labels : [];
+}
+function usheetEntityLabel(code) {
+    var l = usheetEntityDefs().find(function (l) { return l[0] === code; });
+    return l ? l[1] : code;
+}
+function usheetInstanceLabel(code) {
+    var l = usheetInstanceDefs().find(function (l) { return l[0] === code; });
+    return l ? l[1] : code;
+}
+function usheetTypeLabel(code) {
+    var l = usheetTypeDefs().find(function (l) { return l[0] === code; });
+    return l ? l[1].replace(/\s*\([^)]*\)\s*$/, '') : code;
+}
+function usheetEntityOptionsHTML() {
+    return usheetEntityDefs().map(function (e) {
+        return '<label class="ms-option"><input type="checkbox" value="' + e[0] + '" onchange="msUpdate(this); usheetEntityToggle(this)"> ' + e[1] + '</label>';
+    }).join('');
+}
+function usheetInstanceOptionsHTML(code) {
+    return usheetInstanceDefs().map(function (i) {
+        return '<label class="ms-option"><input type="checkbox" value="' + i[0] + '" data-entity="' + code + '" onchange="msUpdate(this); usheetInstanceToggle(this)"> ' + i[1] + '</label>';
+    }).join('');
+}
+
+var USHEET_X_SVG = '<svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>';
+
+function usheetEntityCardHTML(code) {
+    return '<div class="usheet-entity border border-gray-200 rounded-md" data-entity="' + code + '">'
+        + '<div class="flex items-center justify-between bg-gray-50 px-4 py-3 border-b border-gray-200 rounded-t-md">'
+        + '<span class="font-semibold text-gray-800">' + usheetEntityLabel(code) + '</span>'
+        + '<button type="button" onclick="usheetRemoveEntity(this)" title="Retirer l\'entité" class="p-1.5 rounded hover:bg-gray-100 hover:text-danger transition-colors shrink-0">' + USHEET_X_SVG + '</button>'
+        + '</div>'
+        + '<div class="p-4">'
+        + '<label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Sélection des instances</label>'
+        + '<div class="multi-select" data-placeholder="Choisir une instance…">'
+        + '<div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0"><span class="ms-value">Choisir une instance…</span><svg class="w-4 h-4 text-gray-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg></div>'
+        + '<div class="multi-select-panel hidden-view">' + usheetInstanceOptionsHTML(code) + '</div>'
+        + '</div>'
+        + '<div class="usheet-instances mt-3 space-y-3"></div>'
+        + '</div>'
+        + '</div>';
+}
+
+function usheetTypePrivilegeRowHTML(code, inst, typeCode, label, priv) {
+    priv = priv || 'Lister';
+    var inv = priv === 'Invisible';
+    var list = (priv === 'Lister' || priv === 'Consulter' || priv === 'Télécharger');
+    var cons = (priv === 'Consulter' || priv === 'Télécharger');
+    var tele = (priv === 'Télécharger');
+    var attrs = ' data-entity="' + code + '" data-inst="' + inst + '" data-type="' + typeCode + '"';
+    return '<tr>'
+        + '<td class="py-1.5 text-gray-700">' + label + '</td>'
+        + '<td class="py-1.5 text-center"><input type="checkbox"' + attrs + ' data-level="invisible"' + (inv ? ' checked' : '') + ' onchange="usheetTypeCheckboxChange(this)" class="sheet-check"></td>'
+        + '<td class="py-1.5 text-center"><input type="checkbox"' + attrs + ' data-level="listable"' + (list ? ' checked' : '') + ' onchange="usheetTypeCheckboxChange(this)" class="sheet-check"></td>'
+        + '<td class="py-1.5 text-center"><input type="checkbox"' + attrs + ' data-level="consultable"' + (cons ? ' checked' : '') + ' onchange="usheetTypeCheckboxChange(this)" class="sheet-check"></td>'
+        + '<td class="py-1.5 text-center"><input type="checkbox"' + attrs + ' data-level="telechargeable"' + (tele ? ' checked' : '') + ' onchange="usheetTypeCheckboxChange(this)" class="sheet-check"></td>'
+        + '</tr>';
+}
+
+function usheetAllPrivilegeOptions(selected) {
+    var opts = [
+        ['Lister', 'Listables'],
+        ['Consulter', 'Listables et consultables'],
+        ['Télécharger', 'Listables, consultables et téléchargeables']
+    ];
+    return opts.map(function (p) {
+        return '<option value="' + p[0] + '"' + (p[0] === selected ? ' selected' : '') + '>' + p[1] + '</option>';
+    }).join('');
+}
+
+function usheetInstanceCardHTML(code, inst) {
+    var cfg = USHEET_STATE.entities[code][inst] || {};
+    var allTypes = !!cfg.allTypes;
+    var allPrivilege = cfg.allPrivilege || 'Lister';
+    var types = cfg.types || {};
+    var rows = usheetTypeDefs().map(function (t) {
+        return usheetTypePrivilegeRowHTML(code, inst, t[0], usheetTypeLabel(t[0]), types[t[0]] || 'Lister');
+    }).join('');
+    var allChecked = allTypes ? ' checked' : '';
+    var allPrivHidden = allTypes ? '' : ' hidden-view';
+    var tableHidden = allTypes ? ' hidden-view' : '';
+    return '<div class="usheet-instance border border-gray-200 rounded-md" data-instance="' + inst + '">'
+        + '<div class="flex items-center justify-between bg-gray-50 px-3 py-2 border-b border-gray-200 rounded-t-md">'
+        + '<span class="text-xs font-semibold uppercase text-gray-500">' + usheetInstanceLabel(inst) + '</span>'
+        + '<button type="button" onclick="usheetRemoveInstance(this)" title="Retirer l\'instance" class="p-1 rounded hover:bg-gray-100 hover:text-danger transition-colors">' + USHEET_X_SVG + '</button>'
+        + '</div>'
+        + '<div class="p-3">'
+        + '<div class="flex gap-3 mb-3">'
+        + '<div class="flex-1">'
+        + '<label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date de début</label>'
+        + '<input type="date" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">'
+        + '</div>'
+        + '<div class="flex-1">'
+        + '<label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date de fin</label>'
+        + '<input type="date" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">'
+        + '</div>'
+        + '</div>'
+        + '<div class="flex items-center gap-3 mb-3 min-h-[38px]">'
+        + '<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">'
+        + '<input type="checkbox" class="toggle-switch" data-entity="' + code + '" data-inst="' + inst + '"' + allChecked + ' onchange="usheetAllTypesToggle(this)">'
+        + ' Tous les types de documents (actuels et futurs)'
+        + '</label>'
+        + '<select class="usheet-alltypes-priv select' + allPrivHidden + '" data-entity="' + code + '" data-inst="' + inst + '" onchange="usheetAllPrivilegeChange(this)">'
+        + usheetAllPrivilegeOptions(allPrivilege)
+        + '</select>'
+        + '</div>'
+        + '<div class="usheet-types-table' + tableHidden + '">'
+        + '<table class="w-full text-sm">'
+        + '<thead><tr class="text-xs font-semibold text-gray-500 uppercase">'
+        + '<th class="py-1.5 font-semibold text-left">Type de document</th>'
+        + '<th class="py-1.5 font-semibold text-center cursor-pointer hover:text-primary" title="Cocher toute la colonne" onclick="usheetCheckColumn(this, \'invisible\')">Invisible</th>'
+        + '<th class="py-1.5 font-semibold text-center cursor-pointer hover:text-primary" title="Cocher toute la colonne" onclick="usheetCheckColumn(this, \'listable\')">Listable</th>'
+        + '<th class="py-1.5 font-semibold text-center cursor-pointer hover:text-primary" title="Cocher toute la colonne" onclick="usheetCheckColumn(this, \'consultable\')">Consultable</th>'
+        + '<th class="py-1.5 font-semibold text-center cursor-pointer hover:text-primary" title="Cocher toute la colonne" onclick="usheetCheckColumn(this, \'telechargeable\')">Téléchargeable</th>'
+        + '</tr></thead>'
+        + '<tbody class="divide-y divide-gray-100">' + rows + '</tbody>'
+        + '</table>'
+        + '</div>'
+        + '</div>'
+        + '</div>';
+}
+
+function renderUsheetFunnel() {
+    var funnel = document.getElementById('usheet-funnel');
+    if (!funnel) return;
+    funnel.innerHTML = '';
+    Object.keys(USHEET_STATE.entities).forEach(function (code) {
+        var div = document.createElement('div');
+        div.innerHTML = usheetEntityCardHTML(code);
+        var card = div.firstElementChild;
+        funnel.appendChild(card);
+
+        var container = card.querySelector('.usheet-instances');
+        var insts = USHEET_STATE.entities[code];
+        Object.keys(insts).forEach(function (inst) {
+            var d2 = document.createElement('div');
+            d2.innerHTML = usheetInstanceCardHTML(code, inst);
+            container.appendChild(d2.firstElementChild);
+        });
+
+        var ms = card.querySelector('.multi-select');
+        ms.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+            cb.checked = !!insts[cb.value];
+        });
+        var firstCb = ms.querySelector('input[type="checkbox"]');
+        if (firstCb) msUpdate(firstCb);
+    });
+}
+
+function usheetSyncEntityChecks() {
+    var ms = document.getElementById('usheet-entities');
+    if (!ms) return;
+    ms.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+        cb.checked = !!USHEET_STATE.entities[cb.value];
+    });
+    var first = ms.querySelector('input[type="checkbox"]');
+    if (first) msUpdate(first);
+}
+
+function usheetInitState(user) {
+    USHEET_STATE = { entities: {} };
+    var cfg = user.config || {};
+    if (cfg.allEntities) {
+        usheetEntityDefs().forEach(function (e) {
+            var instMap = {};
+            usheetInstanceDefs().forEach(function (i) {
+                var typeMap = {};
+                usheetTypeDefs().forEach(function (t) { typeMap[t[0]] = 'Télécharger'; });
+                instMap[i[0]] = { allTypes: true, allPrivilege: 'Télécharger', types: typeMap };
+            });
+            USHEET_STATE.entities[e[0]] = instMap;
+        });
+    } else if (cfg.entities) {
+        Object.keys(cfg.entities).forEach(function (code) {
+            var e = cfg.entities[code] || {};
+            var instMap = {};
+            ['OA', 'AG'].forEach(function (inst) {
+                if (e[inst]) {
+                    var priv = e[inst].privilege || 'Consulter';
+                    var allTypes = !!e[inst].allTypes;
+                    var typeMap = {};
+                    usheetTypeDefs().forEach(function (t) { typeMap[t[0]] = priv; });
+                    instMap[inst] = { allTypes: allTypes, allPrivilege: priv, types: typeMap };
+                }
+            });
+            if (Object.keys(instMap).length) USHEET_STATE.entities[code] = instMap;
+        });
+    }
+}
+
+function usheetEntityToggle(cb) {
+    if (cb.checked) {
+        if (!USHEET_STATE.entities[cb.value]) USHEET_STATE.entities[cb.value] = {};
+    } else {
+        delete USHEET_STATE.entities[cb.value];
+    }
+    renderUsheetFunnel();
+}
+
+function usheetInstanceToggle(cb) {
+    var code = cb.getAttribute('data-entity');
+    if (!USHEET_STATE.entities[code]) USHEET_STATE.entities[code] = {};
+    if (cb.checked) {
+        if (!USHEET_STATE.entities[code][cb.value]) {
+            var typeMap = {};
+            usheetTypeDefs().forEach(function (t) { typeMap[t[0]] = 'Lister'; });
+            USHEET_STATE.entities[code][cb.value] = { allTypes: false, allPrivilege: 'Lister', types: typeMap };
+        }
+    } else {
+        delete USHEET_STATE.entities[code][cb.value];
+    }
+    renderUsheetFunnel();
+}
+
+function usheetTypeCheckboxChange(cb) {
+    var row = cb.closest('tr');
+    if (!row) return;
+    var box = function (level) { return row.querySelector('input[data-level="' + level + '"]'); };
+    var inv = box('invisible');
+    var list = box('listable');
+    var cons = box('consultable');
+    var tele = box('telechargeable');
+    var level = cb.getAttribute('data-level');
+    var checked = cb.checked;
+
+    if (level === 'invisible') {
+        if (checked) {
+            list.checked = false;
+            cons.checked = false;
+            tele.checked = false;
+        }
+    } else {
+        if (checked) {
+            inv.checked = false;
+            if (level === 'telechargeable') {
+                cons.checked = true;
+                list.checked = true;
+            } else if (level === 'consultable') {
+                list.checked = true;
+            }
+        } else {
+            if (level === 'listable') {
+                cons.checked = false;
+                tele.checked = false;
+            } else if (level === 'consultable') {
+                tele.checked = false;
+            }
+        }
+    }
+
+    if (!inv.checked && !list.checked && !cons.checked && !tele.checked) {
+        inv.checked = true;
+    }
+
+    var code = cb.getAttribute('data-entity');
+    var inst = cb.getAttribute('data-inst');
+    var type = cb.getAttribute('data-type');
+    var priv;
+    if (inv.checked) priv = 'Invisible';
+    else if (tele.checked) priv = 'Télécharger';
+    else if (cons.checked) priv = 'Consulter';
+    else if (list.checked) priv = 'Lister';
+    else priv = 'Invisible';
+    if (USHEET_STATE.entities[code] && USHEET_STATE.entities[code][inst]) {
+        USHEET_STATE.entities[code][inst].types = USHEET_STATE.entities[code][inst].types || {};
+        USHEET_STATE.entities[code][inst].types[type] = priv;
+    }
+}
+
+function usheetSetRowPrivilege(row, level) {
+    var inv = row.querySelector('input[data-level="invisible"]');
+    var list = row.querySelector('input[data-level="listable"]');
+    var cons = row.querySelector('input[data-level="consultable"]');
+    var tele = row.querySelector('input[data-level="telechargeable"]');
+    if (inv) inv.checked = (level === 'invisible');
+    if (list) list.checked = (level === 'listable' || level === 'consultable' || level === 'telechargeable');
+    if (cons) cons.checked = (level === 'consultable' || level === 'telechargeable');
+    if (tele) tele.checked = (level === 'telechargeable');
+}
+
+function usheetCheckColumn(headerEl, level) {
+    var entityCard = headerEl.closest('.usheet-entity');
+    var instanceCard = headerEl.closest('.usheet-instance');
+    var code = entityCard ? entityCard.getAttribute('data-entity') : null;
+    var inst = instanceCard ? instanceCard.getAttribute('data-instance') : null;
+    if (!code || !inst || !instanceCard) return;
+
+    var priv;
+    if (level === 'invisible') priv = 'Invisible';
+    else if (level === 'telechargeable') priv = 'Télécharger';
+    else if (level === 'consultable') priv = 'Consulter';
+    else priv = 'Lister';
+
+    instanceCard.querySelectorAll('tbody tr').forEach(function (row) {
+        usheetSetRowPrivilege(row, level);
+        var cb = row.querySelector('input[data-type]');
+        var type = cb ? cb.getAttribute('data-type') : null;
+        if (type && USHEET_STATE.entities[code] && USHEET_STATE.entities[code][inst]) {
+            USHEET_STATE.entities[code][inst].types = USHEET_STATE.entities[code][inst].types || {};
+            USHEET_STATE.entities[code][inst].types[type] = priv;
+        }
+    });
+
+    usheetMarkDirty();
+}
+
+function usheetAllTypesToggle(cb) {
+    var code = cb.getAttribute('data-entity');
+    var inst = cb.getAttribute('data-inst');
+    var instanceCard = cb.closest('.usheet-instance');
+    var cfg = USHEET_STATE.entities[code] && USHEET_STATE.entities[code][inst];
+    if (!cfg) return;
+    cfg.allTypes = cb.checked;
+    if (cb.checked && !cfg.allPrivilege) cfg.allPrivilege = 'Lister';
+    if (instanceCard) {
+        var privSel = instanceCard.querySelector('.usheet-alltypes-priv');
+        var table = instanceCard.querySelector('.usheet-types-table');
+        if (privSel) privSel.classList.toggle('hidden-view', !cb.checked);
+        if (table) table.classList.toggle('hidden-view', cb.checked);
+    }
+    usheetMarkDirty();
+}
+
+function usheetAllPrivilegeChange(sel) {
+    var code = sel.getAttribute('data-entity');
+    var inst = sel.getAttribute('data-inst');
+    if (USHEET_STATE.entities[code] && USHEET_STATE.entities[code][inst]) {
+        USHEET_STATE.entities[code][inst].allPrivilege = sel.value;
+    }
+    usheetMarkDirty();
+}
+
+function usheetRemoveEntity(btn) {
+    var card = btn.closest('.usheet-entity');
+    var code = card ? card.getAttribute('data-entity') : null;
+    if (code) delete USHEET_STATE.entities[code];
+    if (card) card.remove();
+    var cb = document.querySelector('#usheet-entities input[type="checkbox"][value="' + code + '"]');
+    if (cb) { cb.checked = false; msUpdate(cb); }
+}
+
+function usheetRemoveInstance(btn) {
+    var instCard = btn.closest('.usheet-instance');
+    var entityCard = btn.closest('.usheet-entity');
+    var code = entityCard ? entityCard.getAttribute('data-entity') : null;
+    var inst = instCard ? instCard.getAttribute('data-instance') : null;
+    if (code && inst && USHEET_STATE.entities[code]) delete USHEET_STATE.entities[code][inst];
+    if (instCard) instCard.remove();
+    var cb = entityCard ? entityCard.querySelector('.multi-select input[type="checkbox"][value="' + inst + '"]') : null;
+    if (cb) { cb.checked = false; msUpdate(cb); }
+}
+
+function usheetAccessibleDocs(user) {
+    var cfg = user.config || {};
+    var rows = document.querySelectorAll('#docs-tbody tr[data-entity]');
+    var nominative = (user.access || []).filter(function (a) { return (a.scope || '').indexOf('Accès nominatif') !== -1; })
+        .map(function (a) { return a.scope.replace('Accès nominatif à ', '').toLowerCase(); });
+    var out = [];
+    rows.forEach(function (r) {
+        var ent = r.getAttribute('data-entity');
+        var org = r.getAttribute('data-organ');
+        var types = (r.getAttribute('data-type') || '').split(/\s+/).filter(Boolean);
+        var name = r.querySelector('td:first-child') ? r.querySelector('td:first-child').textContent.trim() : '';
+        var matches = false;
+        if (cfg.allEntities) {
+            matches = true;
+        } else {
+            var e = (cfg.entities || {})[ent];
+            if (e && e[org]) {
+                var inst = e[org];
+                if (inst.allTypes || !(inst.types && inst.types.length)) matches = true;
+                else if (types.some(function (t) { return inst.types.indexOf(t) !== -1; })) matches = true;
+            }
+        }
+        if (!matches && nominative.length) {
+            var n = name.toLowerCase();
+            matches = nominative.some(function (s) { return n.indexOf(s) !== -1 || (s && s.indexOf(n) !== -1); });
+        }
+        if (matches) {
+            out.push(r);
+        }
+    });
+    return out;
+}
+
+function usheetRenderDocs(user) {
+    var tbody = document.getElementById('usheet-docs-tbody');
+    if (!tbody) return;
+    var docs = usheetAccessibleDocs(user);
+    tbody.innerHTML = docs.map(function (r) {
+        var title = r.children[0] ? r.children[0].innerHTML : '';
+        var dateDoc = r.children[1] ? r.children[1].textContent.trim() : '';
+        var labels = r.children[2] ? r.children[2].innerHTML : '';
+        var depositor = r.children[3] ? r.children[3].textContent.trim() : '';
+        var dateDepot = r.children[4] ? r.children[4].textContent.trim() : '';
+        return '<tr class="hover:bg-primary-light transition-colors">'
+            + '<td class="px-6 py-3">' + title + '</td>'
+            + '<td class="px-6 py-3 text-gray-500">' + dateDoc + '</td>'
+            + '<td class="px-6 py-3">' + labels + '</td>'
+            + '<td class="px-6 py-3 text-gray-500">' + depositor + '</td>'
+            + '<td class="px-6 py-3 text-gray-500">' + dateDepot + '</td>'
+            + '</tr>';
+    }).join('');
+    if (!docs.length) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="5" class="px-6 py-8 text-center text-gray-500">Aucun document accessible.</td></tr>';
+    }
+}
+
+function populateUserSheet(name) {
     var user = USERS_DB[name];
     if (!user) return;
     OPEN_USER = name;
 
-    var parts = name.split(' ');
-    var initials = parts[0].charAt(0) + (parts.length > 1 ? parts[parts.length - 1].charAt(0) : '');
+    var parts = splitName(name);
+    var initials = parts.prenom.charAt(0) + (parts.nom ? parts.nom.charAt(0) : '');
 
-    var avatar = document.getElementById('user-popup-avatar');
-    avatar.className = 'avatar w-16 h-16 text-xl ' + avatarColorFor(name);
-    avatar.textContent = initials;
-    document.getElementById('user-popup-name').textContent = name;
-    document.getElementById('user-popup-email').textContent = user.email;
-    document.getElementById('user-popup-lastlogin').textContent = user.lastLogin;
+    var headerAvatar = document.getElementById('user-sheet-avatar');
+    headerAvatar.className = 'avatar w-11 h-11 text-base ' + avatarColorFor(name);
+    headerAvatar.textContent = initials;
 
-    var statusEl = document.getElementById('user-popup-status');
-    statusEl.className = 'badge mt-1 ' + user.statusClass;
-    statusEl.textContent = user.status;
+    document.getElementById('user-sheet-name').textContent = name;
+    document.getElementById('user-sheet-email').textContent = user.email;
+    document.getElementById('user-sheet-prenom').textContent = parts.prenom;
+    document.getElementById('user-sheet-nom').textContent = parts.nom || '—';
+    document.getElementById('user-sheet-email-field').textContent = user.email;
+    document.getElementById('user-sheet-added').textContent = USER_ADDED[name] || '—';
+    document.getElementById('user-sheet-lastlogin').textContent = user.lastLogin;
 
-    var accessList = document.getElementById('user-popup-access');
-    accessList.innerHTML = '';
-    user.access.forEach(function (acc) {
-        var li = document.createElement('li');
-        li.className = 'bg-gray-50 rounded-md px-4 py-3';
-        var permBadges = acc.permissions.map(function (p) {
-            return '<span class="badge badge-neutral me-1">' + p + '</span>';
-        }).join('');
-        li.innerHTML = '<div class="flex items-center justify-between gap-3">'
-            + '<span class="font-medium text-gray-800 text-sm">' + acc.scope + '</span>'
-            + '<span class="text-xs text-gray-500 shrink-0">' + acc.period + '</span>'
-            + '</div>'
-            + '<div class="mt-1.5">' + permBadges + '</div>';
-        accessList.appendChild(li);
-    });
+    var typeField = document.getElementById('user-sheet-type-field');
+    typeField.textContent = user.type;
+    typeField.className = 'badge ' + (user.type === 'Temporaire' ? 'badge-warning' : 'badge-neutral');
 
+    var isTemp = user.type === 'Temporaire';
+    var tab1 = document.getElementById('sheet-tab-1');
+    var tab2 = document.getElementById('sheet-tab-2');
+    if (tab1) tab1.classList.toggle('hidden-view', isTemp);
+    if (tab2) tab2.classList.toggle('hidden-view', isTemp);
+    var convertBtn = document.getElementById('usheet-convert');
+    if (convertBtn) convertBtn.classList.toggle('hidden-view', !isTemp);
+
+    var statusField = document.getElementById('user-sheet-status-field');
+    statusField.className = 'badge ' + user.statusClass;
+    statusField.textContent = user.status;
+
+    var gp = document.getElementById('usheet-general');
+    if (gp) {
+        gp.querySelectorAll('input[type="checkbox"]').forEach(function (c) {
+            c.checked = (user.general || []).indexOf(c.value) !== -1;
+        });
+    }
+
+    usheetInitState(user);
+    var entPanel = document.querySelector('#usheet-entities .multi-select-panel');
+    if (entPanel) entPanel.innerHTML = usheetEntityOptionsHTML();
+    usheetSyncEntityChecks();
+    renderUsheetFunnel();
+
+    usheetRenderDocs(user);
+
+    usheetMarkDirty(false);
+}
+
+function openUserPopup(name) {
+    populateUserSheet(name);
+    if (!USERS_DB[name]) return;
+    switchUserSheetTab(null, 0);
     toggleModal('modal-user', true);
 }
+
+var USHEET_DIRTY = false;
+
+function usheetMarkDirty(dirty) {
+    USHEET_DIRTY = (dirty !== false);
+    usheetUpdateFooter();
+}
+
+function usheetUpdateFooter() {
+    var footer = document.getElementById('usheet-footer');
+    var resetBtn = document.getElementById('usheet-reset');
+    var saveBtn = document.getElementById('usheet-save');
+    var convertBtn = document.getElementById('usheet-convert');
+    if (resetBtn) resetBtn.classList.toggle('hidden-view', !USHEET_DIRTY);
+    if (saveBtn) saveBtn.classList.toggle('hidden-view', !USHEET_DIRTY);
+    var convertVisible = convertBtn && !convertBtn.classList.contains('hidden-view');
+    if (footer) footer.classList.toggle('hidden-view', !(USHEET_DIRTY || convertVisible));
+}
+
+function usheetReset() {
+    if (OPEN_USER) populateUserSheet(OPEN_USER);
+}
+
+function usheetSave() {
+    alert('Modifications enregistrées (prototype)');
+    toggleModal('modal-user', false);
+}
+
+function convertUserToPermanent() {
+    if (!OPEN_USER || !USERS_DB[OPEN_USER]) return;
+    USERS_DB[OPEN_USER].type = 'Permanent';
+    populateUserSheet(OPEN_USER);
+    renderUsersTable();
+    alert('Le compte a été transformé en compte permanent.');
+}
+
+document.addEventListener('change', function (e) {
+    if (e.target.closest && e.target.closest('#modal-user')) {
+        usheetMarkDirty();
+    }
+});
 
 // ==========================================
 // GESTION DES ACCÈS D'UN UTILISATEUR (Popup)
@@ -7262,16 +7934,31 @@ function resetDocumentFilters() {
 // ==========================================
 function filterUsers() {
     var q = document.getElementById('user-search').value.toLowerCase();
+    var statuses = multiCheckedValues('invites-status-filter');
     document.querySelectorAll('#users-tbody, #invites-tbody').forEach(function (tb) {
         var visible = 0;
         tb.querySelectorAll('tr:not(.empty-row)').forEach(function (r) {
             var ok = !q || (r.getAttribute('data-search') || '').indexOf(q) !== -1;
+            if (ok && tb.id === 'invites-tbody' && statuses.length && statuses.indexOf(r.getAttribute('data-status')) === -1) ok = false;
             r.classList.toggle('hidden-view', !ok);
             if (ok) visible++;
         });
         var emptyRow = tb.querySelector('tr.empty-row');
         if (emptyRow) emptyRow.classList.toggle('hidden-view', visible > 0);
     });
+}
+
+function resetInvitesFilters() {
+    var search = document.getElementById('user-search');
+    if (search) search.value = '';
+    var el = document.getElementById('invites-status-filter');
+    if (el) {
+        el.querySelectorAll('input[type="checkbox"]:checked').forEach(function (c) {
+            c.checked = false;
+            msUpdate(c);
+        });
+    }
+    filterUsers();
 }
 
 function switchUsersTab(tabEl, idx) {
@@ -7285,6 +7972,10 @@ function switchUsersTab(tabEl, idx) {
     });
     var search = document.getElementById('user-search');
     if (search) search.placeholder = idx === 1 ? 'Nom, prénom, email...' : 'Nom, prénom, email, permissions...';
+    var statusWrap = document.getElementById('invites-status-filter-wrap');
+    if (statusWrap) statusWrap.classList.toggle('hidden-view', idx !== 1);
+    var resetBtn = document.getElementById('invites-reset-btn');
+    if (resetBtn) resetBtn.classList.toggle('hidden-view', idx !== 1);
     var usersPanel = document.getElementById('users-tab-panel');
     var accessesPanel = document.getElementById('accesses-tab-panel');
     if (usersPanel) usersPanel.classList.toggle('hidden-view', idx === 2);
@@ -7300,6 +7991,8 @@ function switchUsersTab(tabEl, idx) {
     document.querySelectorAll('#users-tab-panel .col-invites-date').forEach(function (el) {
         el.classList.toggle('hidden-view', idx !== 1);
     });
+    if (idx === 1) sortInvitesByDefault();
+    if (idx === 2) sortNominativeByDefault();
 }
 
 // ==========================================
@@ -7535,6 +8228,86 @@ document.addEventListener('click', function (e) {
 // ==========================================
 // FILTRES ET TRI DE L'HISTORIQUE
 // ==========================================
+var AUDIT_ACTION_META = {
+    CREATE: { label: 'Création', badge: 'badge-success' },
+    UPDATE: { label: 'Mise à jour', badge: 'badge-orange' },
+    DELETE: { label: 'Suppression', badge: 'badge-danger' },
+    VIEW: { label: 'Consultation', badge: 'badge-success' },
+    DOWNLOAD: { label: 'Téléchargement', badge: 'badge-success' },
+    LOGIN: { label: 'Connexion', badge: 'badge-success' },
+    REVOKE: { label: 'Révocation', badge: 'badge-danger' }
+};
+
+var AUDIT_OBJECT_META = {
+    DOCUMENT: 'Document',
+    ACCOUNT: 'Compte',
+    ACCESS_POLICY: "Politique d'accès",
+    NOMINATIVE_ACCESS: 'Accès nominatif',
+    INVITATION: 'Invitation',
+    LABEL: 'Libellé'
+};
+
+var AUDIT_I18N = {
+    'audit.doc.viewed': 'A consulté {doc_title}',
+    'audit.doc.downloaded': 'A téléchargé {doc_title}',
+    'audit.doc.deleted': 'A supprimé {doc_title}',
+    'audit.doc.updated': 'A mis à jour {doc_title}',
+    'audit.doc.created': 'A créé {doc_title}',
+    'audit.account.created': 'A créé le compte {name}',
+    'audit.account.invited': 'A invité {name}',
+    'audit.access.revoked': "A révoqué l'accès de {name} à {doc_title}",
+    'audit.policy.created': "A créé la politique d'accès {name}",
+    'audit.label.updated': 'A modifié le libellé {label} ({field}: {from} devenu {to})',
+    'audit.auth.login': 'Connexion réussie via {provider} (IP: {ip})'
+};
+
+var AUDIT_LOG = [
+    { account: 'Philippe Dumont', ip: '192.168.1.23', action: 'VIEW', objectType: 'DOCUMENT', objectId: 1042, eventKey: 'audit.doc.viewed', meta: { doc_title: 'Compte Rendu CA Mars 2026' }, createdAt: '20260824164212' },
+    { account: 'Marc Lemoine', ip: '192.168.1.15', action: 'CREATE', objectType: 'INVITATION', objectId: 88, eventKey: 'audit.account.invited', meta: { name: 'Sophie Durant' }, createdAt: '20260824151005' },
+    { account: 'Sophie Durant', ip: '10.0.4.9', action: 'DOWNLOAD', objectType: 'DOCUMENT', objectId: 987, eventKey: 'audit.doc.downloaded', meta: { doc_title: 'Bilan Financier Annuel 2025' }, createdAt: '20260824090347' },
+    { account: 'Philippe Dumont', ip: '192.168.1.23', action: 'UPDATE', objectType: 'LABEL', objectId: 12, eventKey: 'audit.label.updated', meta: { label: 'PV', field: "ordre d'affichage", from: '20', to: '30' }, createdAt: '20260823172533' },
+    { account: 'Marc Lemoine', ip: '192.168.1.10', action: 'LOGIN', objectType: 'ACCOUNT', objectId: 3, eventKey: 'audit.auth.login', meta: { provider: 'Microsoft Entra ID', ip: '192.168.1.10' }, createdAt: '20260823091200' },
+    { account: 'Denis Buchet', ip: '192.168.1.31', action: 'VIEW', objectType: 'DOCUMENT', objectId: 1204, eventKey: 'audit.doc.viewed', meta: { doc_title: 'Rapport Annuel 2025' }, createdAt: '20260822144011' },
+    { account: 'Philippe Dumont', ip: '192.168.1.23', action: 'CREATE', objectType: 'ACCESS_POLICY', objectId: 41, eventKey: 'audit.policy.created', meta: { name: 'Partenaire externe CGE' }, createdAt: '20260822110552' },
+    { account: 'Julie Stavrakas', ip: '192.168.1.44', action: 'DELETE', objectType: 'DOCUMENT', objectId: 731, eventKey: 'audit.doc.deleted', meta: { doc_title: 'Note interne v1' }, createdAt: '20260821163308' },
+    { account: 'Philippe Dumont', ip: '192.168.1.23', action: 'REVOKE', objectType: 'NOMINATIVE_ACCESS', objectId: 55, eventKey: 'audit.access.revoked', meta: { name: 'Sophie Durant', doc_title: 'Rapport Annuel 2025' }, createdAt: '20260820102215' },
+    { account: 'Marc Lemoine', ip: '192.168.1.15', action: 'CREATE', objectType: 'ACCOUNT', objectId: 4, eventKey: 'audit.account.created', meta: { name: 'Denis Buchet' }, createdAt: '20260819084530' }
+];
+
+function auditDescription(entry) {
+    var template = AUDIT_I18N[entry.eventKey] || entry.eventKey;
+    var meta = entry.meta || {};
+    return template.replace(/\{(\w+)\}/g, function (m, k) {
+        return meta[k] != null ? meta[k] : '';
+    });
+}
+
+function auditDateDisplay(ts) {
+    return ts.slice(6, 8) + '/' + ts.slice(4, 6) + '/' + ts.slice(0, 4) + ' - ' + ts.slice(8, 10) + ':' + ts.slice(10, 12) + ':' + ts.slice(12, 14);
+}
+
+function renderAuditTable() {
+    var tbody = document.getElementById('audit-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = AUDIT_LOG.map(function (e) {
+        var action = AUDIT_ACTION_META[e.action] || { label: e.action, badge: 'badge-neutral' };
+        var objectLabel = AUDIT_OBJECT_META[e.objectType] || e.objectType;
+        var desc = auditDescription(e);
+        var userHtml = e.account
+            ? '<button onclick="navigateTo(\'view-users\'); openUserPopup(\'' + e.account + '\');" class="font-medium text-primary hover:underline">' + e.account + '</button>'
+            : '<span class="font-medium text-gray-900">Système (SSO)</span>';
+        var sortUser = (e.account || 'système sso').toLowerCase();
+        var search = (sortUser + ' ' + action.label.toLowerCase() + ' ' + objectLabel.toLowerCase() + ' ' + desc).toLowerCase();
+        return '<tr class="hover:bg-gray-50 transition-colors" data-action="' + e.action + '" data-type="' + e.objectType + '" data-date="' + e.createdAt.slice(0, 8) + '" data-text="' + search + '" data-sort0="' + e.createdAt + '" data-sort1="' + sortUser + '" data-sort2="' + action.label.toLowerCase() + '" data-sort3="' + objectLabel.toLowerCase() + '" data-sort4="' + desc.toLowerCase() + '">'
+            + '<td class="px-6 py-4 text-gray-500">' + auditDateDisplay(e.createdAt) + '</td>'
+            + '<td class="px-6 py-4">' + userHtml + '</td>'
+            + '<td class="px-6 py-4"><span class="badge ' + action.badge + '">' + action.label + '</span></td>'
+            + '<td class="px-6 py-4 text-gray-500">' + objectLabel + '</td>'
+            + '<td class="px-6 py-4 text-gray-600">' + desc + '</td>'
+            + '</tr>';
+    }).join('') + '<tr id="audit-empty" class="empty-row hidden-view"><td colspan="5" class="px-6 py-10 text-center text-gray-500">Aucune action ne correspond à vos filtres.</td></tr>';
+}
+
 function applyAuditFilters() {
     var q = (document.getElementById('audit-search').value || '').toLowerCase();
     var actions = multiCheckedValues('audit-filter-action');
@@ -7631,6 +8404,110 @@ function sortTabTable(thEl, colIdx) {
 
 function sortAuditTable(thEl, colIdx) {
     sortTable(thEl, colIdx);
+}
+
+// ==========================================
+// PARAMÈTRES DU COMPTE
+// ==========================================
+var SETTINGS_PERMISSIONS = [
+    { name: 'Créer des invitations', desc: "Envoyer un mail contenant un lien d'invitation à rejoindre la plateforme.", group: 'Actions sur les utilisateurs' },
+    { name: 'Gérer les utilisateurs', desc: "Choisir les attributs et permissions d'un utilisateur. On ne peut attribuer que les permissions et accès qu'on possède soi-même.", group: 'Actions sur les utilisateurs' },
+    { name: 'Créer des accès nominatifs', desc: "Octroyer un accès exceptionnel vers un document à un utilisateur via un lien.", group: 'Actions sur les utilisateurs' },
+    { name: 'Gérer les libellés', desc: 'Créer, modifier ou supprimer des libellés par catégorie.', group: 'Paramétrage et suivi' },
+    { name: "Consulter l'historique", desc: "Accéder à l'historique recensant les actions effectuées par les utilisateurs sur l'ensemble de la plateforme.", group: 'Paramétrage et suivi' },
+    { name: 'Gérer les documents', desc: 'Ajouter, modifier des métadonnées/libellés, téléverser des nouvelles versions et supprimer des documents.', group: 'Paramétrage et suivi' }
+];
+
+function settingsPrivLabel(priv) {
+    var map = {
+        'Invisible': 'Invisible',
+        'Lister': 'Listables',
+        'Consulter': 'Listables et consultables',
+        'Télécharger': 'Listables, consultables et téléchargeables'
+    };
+    return map[priv] || priv;
+}
+
+function switchSettingsTab(el, idx) {
+    document.querySelectorAll('#view-settings .label-tab').forEach(function (t, i) {
+        t.classList.remove('label-tab-inactive', 'label-tab-active');
+        if (i === idx) t.classList.add('label-tab-active');
+        else t.classList.add('label-tab-inactive');
+    });
+    document.querySelectorAll('#view-settings .settings-panel').forEach(function (p, i) {
+        p.classList.toggle('hidden-view', i !== idx);
+    });
+}
+
+function renderSettings() {
+    var user = USERS_DB['Philippe Dumont'];
+    if (!user) return;
+
+    var typeEl = document.getElementById('settings-type');
+    if (typeEl) {
+        typeEl.textContent = user.type;
+        typeEl.className = 'badge ' + (user.type === 'Temporaire' ? 'badge-warning' : 'badge-neutral');
+    }
+    var addedEl = document.getElementById('settings-added');
+    if (addedEl) addedEl.textContent = USER_ADDED['Philippe Dumont'] || '—';
+
+    var permsEl = document.getElementById('settings-perms');
+    if (permsEl) {
+        var groups = ['Actions sur les utilisateurs', 'Paramétrage et suivi'];
+        var html = '';
+        groups.forEach(function (g, gi) {
+            html += '<div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2' + (gi ? ' mt-5' : '') + '">' + g + '</div>';
+            html += '<div class="space-y-3">';
+            SETTINGS_PERMISSIONS.filter(function (p) { return p.group === g; }).forEach(function (p) {
+                html += '<div>'
+                    + '<span class="block text-sm font-medium text-gray-800">' + p.name + '</span>'
+                    + '<span class="block text-xs text-gray-500">' + p.desc + '</span>'
+                    + '</div>';
+            });
+            html += '</div>';
+        });
+        permsEl.innerHTML = html;
+    }
+
+    var accessEl = document.getElementById('settings-access');
+    if (accessEl) {
+        usheetInitState(user);
+        var state = USHEET_STATE;
+        var html = '';
+        Object.keys(state.entities).forEach(function (code) {
+            var insts = state.entities[code];
+            html += '<div class="border border-gray-200 rounded-md overflow-hidden">'
+                + '<div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-800">' + usheetEntityLabel(code) + '</div>'
+                + '<div class="p-4 space-y-3">';
+            Object.keys(insts).forEach(function (inst) {
+                var cfg = insts[inst] || {};
+                var allTypes = !!cfg.allTypes;
+                var allPrivilege = cfg.allPrivilege || 'Lister';
+                var types = cfg.types || {};
+                html += '<div class="border border-gray-200 rounded-md overflow-hidden">'
+                    + '<div class="bg-gray-50 px-3 py-2 border-b border-gray-200 text-xs font-semibold uppercase text-gray-500">' + usheetInstanceLabel(inst) + '</div>'
+                    + '<div class="p-3">'
+                    + '<div class="flex items-center gap-3 mb-3">'
+                    + '<span class="text-sm text-gray-700">Tous les types de documents (actuels et futurs)</span>'
+                    + '<span class="text-sm text-gray-700">' + settingsPrivLabel(allPrivilege) + '</span>'
+                    + '</div>';
+                if (!allTypes) {
+                    html += '<div class="divide-y divide-gray-100">';
+                    usheetTypeDefs().forEach(function (t) {
+                        var priv = types[t[0]] || 'Lister';
+                        html += '<div class="flex items-center justify-between py-2 gap-3">'
+                            + '<span class="text-sm text-gray-700">' + usheetTypeLabel(t[0]) + '</span>'
+                            + '<span class="text-sm text-gray-600">' + settingsPrivLabel(priv) + '</span>'
+                            + '</div>';
+                    });
+                    html += '</div>';
+                }
+                html += '</div></div>';
+            });
+            html += '</div></div>';
+        });
+        accessEl.innerHTML = html;
+    }
 }
 
 </script>

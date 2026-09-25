@@ -2,47 +2,59 @@ window.PARTIALS = window.PARTIALS || {};
 PARTIALS.viewSettings = `
 <section id="view-settings" class="app-view hidden-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
-        <div class="flex-1 overflow-y-auto min-h-0">
-        <div class="max-w-3xl mx-auto w-full">
+        <div class="w-full flex-1 flex flex-col min-h-0">
 
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold text-gray-800">Paramètres du compte</h2>
+            <div class="flex gap-2 shrink-0">
+                <button type="button" onclick="switchSettingsTab(this, 0)" class="label-tab label-tab-active whitespace-nowrap">Profil</button>
+                <button type="button" onclick="switchSettingsTab(this, 1)" class="label-tab label-tab-inactive whitespace-nowrap">Permissions générales</button>
+                <button type="button" onclick="switchSettingsTab(this, 2)" class="label-tab label-tab-inactive whitespace-nowrap">Règles d'accès</button>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-                <h3 class="text-sm font-semibold text-gray-700 uppercase mb-4">Profil</h3>
-                <div class="flex items-start gap-4">
-                    <div class="avatar w-16 h-16 text-xl avatar-red">PD</div>
-                    <div class="flex-1 grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Prénom</label>
-                            <input type="text" value="Philippe" disabled class="w-full border border-gray-200 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500 outline-none">
+            <div class="bg-white rounded-lg rounded-tl-none shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center gap-3 bg-gray-50 shrink-0">
+                    <div class="avatar w-11 h-11 text-base avatar-red">PD</div>
+                    <div class="min-w-0">
+                        <h3 class="text-lg font-bold text-gray-800 leading-tight truncate">Philippe Dumont</h3>
+                        <p class="text-xs text-gray-500 truncate">p.dumont@chimay-gestion.be</p>
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto min-h-0">
+                    <div class="settings-panel p-6">
+                        <div class="border-t border-gray-100 divide-y divide-gray-100">
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Prénom</span>
+                                <span class="text-sm font-medium text-gray-900">Philippe</span>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Nom</span>
+                                <span class="text-sm font-medium text-gray-900">Dumont</span>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Adresse e-mail</span>
+                                <span class="text-sm font-medium text-gray-900">p.dumont@chimay-gestion.be</span>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Type de compte</span>
+                                <span id="settings-type" class="badge badge-neutral"></span>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <span class="text-sm text-gray-500">Date d'ajout</span>
+                                <span id="settings-added" class="text-sm font-medium text-gray-900"></span>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nom</label>
-                            <input type="text" value="Dumont" disabled class="w-full border border-gray-200 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500 outline-none">
-                        </div>
-                        <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Email</label>
-                            <input type="email" value="p.dumont@chimay-gestion.be" disabled class="w-full border border-gray-200 bg-gray-50 rounded-md px-3 py-2 text-sm text-gray-500 outline-none">
-                            <p class="text-xs text-gray-500 mt-1">Identité (prénom, nom, email) gérée par Microsoft Entra ID (B2B) - non modifiable</p>
-                        </div>
+                    </div>
+
+                    <div class="settings-panel p-6 hidden-view">
+                        <div id="settings-perms"></div>
+                    </div>
+
+                    <div class="settings-panel p-6 hidden-view">
+                        <div id="settings-access" class="space-y-3"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h3 class="text-sm font-semibold text-gray-700 uppercase mb-4">Rôles</h3>
-                <ul class="space-y-2">
-                    <li class="flex items-center justify-between bg-gray-50 rounded-md px-4 py-2.5">
-                        <span class="font-medium text-gray-800 text-sm">Administrateur système</span>
-                        <span class="text-xs text-gray-500">Depuis le 01/02/2024</span>
-                    </li>
-                </ul>
-                <p class="text-xs text-gray-500 mt-3">Les rôles et privilèges sont attribués par un administrateur de la plateforme.</p>
-            </div>
-
-        </div>
         </div>
     </div>
 </section>

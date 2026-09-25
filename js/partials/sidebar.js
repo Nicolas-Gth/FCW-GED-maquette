@@ -68,19 +68,14 @@ PARTIALS.sidebar = `
     <img src="assets/separateur-blason.svg" alt="Blason Fondation Chimay-Wartoise" class="w-full block shrink-0">
 
     <div class="p-4 space-y-1 bg-secondary">
-        <div class="flex items-center gap-3 mb-2">
+        <button onclick="switchView('view-settings')" title="Paramètres du compte" class="w-full flex items-center gap-3 mb-2 text-left rounded-md px-1 py-1 hover:bg-white/10 transition-colors">
             <div class="avatar w-8 h-8 text-sm avatar-red">PD</div>
             <div class="text-sm flex-1 min-w-0">
                 <p class="font-medium text-white truncate">Philippe Dumont</p>
                 <p class="text-xs text-white/60 truncate">p.dumont@chimay-gestion.be</p>
             </div>
-        </div>
-        <button onclick="switchView('view-settings')" title="Paramètres du compte" class="w-full flex items-center gap-2 text-white/60 hover:text-white text-sm px-1 py-1 transition-colors">
-            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
-  <circle cx="12" cy="12" r="3" /></svg>
-            Paramètres compte
         </button>
-        <button onclick="alert('Déconnexion (prototype)')" class="w-full flex items-center gap-2 text-white/60 hover:text-white text-sm px-1 py-1 transition-colors">
+        <button onclick="alert('Déconnexion (prototype)')" class="w-full flex items-center gap-2 text-white/60 hover:text-white hover:bg-white/15 text-sm px-12 py-1 rounded-md transition-colors">
             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5" />
   <path d="M21 12H9" />
   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg>

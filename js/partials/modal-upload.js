@@ -1,7 +1,7 @@
 window.PARTIALS = window.PARTIALS || {};
 PARTIALS.modalUpload = `
 <div id="modal-upload" class="hidden-view fixed inset-0 bg-slate-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh] overflow-hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl flex flex-col max-h-[90vh] overflow-hidden">
         
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 shrink-0">
             <h3 class="text-lg font-bold text-gray-800">Déposer un nouveau document</h3>
@@ -20,14 +20,14 @@ PARTIALS.modalUpload = `
   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
   <path d="m8 17 4-4 4 4" /></svg>
                     <p class="mt-1 text-sm text-gray-600">Cliquez pour parcourir ou glissez un fichier ici</p>
-                    <p class="text-xs text-gray-500 mt-1">PDF, DOCX, XLSX (Max 50MB)</p>
+                    <p class="text-xs text-gray-500 mt-1">PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPEG, PNG, TXT, ZIP, RAR (Max 50MB)</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Titre du document <span class="text-red-500">*</span></label>
-                    <input type="text" required placeholder="Ex: Compte Rendu Annuel..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <input type="text" required placeholder="Ex: compte rendu annuel..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Date du document <span class="text-red-500">*</span></label>
@@ -167,7 +167,7 @@ PARTIALS.modalUpload = `
                     <svg class="mx-auto h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14" />
   <path d="M5 12h14" /></svg>
                     <p class="mt-1 text-sm text-gray-600">Ajouter des annexes</p>
-                    <p class="text-xs text-gray-500">PDF, DOCX, XLSX (Max 50MB)</p>
+                    <p class="text-xs text-gray-500">PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPEG, PNG, TXT, ZIP, RAR (Max 50MB)</p>
                 </div>
                 <input id="annexes-input" type="file" multiple class="hidden-view" onchange="addUploadFiles(this, 'annexes-list')">
                 <ul id="annexes-list" class="mt-2 space-y-1"></ul>
