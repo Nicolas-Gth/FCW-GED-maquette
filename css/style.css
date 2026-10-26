@@ -407,6 +407,30 @@ body.sidebar-collapsed .sidebar-toggle svg {
     z-index: 1;
 }
 .label-tab-0 { background-color: var(--primary-light); color: var(--primary); }
+
+/* Onglets de la fiche utilisateur (affichés sous le titre du cadre) */
+#modal-user .label-tab {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-bottom: none;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+}
+#modal-user .label-tab-inactive:hover { background-color: #e5e7eb; }
+#modal-user .label-tab-active {
+    background-color: #fff;
+    color: var(--primary);
+    border-color: #e5e7eb;
+    border-bottom: none;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 1;
+}
 .label-tab-1 { background-color: #d1fae5; color: #065f46; }
 .label-tab-2 { background-color: #fef3c7; color: #92400e; }
 .label-tab-3 { background-color: #ede9fe; color: #5b21b6; }

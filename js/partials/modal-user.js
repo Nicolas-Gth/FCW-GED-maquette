@@ -1,18 +1,11 @@
 window.PARTIALS = window.PARTIALS || {};
 PARTIALS.modalUser = `
 <div id="modal-user" class="hidden-view fixed inset-0 bg-slate-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
-    <div class="w-full max-w-5xl flex flex-col">
+    <div class="w-full max-w-5xl">
 
-        <div class="flex gap-2 self-start">
-            <button id="sheet-tab-0" type="button" onclick="switchUserSheetTab(this, 0)" class="label-tab label-tab-active whitespace-nowrap">Informations</button>
-            <button id="sheet-tab-1" type="button" onclick="switchUserSheetTab(this, 1)" class="label-tab label-tab-inactive whitespace-nowrap">Permissions générales</button>
-            <button id="sheet-tab-2" type="button" onclick="switchUserSheetTab(this, 2)" class="label-tab label-tab-inactive whitespace-nowrap">Règles d'accès</button>
-            <button id="sheet-tab-3" type="button" onclick="switchUserSheetTab(this, 3)" class="label-tab label-tab-inactive whitespace-nowrap">Documents accessibles</button>
-        </div>
+        <div class="bg-white rounded-lg shadow-xl flex flex-col h-[85vh] overflow-hidden border border-gray-200">
 
-        <div class="bg-white rounded-lg rounded-tl-none shadow-xl flex flex-col h-[85vh] overflow-hidden border-t border-gray-200">
-
-        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 shrink-0">
+        <div class="px-6 py-4 flex justify-between items-center bg-gray-50 shrink-0">
             <div class="flex items-center gap-3 min-w-0">
                 <div id="user-sheet-avatar" class="avatar w-11 h-11 text-base avatar-blue shrink-0"></div>
                 <div class="min-w-0">
@@ -26,10 +19,17 @@ PARTIALS.modalUser = `
             </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto min-h-0">
+        <div class="px-6 pt-4 bg-gray-50 border-b border-gray-200 flex items-end gap-2 shrink-0">
+            <button id="sheet-tab-0" type="button" onclick="switchUserSheetTab(this, 0)" class="label-tab label-tab-active whitespace-nowrap">Informations</button>
+            <button id="sheet-tab-1" type="button" onclick="switchUserSheetTab(this, 1)" class="label-tab label-tab-inactive whitespace-nowrap">Permissions générales</button>
+            <button id="sheet-tab-2" type="button" onclick="switchUserSheetTab(this, 2)" class="label-tab label-tab-inactive whitespace-nowrap">Règles d'accès</button>
+            <button id="sheet-tab-3" type="button" onclick="switchUserSheetTab(this, 3)" class="label-tab label-tab-inactive whitespace-nowrap">Documents accessibles</button>
+        </div>
+
+        <div class="flex-1 flex flex-col min-h-0">
 
             <!-- Onglet 1 : Informations -->
-            <div id="sheet-panel-0" class="sheet-panel p-6">
+            <div id="sheet-panel-0" class="sheet-panel flex-1 overflow-y-auto min-h-0 p-6">
                 <div class="border-t border-gray-100 divide-y divide-gray-100">
                     <div class="flex items-center justify-between py-3">
                         <span class="text-sm text-gray-500">Prénom</span>
@@ -63,7 +63,7 @@ PARTIALS.modalUser = `
             </div>
 
             <!-- Onglet 2 : Permissions générales -->
-            <div id="sheet-panel-1" class="sheet-panel hidden-view p-6">
+            <div id="sheet-panel-1" class="sheet-panel hidden-view flex-1 overflow-y-auto min-h-0 p-6">
                 <div id="usheet-general">
                     <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Actions sur les utilisateurs</div>
                     <div class="space-y-3">
@@ -118,7 +118,7 @@ PARTIALS.modalUser = `
             </div>
 
             <!-- Onglet 3 : Règles d'accès -->
-            <div id="sheet-panel-2" class="sheet-panel hidden-view p-6">
+            <div id="sheet-panel-2" class="sheet-panel hidden-view flex-1 overflow-y-auto min-h-0 p-6">
                 <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Sélection des entités</label>
                 <div id="usheet-entities" class="multi-select" data-placeholder="Sélectionner…">
                     <div class="multi-select-toggle" onclick="toggleMultiSelect(this)" role="button" tabindex="0">
@@ -132,19 +132,23 @@ PARTIALS.modalUser = `
             </div>
 
             <!-- Onglet 4 : Documents accessibles -->
-            <div id="sheet-panel-3" class="sheet-panel hidden-view">
-                <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
-                    <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
-                        <tr>
-                            <th class="px-6 py-3">Titre du document</th>
-                            <th class="px-6 py-3">Date du document</th>
-                            <th class="px-6 py-3">Libellés</th>
-                            <th class="px-6 py-3">Déposé par</th>
-                            <th class="px-6 py-3">Date du dépôt</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usheet-docs-tbody" class="divide-y divide-gray-200"></tbody>
-                </table>
+            <div id="sheet-panel-3" class="sheet-panel hidden-view flex-1 flex flex-col min-h-0 p-6">
+                <div class="flex-1 min-h-0 rounded-lg border border-gray-200 overflow-hidden flex flex-col">
+                    <div class="flex-1 overflow-y-auto min-h-0">
+                    <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
+                        <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
+                            <tr>
+                                <th class="px-6 py-3">Titre du document</th>
+                                <th class="px-6 py-3">Date du document</th>
+                                <th class="px-6 py-3">Libellés</th>
+                                <th class="px-6 py-3">Déposé par</th>
+                                <th class="px-6 py-3">Date du dépôt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usheet-docs-tbody" class="divide-y divide-gray-200"></tbody>
+                    </table>
+                    </div>
+                </div>
             </div>
 
         </div>

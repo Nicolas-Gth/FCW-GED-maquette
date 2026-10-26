@@ -3,9 +3,9 @@ PARTIALS.viewDocuments = `
 <section id="view-documents" class="app-view absolute inset-0 flex flex-col bg-gray-50 h-full">
     <div class="flex-1 flex flex-col px-8 py-4 overflow-hidden min-h-0">
 
-        <!-- TABLEAU DES DOCUMENTS (filtres intégrés) -->
-        <div id="docs-table-card" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
-            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <!-- BARRE DE FILTRES (commune au tableau et à l'arborescence) -->
+        <div id="docs-filters-card" class="shrink-0 mb-4 bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="px-6 py-4 bg-gray-50 rounded-lg">
                 <div class="flex flex-wrap gap-3 items-end">
                 <div class="flex-1 min-w-[220px]">
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Recherche</label>
@@ -178,8 +178,11 @@ PARTIALS.viewDocuments = `
                 </button>
             </div>
             </div>
+            </div>
         </div>
 
+        <!-- TABLEAU DES DOCUMENTS -->
+        <div id="docs-table-card" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-h-0">
             <div class="flex-1 overflow-y-auto min-h-0">
             <table class="data-table table-actions w-full text-left text-sm whitespace-nowrap">
                 <thead class="sticky top-0 z-10 bg-gray-50 text-gray-600 border-b border-gray-200 uppercase text-xs font-semibold">
